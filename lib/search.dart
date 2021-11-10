@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './models/ParkingLot.dart';
 import './util/colors.dart';
@@ -44,32 +45,44 @@ class _SearchPageState extends State<SearchPage> {
         itemCount: parkinglot.length,
         itemBuilder: (context, index){
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
             child: Card(
               child: ListTile(
                 onTap: () {},
                 title: Text(parkinglot[index].name,
-                            style: TextStyle(fontSize: 25, color: blue, fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold)),
                 subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children:[
-                  Text(parkinglot[index].address),
-                  Text(parkinglot[index].number),
-                  Text('30분 ${parkinglot[index].cost} 원'),
-                  Text('총 ${parkinglot[index].total_space} 면'),
-                  Row(
                     children:[
-                    TextButton(
-                      onPressed: () {  },
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(blue)),
-                      child: const Text('즐겨찾기 추가', style: TextStyle(color: Colors.white)),
-                    ),
-                    TextButton(
-                      onPressed: () {  },
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(blue)),
-                      child: const Text('예약하기', style: TextStyle(color: Colors.white)),
-                    )]
-                    )
+                        Row(
+                          children : [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children : [
+                                  Text(parkinglot[index].address),
+                                  Text(parkinglot[index].number),
+                                  Text('30분 ${parkinglot[index].cost} 원'),
+                                  Text('총 ${parkinglot[index].total_space} 면'),
+                                ]
+                              ),
+                            SizedBox(width: 160),
+                            Image.asset('lib/images/park.png',width: 70, height: 70)
+                            ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                          TextButton(
+                            onPressed: () {  },
+                            style: TextButton.styleFrom(backgroundColor: lightGrey, minimumSize: Size(167,20)),
+                            child: const Text('즐겨찾기 추가', style: TextStyle(color: darkGrey)),
+                          ),
+                          SizedBox(width: 10),
+                          TextButton(
+                            onPressed: () {  },
+                            style: TextButton.styleFrom(backgroundColor: blue, minimumSize: Size(167,20)),
+                            child: const Text('예약하기', style: TextStyle(color: Colors.white)),
+                          )]
+                        )
                   ]
                 ),
                 // --- 이미지 넣기 ---
@@ -80,5 +93,5 @@ class _SearchPageState extends State<SearchPage> {
       )
     );
   }
-  
+
 }
