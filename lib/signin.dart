@@ -16,7 +16,7 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children : <Widget> [
-            Image.asset('images/logo.PNG'),
+            Image.asset('./images/logo.PNG'),
             SizedBox(height: 40),
             Padding(
               padding : EdgeInsets.all(15.0),

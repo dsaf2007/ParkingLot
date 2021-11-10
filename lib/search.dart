@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'models/ParkingLot.dart';
-import 'util/colors.dart';
+import './models/ParkingLot.dart';
+import './util/colors.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.title}) : super(key: key);
