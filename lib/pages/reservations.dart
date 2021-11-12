@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:parkinglot/widget/navigationBar.dart';
 
 class Reservations extends StatefulWidget {
   const Reservations({Key? key}) : super(key: key);
@@ -10,6 +11,9 @@ class Reservations extends StatefulWidget {
 class _ReservationsState extends State<Reservations> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        bottomNavigationBar:
+            NaviBarButtons(MediaQuery.of(context).size, context),
+        body: Text("Reservation List"));
   }
 }

@@ -1,5 +1,7 @@
 ﻿import 'package:flutter/material.dart';
+
 import './alarmList.dart';
+import 'package:parkinglot/widget/navigationBar.dart';
 
 // move to util/colors.dart later..
 const blue = Color.fromRGBO(100, 149, 237, 1.0); // 메인 파란색
@@ -21,6 +23,8 @@ class _MyPageState extends State<MyPage> {
 
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar:
+            NaviBarButtons(MediaQuery.of(context).size, context),
         body: Container(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

@@ -15,10 +15,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
           minWidth: tabWidth,
           height: size.height * 0.1,
           child: RaisedButton(
-            color: Color(0xff080838),
+            color: Colors.white,
             child: Icon(
               Icons.home_outlined,
-              color: Colors.white,
+              color: blue,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -31,10 +31,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
           minWidth: tabWidth,
           height: size.height * 0.1,
           child: RaisedButton(
-            color: Color(0xff080838),
+            color: Colors.white,
             child: Icon(
               Icons.search,
-              color: Colors.white,
+              color: blue,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -51,10 +51,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
           minWidth: tabWidth,
           height: size.height * 0.1,
           child: RaisedButton(
-            color: Color(0xff080838),
+            color: Colors.white,
             child: Icon(
               Icons.favorite_border,
-              color: Colors.white,
+              color: blue,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -67,10 +67,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
           minWidth: tabWidth,
           height: size.height * 0.1,
           child: RaisedButton(
-            color: Color(0xff080838),
+            color: Colors.white,
             child: Icon(
               Icons.receipt_outlined,
-              color: Colors.white,
+              color: blue,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -83,10 +83,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
           minWidth: tabWidth,
           height: size.height * 0.1,
           child: RaisedButton(
-            color: Color(0xff080838),
+            color: Colors.white,
             child: Icon(
               Icons.person_outline,
-              color: Colors.white,
+              color: blue,
             ),
             onPressed: () {
               Navigator.pop(context);
