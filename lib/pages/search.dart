@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './models/ParkingLot.dart';
-import './util/colors.dart';
+import '../models/ParkingLot.dart';
+import '../util/colors.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.title}) : super(key: key);
@@ -49,8 +49,6 @@ class _SearchPageState extends State<SearchPage> {
             child: Card(
               child: ListTile(
                 onTap: () {},
-                title: Text(parkinglot[index].name,
-                            style: TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold)),
                 subtitle: Column(
                     children:[
                         Row(
@@ -58,30 +56,35 @@ class _SearchPageState extends State<SearchPage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children : [
+                                  Text(parkinglot[index].name,
+                                      style: TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold)),
+                                  SizedBox(height: 5),
                                   Text(parkinglot[index].address),
                                   Text(parkinglot[index].number),
-                                  Text('30분 ${parkinglot[index].cost} 원'),
-                                  Text('총 ${parkinglot[index].total_space} 면'),
+                                  Text('30분 ${parkinglot[index].cost} 원   |   총 ${parkinglot[index].total_space} 면'),
                                 ]
                               ),
-                            SizedBox(width: 160),
-                            Image.asset('lib/images/park.png',width: 70, height: 70)
+                            SizedBox(width: 80),
+                            Image.asset('lib/images/park.png',width: 100, height: 100),
                             ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(height: 5),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children:[
                           TextButton(
                             onPressed: () {  },
-                            style: TextButton.styleFrom(backgroundColor: lightGrey, minimumSize: Size(167,20)),
-                            child: const Text('즐겨찾기 추가', style: TextStyle(color: darkGrey)),
+                            style: TextButton.styleFrom(backgroundColor: lightGrey, minimumSize: Size(165,20)),
+                            child: const Text('즐겨찾기 추가', style: TextStyle(color: Colors.black)),
                           ),
                           SizedBox(width: 10),
                           TextButton(
                             onPressed: () {  },
-                            style: TextButton.styleFrom(backgroundColor: blue, minimumSize: Size(167,20)),
+                            style: TextButton.styleFrom(backgroundColor: blue, minimumSize: Size(165,20)),
                             child: const Text('예약하기', style: TextStyle(color: Colors.white)),
-                          )]
+                          ),
+                            SizedBox(height: 5),
+                          ]
                         )
                   ]
                 ),
