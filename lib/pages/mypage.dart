@@ -1,5 +1,5 @@
 ﻿import 'package:flutter/material.dart';
-import 'alarmList.dart';
+import './alarmList.dart';
 
 // move to util/colors.dart later..
 const blue = Color.fromRGBO(100, 149, 237, 1.0); // 메인 파란색

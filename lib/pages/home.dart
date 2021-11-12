@@ -1,37 +1,61 @@
 ﻿// home.dart
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/favorites.dart';
+import 'package:parkinglot/pages/reservations.dart';
+import 'package:parkinglot/pages/search.dart';
+import 'package:parkinglot/pages/mypage.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late TabController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(length: 5, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int screenIndex = 0;
     // bottom nav bar
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: '검색'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: '즐겨찾기'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_outlined), label: '예약내역'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '마이페이지')
+      body: TabBarView(
+        children: <Widget>[
+          HomePage(),
+          SearchPage(title: "Search"),
+          Favorites(),
+          Reservations(),
+          MyPage(),
         ],
-        selectedItemColor: Colors.grey,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.grey,
-
-        onTap: (value) {
-          setState(() {
-            screenIndex = value;
-          });
-        },
+        controller: controller,
       ),
-      body: Center(
-        child: Text("HomePage")
+      bottomNavigationBar: TabBar(
+        tabs: <Tab>[
+          Tab(icon: Icon(Icons.home_outlined), text: '홈'),
+          Tab(icon: Icon(Icons.search), text: '검색'),
+          Tab(icon: Icon(Icons.favorite_border), text: '즐겨찾기'),
+          Tab(icon: Icon(Icons.receipt_outlined), text: '예약내역'),
+          Tab(icon: Icon(Icons.person_outline), text: '마이페이지'),
+        ],
+        labelColor: blue,
+        unselectedLabelColor: lightGrey,
+
+        // selectedLabelColor: Colors.grey,
+        // unselectedItemColor: Colors.grey,
+        // backgroundColor: Colors.grey,
+        onTap: (value) {
+          setState(() {});
+        },
       ),
     );
   }
