@@ -12,16 +12,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  late TabController controller;
+  late TabController _controller;
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 5, vsync: this);
+    _controller = TabController(length: 5, vsync: this);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage>
           Reservations(),
           MyPage(),
         ],
-        controller: controller,
+        controller: _controller,
       ),
       bottomNavigationBar: TabBar(
         tabs: <Tab>[
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage>
           Tab(icon: Icon(Icons.receipt_outlined), text: '예약내역'),
           Tab(icon: Icon(Icons.person_outline), text: '마이페이지'),
         ],
+        controller: _controller,
         labelColor: blue,
         unselectedLabelColor: lightGrey,
 
