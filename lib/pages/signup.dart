@@ -105,25 +105,46 @@ class _SignUpPageState extends State<SignUpPage> {
             endIndent: 10,
           ),
           // ----------- 개인정보동의 부분 -----------
-          Container(
-            padding: EdgeInsets.all(10),
-            child :Text('주차왕파킹 서비스약관에 동의해주세요', style: TextStyle(fontWeight: FontWeight.bold),),
-          ),
           CheckboxListTile(
-            title : Text('모두 동의합니다.'),
-            subtitle: Text('동의에는 필수 및 선택 목적(광고성 정보수신 포함)에 대한 동의가 포함되어있으며, 선택 목적의 동의를 거부하시는 경우에도 서비스 이용이 가능합니다. '),
-            controlAffinity : ListTileControlAffinity.leading,
+            controlAffinity: ListTileControlAffinity.leading,
+            title: Text('개인정보 수집 및 이용 동의'),
             value: _ischecked,
             onChanged: (bool? value) {
               setState(() {
                 _ischecked = value;
-            });},
-
-          ),
-         ],
-        )
-      );
-      // This trailing comma makes auto-formatting nicer for build methods.
+              });
+            },
+            secondary:
+            IconButton(
+              icon: Icon(Icons.arrow_downward),
+              onPressed: () =>
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AlertDialog(
+                          title: const Text('개인정보 이용약관'),
+                          content: const Text(policy, style: TextStyle(fontSize: 10),),
+                          //children: Image.asset('lib/images/ga.PNG'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(context, 'Cancel'),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                  ),
+            ),
+          )
+        ]
+      )
+    );
   }
 }
+const policy = '가. 수집하는 개인정보의 항목\n  1. 수집하는 필수항목\n    - 실명인증정보: 이름, 휴대전화번호, 본인인증\n    - 가입정보: 이름, 전화번호, 아이디(이메일), 비밀번호, 비밀번호 확인, 차량번호';
+
 
