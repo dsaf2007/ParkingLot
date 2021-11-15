@@ -128,12 +128,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           actions: <Widget>[
                             TextButton(
                               onPressed: () =>
-                                  Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
+                                  Navigator.pop(context, '취소'),
+                              child: const Text('취소'),
                             ),
                             TextButton(
-                              onPressed: () => Navigator.pop(context, 'OK'),
-                              child: const Text('OK'),
+                              onPressed: () => Navigator.pop(context, '확인'),
+                              child: const Text('확인'),
                             ),
                           ],
                         ),
