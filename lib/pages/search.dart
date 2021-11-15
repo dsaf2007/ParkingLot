@@ -5,7 +5,6 @@ import '../models/ParkingLot.dart';
 import '../util/colors.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
 
-
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -15,17 +14,25 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   List<ParkingLot> parkinglot = [
-    ParkingLot('park.png','대한극장주차장1', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','장충공영주차장1', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','필동공영주차장1', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','장충공영주차장2', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','대한극장주차장2', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','필동공영주차장2', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','장충공영주차장3', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','대한극장주차장3', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
-    ParkingLot('park.png','필동공영주차장3', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '장충공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '필동공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '장충공영주차장2', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '대한극장주차장2', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '필동공영주차장2', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '장충공영주차장3', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '대한극장주차장3', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot(
+        'park.png', '필동공영주차장3', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
   ];
 
   @override
@@ -111,19 +118,14 @@ class _SearchPageState extends State<SearchPage> {
                             child: const Text('예약하기', style: TextStyle(color: Colors.white)),
                           ),
                             SizedBox(height: 5),
-                          ]
-                        )
-                  ]
-                ),
-                // --- 이미지 넣기 ---
-              ),
-            )
-          );
-        },
-      )
-    );
+                          ])
+                    ]),
+                    // --- 이미지 넣기 ---
+                  ),
+                ));
+          },
+        ));
   }
-
 }
 
 const favoriteConvert = '즐겨찾기로 넘어가시겠습니까?';

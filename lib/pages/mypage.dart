@@ -2,7 +2,6 @@
 import 'alarmList.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
 
-
 // move to util/colors.dart later..
 const blue = Color.fromRGBO(100, 149, 237, 1.0); // 메인 파란색
 const lightGrey = Color.fromRGBO(220, 220, 220, 1.0); // 버튼
@@ -100,12 +99,12 @@ class _MyPageState extends State<MyPage> {
                                 fontWeight: FontWeight.bold,
                               )),
                           onTap: () {
-                            // 알림함 페이지로 이동
+                            /* 알림함 페이지로 이동
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AlarmList()),
-                            );
+                            );*/
                           },
                         ),
                         ListTile(
