@@ -25,9 +25,7 @@ class _CheckReservationState extends State<CheckReservation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NaviBarButtons(MediaQuery
-          .of(context)
-          .size, context),
+      bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       body: DefaultTabController(
         length: 2,
         child: Scaffold(

@@ -2,6 +2,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
+// google map
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class HomePage extends StatefulWidget {
   @override

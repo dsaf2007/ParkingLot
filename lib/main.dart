@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
-import 'pages/search.dart';
-import 'pages/favorites.dart';
-import 'pages/reservations.dart';
-import 'pages/mypage.dart';
-import 'pages/signin.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -21,8 +15,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: HomePage()
-        home: SignInPage(
-          title: '',
-        ));
+        home: HomePage()
+    );
   }
 }
