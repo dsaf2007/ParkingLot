@@ -1,18 +1,7 @@
 ﻿// home.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/favorites.dart';
-import 'package:parkinglot/pages/reservations.dart';
-import 'package:parkinglot/pages/search.dart';
-import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
-// google map
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-// map search
-// import 'package:address_search_field/address_search_field.dart';
-// import 'package:flutter_google_places/flutter_google_places.dart';
-// current position
-// import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,22 +18,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final _geoMethods = GeoMethods(
-    //   googleApiKey: 'GOOGLE_API_KEY',
-    //   language: 'ko',
-    //   countryCode: 'kr',
-    //   country: 'The Republic of Korea ',
-    //   city: 'Seoul',
-    // );
-    // CameraPosition currentLocation = seoul;
-    // bool isValidCurrentLocation = false;
-    // getLocation().then((value) {
-    //   LatLng currentLatLng = LatLng(value.latitude, value.longitude);
-    //   currentLocation = CameraPosition(target: currentLatLng, zoom: 14);
-    //   isValidCurrentLocation = true;
-    // });
-
-    return new Scaffold(
+    int screenIndex = 0;
+    // bottom nav bar
+    return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       body: Center(
         child: Container(

@@ -1,6 +1,5 @@
 ﻿import 'package:flutter/material.dart';
-
-import './alarmList.dart';
+import 'alarmList.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
 
 // move to util/colors.dart later..
@@ -23,8 +22,7 @@ class _MyPageState extends State<MyPage> {
 
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar:
-            NaviBarButtons(MediaQuery.of(context).size, context),
+        bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
         body: Container(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

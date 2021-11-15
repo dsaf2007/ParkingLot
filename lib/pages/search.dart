@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/favorites.dart';
 import '../models/ParkingLot.dart';
 import '../util/colors.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
@@ -38,72 +39,84 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        bottomNavigationBar:
-            NaviBarButtons(MediaQuery.of(context).size, context),
+        bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
         appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: TextFormField(
-                controller: TextEditingController(),
-                decoration: InputDecoration(
-                  hintText: '주차장 검색',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {},
-                  ),
-                ))),
-        body: ListView.builder(
-          itemCount: parkinglot.length,
-          itemBuilder: (context, index) {
-            return Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
-                child: Card(
-                  child: ListTile(
-                    onTap: () {},
-                    subtitle: Column(children: [
-                      Row(
-                        children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(parkinglot[index].name,
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        color: blue,
-                                        fontWeight: FontWeight.bold)),
-                                SizedBox(height: 5),
-                                Text(parkinglot[index].address),
-                                Text(parkinglot[index].number),
-                                Text(
-                                    '30분 ${parkinglot[index].cost} 원   |   총 ${parkinglot[index].total_space} 면'),
-                              ]),
-                          SizedBox(width: 80),
-                          Image.asset('lib/images/park.png',
-                              width: 100, height: 100),
-                        ],
-                      ),
+        backgroundColor: Colors.white,
+        title: TextFormField(
+          controller: TextEditingController(),
+          decoration: InputDecoration(
+            hintText: '주차장 검색',
+            hintStyle: TextStyle(color: Colors.grey),
+            suffixIcon: IconButton(icon: Icon(Icons.search), onPressed: () {  },),
+          )
+
+        )
+      ),
+      body: ListView.builder(
+        itemCount: parkinglot.length,
+        itemBuilder: (context, index){
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
+            child: Card(
+              child: ListTile(
+                onTap: () {},
+                subtitle: Column(
+                    children:[
+                        Row(
+                          children : [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children : [
+                                  Text(parkinglot[index].name,
+                                      style: TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold)),
+                                  SizedBox(height: 5),
+                                  Text(parkinglot[index].address),
+                                  Text(parkinglot[index].number),
+                                  Text('30분 ${parkinglot[index].cost} 원   |   총 ${parkinglot[index].total_space} 면'),
+                                ]
+                              ),
+                            SizedBox(width: 80),
+                            Image.asset('lib/images/park.png',width: 100, height: 100),
+                            ],
+                        ),
                       SizedBox(height: 5),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                  backgroundColor: lightGrey,
-                                  minimumSize: Size(165, 20)),
-                              child: const Text('즐겨찾기 추가',
-                                  style: TextStyle(color: Colors.black)),
-                            ),
-                            SizedBox(width: 10),
-                            TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                  backgroundColor: blue,
-                                  minimumSize: Size(165, 20)),
-                              child: const Text('예약하기',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
+                          children:[
+                          TextButton(
+                            onPressed: () =>
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        content: const Text(favoriteConvert, style: TextStyle(fontSize: 15),),
+                                        //children: Image.asset('lib/images/ga.PNG'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context, '취소'),
+                                            child: const Text('취소'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Navigator.push(
+                                                  context, MaterialPageRoute(builder: (context) => Favorites()));
+                                            },
+                                            child: const Text('확인'),
+                                          ),
+                                        ],
+                                      ),
+                                ),
+                            style: TextButton.styleFrom(backgroundColor: lightGrey, minimumSize: Size(165,20)),
+                            child: const Text('즐겨찾기 추가', style: TextStyle(color: Colors.black)),
+                          ),
+                          SizedBox(width: 10),
+                          TextButton(
+                            onPressed: () {  },
+                            style: TextButton.styleFrom(backgroundColor: blue, minimumSize: Size(165,20)),
+                            child: const Text('예약하기', style: TextStyle(color: Colors.white)),
+                          ),
                             SizedBox(height: 5),
                           ])
                     ]),
@@ -114,3 +127,5 @@ class _SearchPageState extends State<SearchPage> {
         ));
   }
 }
+
+const favoriteConvert = '즐겨찾기로 넘어가시겠습니까?';
