@@ -5,6 +5,7 @@ import 'pages/favorites.dart';
 import 'pages/reservations.dart';
 import 'pages/mypage.dart';
 import 'pages/signin.dart';
+import 'pages/calendar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: HomePage()
-        home: SignInPage(
+        home: Calendar(
           title: '',
         ));
   }

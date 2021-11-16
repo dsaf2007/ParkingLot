@@ -5,6 +5,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:parkinglot/util/colors.dart';
 
 class Calendar extends StatefulWidget {
   Calendar({Key? key, required this.title}) : super(key: key);
@@ -25,11 +26,10 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  DateTime _currentDate = DateTime(2019, 2, 3);
-  DateTime _currentDate2 = DateTime(2019, 2, 3);
-  String _currentMonth = DateFormat.yMMM().format(DateTime(2019, 2, 3));
-  DateTime _targetDateTime = DateTime(2019, 2, 3);
-//  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
+  DateTime _currentDate = DateTime.now();
+  String _currentMonth = DateFormat.yMMM().format(DateTime.now());
+
+  DateTime _targetDateTime = DateTime(2021, 11, 30);
   static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
         color: Colors.white,
@@ -41,133 +41,56 @@ class _CalendarState extends State<Calendar> {
     ),
   );
 
-  EventList<Event> _markedDateMap = new EventList<Event>(
-    events: {
-      new DateTime(2019, 2, 10): [
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 1',
-          icon: _eventIcon,
-          dot: Container(
-            margin: EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 5.0,
-            width: 5.0,
-          ),
-        ),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 2',
-          icon: _eventIcon,
-        ),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 3',
-          icon: _eventIcon,
-        ),
-      ],
-    },
-  );
+  // EventList<Event> _markedDateMap = new EventList<Event>(
+  //   events: {
+  //     new DateTime(2021, 11, 10): [
+  //       new Event(
+  //         date: new DateTime(2021, 11, 10),
+  //         title: 'Event 1',
+  //         icon: _eventIcon,
+  //         dot: Container(
+  //           margin: EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 5.0,
+  //           width: 5.0,
+  //         ),
+  //       ),
+  //     ],
+  //   },
+  // );
 
   @override
   void initState() {
     /// Add more events to _markedDateMap EventList
-    _markedDateMap.add(
-        new DateTime(2019, 2, 25),
-        new Event(
-          date: new DateTime(2019, 2, 25),
-          title: 'Event 5',
-          icon: _eventIcon,
-        ));
-
-    _markedDateMap.add(
-        new DateTime(2019, 2, 10),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 4',
-          icon: _eventIcon,
-        ));
-
-    _markedDateMap.addAll(new DateTime(2019, 2, 11), [
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 1',
-        icon: _eventIcon,
-      ),
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 2',
-        icon: _eventIcon,
-      ),
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 3',
-        icon: _eventIcon,
-      ),
-    ]);
+    // _markedDateMap.add(
+    //     new DateTime(2021, 11, 25),
+    //     new Event(
+    //       date: new DateTime(2021, 11, 25),
+    //       title: 'Event 5',
+    //       icon: _eventIcon,
+    //     ));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    /// Example with custom icon
-    final _calendarCarousel = CalendarCarousel<Event>(
-      onDayPressed: (date, events) {
-        this.setState(() => _currentDate = date);
-        events.forEach((event) => print(event.title));
-      },
-      weekendTextStyle: TextStyle(
-        color: Colors.red,
-      ),
-      thisMonthDayBorderColor: Colors.grey,
-//          weekDays: null, /// for pass null when you do not want to render weekDays
-      headerText: 'Custom Header',
-      weekFormat: true,
-      markedDatesMap: _markedDateMap,
-      height: 200.0,
-      selectedDateTime: _currentDate2,
-      showIconBehindDayText: true,
-//          daysHaveCircularBorder: false, /// null for not rendering any border, true for circular border, false for rectangular border
-      customGridViewPhysics: NeverScrollableScrollPhysics(),
-      markedDateShowIcon: true,
-      markedDateIconMaxShown: 2,
-      selectedDayTextStyle: TextStyle(
-        color: Colors.yellow,
-      ),
-      todayTextStyle: TextStyle(
-        color: Colors.blue,
-      ),
-      markedDateIconBuilder: (event) {
-        return event.icon ?? Icon(Icons.help_outline);
-      },
-      minSelectedDate: _currentDate.subtract(Duration(days: 360)),
-      maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      todayButtonColor: Colors.transparent,
-      todayBorderColor: Colors.green,
-      markedDateMoreShowTotal:
-          true, // null for not showing hidden events indicator
-//          markedDateIconMargin: 9,
-//          markedDateIconOffset: 3,
-    );
-
     /// Example Calendar Carousel without header and custom prev & next button
     final _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      todayBorderColor: Colors.green,
+      // todayBorderColor: Colors.white,
       onDayPressed: (date, events) {
-        this.setState(() => _currentDate2 = date);
+        setState(() => _currentDate = date);
         events.forEach((event) => print(event.title));
       },
-      daysHaveCircularBorder: true,
+      daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: false,
       weekendTextStyle: TextStyle(
         color: Colors.red,
       ),
-      thisMonthDayBorderColor: Colors.grey,
       weekFormat: false,
 //      firstDayOfWeek: 4,
-      markedDatesMap: _markedDateMap,
+      // markedDatesMap: _markedDateMap,
       height: 420.0,
-      selectedDateTime: _currentDate2,
+      selectedDateTime: _currentDate,
       targetDateTime: _targetDateTime,
       customGridViewPhysics: NeverScrollableScrollPhysics(),
       markedDateCustomShapeBorder:
@@ -177,29 +100,28 @@ class _CalendarState extends State<Calendar> {
         color: Colors.blue,
       ),
       showHeader: false,
+      todayBorderColor: Colors.transparent,
+      todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(
         color: Colors.blue,
       ),
-      // markedDateShowIcon: true,
-      // markedDateIconMaxShown: 2,
-      // markedDateIconBuilder: (event) {
-      //   return event.icon;
-      // },
-      // markedDateMoreShowTotal:
-      //     true,
-      todayButtonColor: Colors.yellow,
       selectedDayTextStyle: TextStyle(
-        color: Colors.yellow,
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
       ),
-      minSelectedDate: _currentDate.subtract(Duration(days: 360)),
-      maxSelectedDate: _currentDate.add(Duration(days: 360)),
+      minSelectedDate: _currentDate.subtract(Duration(days: 90)),
+      maxSelectedDate: _currentDate.add(Duration(days: 90)),
       prevDaysTextStyle: TextStyle(
         fontSize: 16,
-        color: Colors.pinkAccent,
+        color: Colors.grey,
       ),
       inactiveDaysTextStyle: TextStyle(
-        color: Colors.tealAccent,
+        color: Colors.grey,
         fontSize: 16,
+      ),
+      weekdayTextStyle: TextStyle(
+        color: Colors.black,
       ),
       onCalendarChanged: (DateTime date) {
         this.setState(() {
@@ -222,10 +144,7 @@ class _CalendarState extends State<Calendar> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               //custom icon
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarousel,
-              ), // This trailing comma makes auto-formatting nicer for build methods.
+              // This trailing comma makes auto-formatting nicer for build methods.
               //custom icon without header
               Container(
                 margin: EdgeInsets.only(
