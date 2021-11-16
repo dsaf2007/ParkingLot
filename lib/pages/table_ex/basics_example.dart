@@ -18,11 +18,8 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TableCalendar - Basics'),
-      ),
-      body: TableCalendar(
+    return Container(
+      child: TableCalendar(
         firstDay: kFirstDay,
         lastDay: kLastDay,
         focusedDay: _focusedDay,

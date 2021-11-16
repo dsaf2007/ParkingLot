@@ -41,6 +41,7 @@ dependencies:
   # date picker in reservation
   flutter_calendar_carousel: ^2.1.0
   table_calendar: ^3.0.3
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:

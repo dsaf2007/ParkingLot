@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/table_calendar.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'pages/home.dart';
 import 'pages/search.dart';
 import 'pages/favorites.dart';
 import 'pages/reservations.dart';
 import 'pages/mypage.dart';
 import 'pages/signin.dart';
-import 'pages/calendar.dart';
+import 'pages/datetimeSelection.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,8 +24,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: HomePage()
-        home: Calendar(
-          title: '',
-        ));
+        home: DateTimeSelection());
   }
 }
