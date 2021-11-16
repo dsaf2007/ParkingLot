@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
-import './table_ex/basics_example.dart';
 import 'package:expandable/expandable.dart';
+import '../util/colors.dart';
+import './caledar_table.dart';
 
 class DateTimeSelection extends StatefulWidget {
   const DateTimeSelection({Key? key}) : super(key: key);
@@ -12,6 +13,17 @@ class DateTimeSelection extends StatefulWidget {
 class _DateTimeSelectionState extends State<DateTimeSelection> {
   final String parkingLotName = "대한극장주차장";
   final String selectedDay = "11.19. (금)";
+
+  void _reset() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        pageBuilder: (_, __, ___) => DateTimeSelection(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +41,52 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
           children: <Widget>[
             Card1(),
             Card2(),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.45, 0),
+                    padding: const EdgeInsets.all(10),
+                    primary: Colors.grey,
+                    onPrimary: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 22,
+                    ),
+                  ),
+                  child: const Text("초기화"),
+                  onPressed: () {
+                    // 초기화
+                    // printData();
+                    _reset();
+                  },
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.45, 0),
+                    padding: const EdgeInsets.all(10),
+                    primary: blue,
+                    onPrimary: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 22,
+                    ),
+                  ),
+                  child: const Text("선택완료"),
+                  onPressed: () {
+                    // 선택완료
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -47,6 +105,13 @@ List<ExpandableController> controllerList = [
 int currentIndex = -1;
 
 class Card1 extends StatelessWidget {
+  final String dateSelectionMessage = "날짜 선택";
+  CalendarTable cardBody = CalendarTable();
+
+  // void printData() {
+  //   cardBody.printData();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
@@ -95,7 +160,7 @@ class Card1 extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                "15/06/2020",
+                                dateSelectionMessage,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ),
@@ -104,7 +169,7 @@ class Card1 extends StatelessWidget {
                   ),
                 ),
                 collapsed: Container(),
-                expanded: TableBasicsExample(),
+                expanded: cardBody,
                 builder: (_, collapsed, expanded) {
                   return Expandable(
                     collapsed: collapsed,
@@ -122,13 +187,15 @@ class Card1 extends StatelessWidget {
 }
 
 class Card2 extends StatelessWidget {
+  String timeSelectionMessage = "시간 선택";
+  // void resetData() {}
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
         child: Padding(
       padding: const EdgeInsets.all(10),
       child: Card(
-        color: Colors.blue,
+        color: Colors.white,
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: <Widget>[
@@ -138,7 +205,7 @@ class Card2 extends StatelessWidget {
               child: ExpandablePanel(
                 controller: controllerList[1],
                 theme: const ExpandableThemeData(
-                  iconColor: Colors.white,
+                  iconColor: Colors.black,
                   headerAlignment: ExpandablePanelHeaderAlignment.center,
                   tapBodyToCollapse: true,
                 ),
@@ -154,7 +221,7 @@ class Card2 extends StatelessWidget {
                     }
                   },
                   child: Container(
-                    color: Colors.blue,
+                    color: Colors.white,
                     child: Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(
@@ -164,14 +231,14 @@ class Card2 extends StatelessWidget {
                                 flex: 1,
                                 child: Icon(
                                   Icons.calendar_today,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 )),
                             Expanded(flex: 1, child: Container()),
                             Expanded(
                               flex: 4,
                               child: Text(
-                                "15/05/2020",
-                                style: TextStyle(color: Colors.white),
+                                timeSelectionMessage,
+                                style: TextStyle(color: Colors.black),
                               ),
                             ),
                           ],
@@ -182,7 +249,7 @@ class Card2 extends StatelessWidget {
                 expanded: Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -190,13 +257,13 @@ class Card2 extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Bill Date",
-                                style: TextStyle(color: Colors.blue)),
+                                style: TextStyle(color: Colors.black)),
                             Text("15/06/2020",
-                                style: TextStyle(color: Colors.blue)),
+                                style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         Divider(
-                          color: Colors.blue,
+                          color: Colors.black,
                           thickness: 2.0,
                         ),
                         Row(
@@ -204,9 +271,9 @@ class Card2 extends StatelessWidget {
                           children: [
                             Text(
                               "Adjustment",
-                              style: TextStyle(color: Colors.blue),
+                              style: TextStyle(color: Colors.black),
                             ),
-                            Text(".00", style: TextStyle(color: Colors.blue)),
+                            Text(".00", style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         Divider(

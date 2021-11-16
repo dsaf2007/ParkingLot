@@ -4,17 +4,31 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../table_utils.dart';
+import '../util/table_utils.dart';
 
-class TableBasicsExample extends StatefulWidget {
+class CalendarTable extends StatefulWidget {
   @override
-  _TableBasicsExampleState createState() => _TableBasicsExampleState();
+  _CalendarTableState createState() => _CalendarTableState();
+
+  // void resetData() => _CalendarTableState().resetData();
+  // void printData() {
+  //   _CalendarTableState().printData();
+  // }
 }
 
-class _TableBasicsExampleState extends State<TableBasicsExample> {
+class _CalendarTableState extends State<CalendarTable> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+
+  // void resetData() {
+  //   _selectedDay = null;
+  //   _focusedDay = DateTime.now();
+  // }
+  void printData() {
+    print(_selectedDay.toString());
+    print(_focusedDay.toString());
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/table_calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'pages/home.dart';
 import 'pages/search.dart';
@@ -7,7 +6,7 @@ import 'pages/favorites.dart';
 import 'pages/reservations.dart';
 import 'pages/mypage.dart';
 import 'pages/signin.dart';
-import 'pages/datetimeSelection.dart';
+import 'pages/datetime_selection.dart';
 
 void main() {
   runApp(const MyApp());
