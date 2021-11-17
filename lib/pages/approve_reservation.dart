@@ -9,98 +9,119 @@ class  ApproveReservation extends StatefulWidget {
   const ApproveReservation({Key? key, required this.title}) : super(key: key);
   final String title;
 
+
   @override
   _ApproveReservationState createState() => _ApproveReservationState();
 }
 
 class _ApproveReservationState extends State<ApproveReservation> {
+
+
+  String reserveDate = '2021.11.19 (금)';
+  String reserveStartTime = '09:00';
+  String reserveEndTime = '10:00';
+
+  String parkingLotName = '대한극장';
+  String parkingLotAddress = '서울 중구 필동 2가';
+  String parkingLotTime_week = '00:00~24:00';
+  String parkingLotTime_sat = '00:00~24:00';
+  String parkingLotTime_sun = '00:00~24:00';
+
+  String parkingLotNumber = '02-1234-1234';
+  int parkingLotFee = 800;
+  int total = 1600;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-            // 값 전달 받기
-            title: const Text('대한극장',
+        // 값 전달 받기
+          title: Text(parkingLotName,
               style:TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               )
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            leading: GestureDetector(
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          leading: GestureDetector(
               onTap: () {},
               child: const Icon(Icons.arrow_back)
-            )
+          )
       ),
-      body:Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+      body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children : <Widget> [
+            // ---------------------------------------------------------- 일정
             Padding(
-                padding: EdgeInsets.all(20.0),
-                child:
-                  Text('일정',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
+              padding: EdgeInsets.all(20.0),
+              child:
+              Text('일정',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )
+              ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                  child: Text('날짜',
-                      style: TextStyle(
-                        fontSize: 15,
-                      )
-                  ),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children : [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 0, 0,  5),
+                        child: Text('날짜',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                        child: Text('시간',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                    ]
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(165, 0, 0, 0),
-                  child: Text('2021.11.19 (금)',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 15,
-                      )
-                  ),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children : [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
+                        child: Text(reserveDate,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: Text(reserveStartTime + ' ~ ' + reserveEndTime,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                    ]
                 ),
-             ]
+              ],
             ),
             SizedBox(height: 10),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('시간',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('오전 '+'9:00'+' ~ '+'10:00',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
-            ),
-            SizedBox(height: 15),
             const Divider(
               color : lightGrey,
               thickness: 1,
-              indent: 10,
-              endIndent: 10,
+              indent: 20,
+              endIndent: 20,
             ),
+            // ---------------------------------------------------------- 주차장 정보
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+              padding: EdgeInsets.all(20.0),
               child:
               Text('주차장 정보',
                   style: TextStyle(
@@ -110,150 +131,118 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
             ),
             Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('장소',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(165, 0, 0, 0),
-                    child: Text('서울 중구 필동 2가',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children : [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 0, 0,  5),
+                        child: Text('장소',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                        child: Text('시간',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                          child: Text(' ')
+                      ),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(40, 0, 0,  5),
+                          child: Text(' ')
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 0, 0, 5),
+                        child: Text('전화전호',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                        child: Text('요금',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                    ]
+                ),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children : [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
+                        child: Text(parkingLotAddress,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: Text('평일 '+ parkingLotTime_week,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: Text('토요일 '+ parkingLotTime_sat,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
+                        child: Text('일요일 '+ parkingLotTime_sun,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
+                        child: Text(parkingLotNumber,
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: Text(parkingLotFee.toString()+' 원',
+                            style: TextStyle(
+                              fontSize: 15,
+                            )
+                        ),
+                      ),
+                    ]
+                ),
+              ],
             ),
             SizedBox(height: 10),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('시간',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('평일 '+'00:00'+' ~ '+'24:00',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('토요일 '+'00:00'+' ~ '+'24:00',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('일요일 '+'00:00'+' ~ '+'24:00',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
-            ),
-            SizedBox(height: 10),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('전화번호',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('02-000-0000',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
-            ),
-            SizedBox(height: 10),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('요금',
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('30분 '+'800'+ '원',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
-            ),
-            SizedBox(height: 15),
-
             const Divider(
               color : lightGrey,
               thickness: 1,
-              indent: 10,
-              endIndent: 10,
+              indent: 20,
+              endIndent: 20,
             ),
+            // ---------------------------------------------------------- 예상결제금액
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+              padding: EdgeInsets.all(20.0),
               child:
               Text('예상 결제 금액',
                   style: TextStyle(
@@ -261,32 +250,32 @@ class _ApproveReservationState extends State<ApproveReservation> {
                     fontWeight: FontWeight.bold,
                   )
               ),
-            ),            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Text('최종 요금',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
-                    child: Text('30분 '+'800'+ '원',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )
-                    ),
-                  ),
-                ]
             ),
-            SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                  child: Text('최종요금',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      )
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
+                  child: Text('30분 ' + total.toString() +'원',
+                      style: TextStyle(
+                        fontSize: 15,
+                      )
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
                     onPressed: () {  },
@@ -317,7 +306,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
                     style: TextButton.styleFrom(backgroundColor: blue, minimumSize: Size(165,20)),
                     child: const Text('예약하기', style: TextStyle(color: Colors.white)),
                   ),
-              ]
+                ]
             )
           ]
       ),
