@@ -1,5 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:parkinglot/widget/navigationBar.dart';
+
 import '../util/colors.dart';
 import './caledar_table.dart';
 
@@ -27,6 +29,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
         leading: Icon(Icons.arrow_back),
         title: Text(parkingLotName),
@@ -41,7 +44,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
           children: <Widget>[
             Card1(),
             Card2(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -108,10 +111,6 @@ class Card1 extends StatelessWidget {
   final String dateSelectionMessage = "날짜 선택";
   CalendarTable cardBody = CalendarTable();
 
-  // void printData() {
-  //   cardBody.printData();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
@@ -155,13 +154,17 @@ class Card1 extends StatelessWidget {
                                 child: Icon(
                                   Icons.calendar_today,
                                   color: Colors.black,
+                                  size: 35,
                                 )),
                             Expanded(flex: 1, child: Container()),
                             Expanded(
                               flex: 4,
                               child: Text(
                                 dateSelectionMessage,
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ],
@@ -186,14 +189,92 @@ class Card1 extends StatelessWidget {
   }
 }
 
-class Card2 extends StatelessWidget {
+class Card2 extends StatefulWidget {
+  const Card2({Key? key}) : super(key: key);
+
+  @override
+  _Card2State createState() => _Card2State();
+}
+
+class _Card2State extends State<Card2> {
+  // MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
+  //   final getColor = (Set<MaterialState> states) {
+  //     if (states.contains(MaterialState.pressed)) {
+  //       return colorPressed;
+  //     } else {
+  //       return color;
+  //     }
+  //   };
+  //   return MaterialStateProperty.resolveWith(getColor);
+  // }
+
   String timeSelectionMessage = "시간 선택";
+
+  List<String> timeListAM = [];
+  List<String> timeListPM = [];
+  @override
+  void initState() {
+    for (int i = 6; i <= 11; i++) {
+      timeListAM.add("${i}:00");
+      timeListAM.add("${i}:30");
+    }
+    for (int i = 12; i <= 21; i++) {
+      timeListPM.add("${i}:00");
+      timeListPM.add("${i}:30");
+    }
+  }
+
+  List<Row> _buildButtonRowsWithTimes(
+      List<String> timeList, ButtonStyle buttonStyle) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
+      }
+      rows += 1;
+    }
+    List<Row> buttonRowList = [];
+    for (int i = 0; i < rows; i++) {
+      List<ElevatedButton> buttonList = [];
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        buttonList.add(ElevatedButton(
+            style: buttonStyle,
+            // style: ButtonStyle(
+            //   foregroundColor: getColor(green, blue),
+            //   backgroundColor: getColor(blue, green),
+            // ),
+            onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
+            child: Text(
+              timeList[idx],
+            )));
+      }
+      Row buttonRow = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: buttonList,
+      );
+      buttonRowList.add(buttonRow);
+    }
+    return buttonRowList;
+  }
+
   // void resetData() {}
   @override
   Widget build(BuildContext context) {
+    ButtonStyle timeOptionButtonStyle = ElevatedButton.styleFrom(
+      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      primary: green, // 초록
+      onPrimary: Colors.white,
+      textStyle: const TextStyle(
+        fontSize: 16,
+      ),
+    );
     return ExpandableNotifier(
         child: Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(15),
       child: Card(
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
@@ -223,22 +304,26 @@ class Card2 extends StatelessWidget {
                   child: Container(
                     color: Colors.white,
                     child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
                                 flex: 1,
                                 child: Icon(
-                                  Icons.calendar_today,
+                                  Icons.access_alarm,
                                   color: Colors.black,
+                                  size: 35,
                                 )),
                             Expanded(flex: 1, child: Container()),
                             Expanded(
                               flex: 4,
                               child: Text(
                                 timeSelectionMessage,
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ],
@@ -247,52 +332,71 @@ class Card2 extends StatelessWidget {
                 ),
                 collapsed: Container(),
                 expanded: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Bill Date",
-                                style: TextStyle(color: Colors.black)),
-                            Text("15/06/2020",
-                                style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
+                        Text("오전"),
                         Divider(
-                          color: Colors.black,
-                          thickness: 2.0,
+                          color: Colors.grey,
+                        ),
+                        Column(
+                          children: _buildButtonRowsWithTimes(
+                              timeListAM, timeOptionButtonStyle),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("오후"),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Column(
+                          children: _buildButtonRowsWithTimes(
+                              timeListPM, timeOptionButtonStyle),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Adjustment",
-                              style: TextStyle(color: Colors.black),
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: const DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: green,
+                                ),
+                              ),
                             ),
-                            Text(".00", style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                        Divider(
-                          color: Colors.blue,
-                          thickness: 2.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Total due",
-                                style: TextStyle(color: Colors.blue)),
-                            Text("413.27",
-                                style: TextStyle(color: Colors.blue)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "선택가능",
+                                  style: TextStyle(color: Colors.black),
+                                )),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: const DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "불가",
+                                  style: TextStyle(color: Colors.black),
+                                )),
                           ],
                         ),
                       ],
-                    ),
-                  ),
-                ),
+                    )),
                 builder: (_, collapsed, expanded) {
                   return Expandable(
                     collapsed: collapsed,
