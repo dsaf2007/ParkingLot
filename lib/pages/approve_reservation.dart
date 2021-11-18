@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
 
-import 'CheckReservation.dart';
+import 'check_reservation.dart';
 
 class  ApproveReservation extends StatefulWidget {
   const ApproveReservation({Key? key, required this.title}) : super(key: key);
@@ -47,7 +47,9 @@ class _ApproveReservationState extends State<ApproveReservation> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           leading: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: const Icon(Icons.arrow_back)
           )
       ),

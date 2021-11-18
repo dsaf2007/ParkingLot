@@ -1,7 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/home.dart';
 import 'package:parkinglot/pages/favorites.dart';
-import 'package:parkinglot/pages/CheckReservation.dart';
+import 'package:parkinglot/pages/check_reservation.dart';
 import 'package:parkinglot/pages/search.dart';
 import 'package:parkinglot/pages/mypage.dart';
 

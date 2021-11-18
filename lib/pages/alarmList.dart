@@ -14,9 +14,22 @@ class _AlarmListState extends State<AlarmList> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            // leading: Icon(Icons.arrow_back),
-            title: Text("알림함"),
-            backgroundColor: blue,
+            // 값 전달 받기
+              title: Text('알림함',
+                  style:TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.arrow_back)
+              )
           ),
           body: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center,
