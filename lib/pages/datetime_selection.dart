@@ -212,16 +212,20 @@ class _Card2State extends State<Card2> {
 
   List<String> timeListAM = [];
   List<String> timeListPM = [];
+  List<bool> isSelectedAM = [];
+  List<bool> isSelectedPM = [];
   @override
   void initState() {
     for (int i = 6; i <= 11; i++) {
-      timeListAM.add("${i}:00");
-      timeListAM.add("${i}:30");
+      timeListAM.add("$i:00");
+      timeListAM.add("$i:30");
     }
     for (int i = 12; i <= 21; i++) {
-      timeListPM.add("${i}:00");
-      timeListPM.add("${i}:30");
+      timeListPM.add("$i:00");
+      timeListPM.add("$i:30");
     }
+    isSelectedAM = List.filled(timeListAM.length, false);
+    isSelectedPM = List.filled(timeListPM.length, false);
   }
 
   List<Row> _buildButtonRowsWithTimes(
@@ -234,13 +238,34 @@ class _Card2State extends State<Card2> {
       }
       rows += 1;
     }
+    List<ElevatedButton> allButtonList = []; // toggle button
     List<Row> buttonRowList = [];
     for (int i = 0; i < rows; i++) {
       List<ElevatedButton> buttonList = [];
       for (int j = 0; j < cols; j++) {
         int idx = i * cols + j;
-        if (timeList[idx] == "") break;
-        buttonList.add(ElevatedButton(
+        if (timeList[idx] == "") {
+          buttonList.add(ElevatedButton(
+            onPressed: () {},
+            child: Container(),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent, // 초록
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+            ),
+          ));
+        } else {
+          buttonList.add(ElevatedButton(
+              style: buttonStyle,
+              // style: ButtonStyle(
+              //   foregroundColor: getColor(green, blue),
+              //   backgroundColor: getColor(blue, green),
+              // ),
+              onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
+              child: Text(
+                timeList[idx],
+              )));
+        }
+        allButtonList.add(ElevatedButton(
             style: buttonStyle,
             // style: ButtonStyle(
             //   foregroundColor: getColor(green, blue),
@@ -252,12 +277,43 @@ class _Card2State extends State<Card2> {
             )));
       }
       Row buttonRow = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: buttonList,
       );
       buttonRowList.add(buttonRow);
     }
     return buttonRowList;
+  }
+
+  List<ElevatedButton> _buildButtonsWithTimes(
+      List<String> timeList, ButtonStyle buttonStyle) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
+      }
+      rows += 1;
+    }
+    List<ElevatedButton> allButtonList = []; // toggle button
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        allButtonList.add(ElevatedButton(
+            style: buttonStyle,
+            // style: ButtonStyle(
+            //   foregroundColor: getColor(green, blue),
+            //   backgroundColor: getColor(blue, green),
+            // ),
+            onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
+            child: Text(
+              timeList[idx],
+            )));
+      }
+    }
+    return allButtonList;
   }
 
   // void resetData() {}
@@ -268,6 +324,15 @@ class _Card2State extends State<Card2> {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       primary: green, // 초록
       onPrimary: Colors.white,
+      textStyle: const TextStyle(
+        fontSize: 16,
+      ),
+    );
+    ButtonStyle emptyButtonStyle = ElevatedButton.styleFrom(
+      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      primary: Colors.transparent, // 초록
+      onPrimary: Colors.transparent,
       textStyle: const TextStyle(
         fontSize: 16,
       ),
@@ -354,6 +419,25 @@ class _Card2State extends State<Card2> {
                           children: _buildButtonRowsWithTimes(
                               timeListPM, timeOptionButtonStyle),
                         ),
+                        // ToggleButtons(
+                        //   children: _buildButtonsWithTimes(
+                        //       timeListPM, timeOptionButtonStyle),
+                        //   color: Colors.yellow,
+                        //   selectedColor: Colors.red,
+                        //   onPressed: (int index) {
+                        //     int count = 0;
+                        //     isSelectedPM.forEach((bool val) {
+                        //       if (val) count++;
+                        //     });
+
+                        //     if (isSelectedPM[index] && count < 2) return;
+
+                        //     setState(() {
+                        //       isSelectedPM[index] = !isSelectedPM[index];
+                        //     });
+                        //   },
+                        //   isSelected: isSelectedPM,
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
