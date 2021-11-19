@@ -14,15 +14,13 @@ class CheckReservation extends StatefulWidget {
 
 class _CheckReservationState extends State<CheckReservation> {
 
-
   List<HistoryList> historyList = [
     HistoryList('park.png','대한극장주차장1', '서울 중구 필동 2가','02-1234-5678', '날짜', '시간', '결제금액'),
     HistoryList('park.png','장충공영주차장1', '서울 중구 필동 2가','02-1234-5678', '날짜', '시간', '결제금액'),
     HistoryList('park.png','필동공영주차장1', '서울 중구 필동 2가','02-1234-5678', '날짜', '시간', '결제금액'),
   ];
+  @override
 
-
-    @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

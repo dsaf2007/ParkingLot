@@ -97,12 +97,11 @@ class _MyPageState extends State<MyPage> {
                                 fontWeight: FontWeight.bold,
                               )),
                           onTap: () {
-                            /* 알림함 페이지로 이동
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AlarmList()),
-                            );*/
+                            );
                           },
                         ),
                         ListTile(
