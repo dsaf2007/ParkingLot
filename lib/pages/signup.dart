@@ -139,7 +139,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                   ),
             ),
-          )
+          ),
+	  TextButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                  onPressed: () {},
+                  child:Text('회원가입', style: TextStyle(color: Colors.white)),
+           )
         ]
       )
     );
