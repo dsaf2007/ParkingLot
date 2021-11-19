@@ -4,6 +4,7 @@ import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/pages/check_reservation.dart';
 import 'package:parkinglot/pages/search.dart';
 import 'package:parkinglot/pages/mypage.dart';
+import 'package:parkinglot/pages/CheckReservation.dart';
 
 Widget NaviBarButtons(Size size, BuildContext context) {
   final double tabWidth = size.width * 0.2;
@@ -75,7 +76,7 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             onPressed: () {
               Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CheckReservation(title: '',)));
+                MaterialPageRoute(builder: (context) => CheckReservation(title: '',)));
             },
           ),
         ),

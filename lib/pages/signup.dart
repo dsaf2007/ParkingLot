@@ -128,18 +128,23 @@ class _SignUpPageState extends State<SignUpPage> {
                           actions: <Widget>[
                             TextButton(
                               onPressed: () =>
-                                  Navigator.pop(context, '취소'),
-                              child: const Text('취소'),
+                                  Navigator.pop(context, 'Cancel'),
+                              child: const Text('Cancel'),
                             ),
                             TextButton(
-                              onPressed: () => Navigator.pop(context, '확인'),
-                              child: const Text('확인'),
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
                             ),
                           ],
                         ),
                   ),
             ),
-          )
+          ),
+	  TextButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                  onPressed: () {},
+                  child:Text('회원가입', style: TextStyle(color: Colors.white)),
+           )
         ]
       )
     );

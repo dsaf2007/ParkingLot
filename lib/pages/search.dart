@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/favorites.dart';
 import '../models/ParkingLot.dart';
 import '../util/colors.dart';
-import 'package:parkinglot/widget/navigationBar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.title}) : super(key: key);
@@ -14,33 +12,24 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
   List<ParkingLot> parkinglot = [
-    ParkingLot(
-        'park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '장충공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '필동공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '장충공영주차장2', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '대한극장주차장2', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '필동공영주차장2', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '장충공영주차장3', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '대한극장주차장3', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '필동공영주차장3', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','대한극장주차장1', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','장충공영주차장1', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','필동공영주차장1', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','장충공영주차장2', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','대한극장주차장2', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','필동공영주차장2', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','장충공영주차장3', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','대한극장주차장3', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
+    ParkingLot('park.png','필동공영주차장3', '서울 중구 필동 2가','02-1234-5678', 800, 30, true),
   ];
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
-        appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.white,
         title: TextFormField(
           controller: TextEditingController(),
@@ -84,30 +73,7 @@ class _SearchPageState extends State<SearchPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children:[
                           TextButton(
-                            onPressed: () =>
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                        content: const Text(favoriteConvert, style: TextStyle(fontSize: 15),),
-                                        //children: Image.asset('lib/images/ga.PNG'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, '취소'),
-                                            child: const Text('취소'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => Favorites()));
-                                            },
-                                            child: const Text('확인'),
-                                          ),
-                                        ],
-                                      ),
-                                ),
+                            onPressed: () {  },
                             style: TextButton.styleFrom(backgroundColor: lightGrey, minimumSize: Size(165,20)),
                             child: const Text('즐겨찾기 추가', style: TextStyle(color: Colors.black)),
                           ),
@@ -118,14 +84,17 @@ class _SearchPageState extends State<SearchPage> {
                             child: const Text('예약하기', style: TextStyle(color: Colors.white)),
                           ),
                             SizedBox(height: 5),
-                          ])
-                    ]),
-                    // --- 이미지 넣기 ---
-                  ),
-                ));
-          },
-        ));
+                          ]
+                        )
+                  ]
+                ),
+                // --- 이미지 넣기 ---
+              ),
+            )
+          );
+        },
+      )
+    );
   }
-}
 
-const favoriteConvert = '즐겨찾기로 넘어가시겠습니까?';
+}
