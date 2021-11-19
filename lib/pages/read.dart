@@ -1,28 +1,7 @@
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_core/firebase_core.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        // home: HomePage()
-        home: HomePage());
-  }
-}
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GetUserName extends StatelessWidget {
   final String documentId;
@@ -31,7 +10,8 @@ class GetUserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference User = FirebaseFirestore.instance.collection('User');
+    CollectionReference User =
+        FirebaseFirestore.instance.collection('ParkingLot');
 
     return FutureBuilder<DocumentSnapshot>(
       future: User.doc(documentId).get(),
@@ -46,7 +26,8 @@ class GetUserName extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return Text("User_Nickname: ${data['User_Nickname']}");
+          print(data['User_Nickname']);
+          return Text("${data['User_Nickname']}");
         }
         return Text("loading");
       },

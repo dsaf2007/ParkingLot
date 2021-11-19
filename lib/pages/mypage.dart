@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'alarmList.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'read.dart';
 
 // move to util/colors.dart later..
 const blue = Color.fromRGBO(100, 149, 237, 1.0); // 메인 파란색
@@ -16,13 +18,25 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
-    final String userName = "정동구"; // later.. user.name
+    //final String userName = "정동구"; // later.. user.name
+    dynamic temp;
+    FirebaseFirestore.instance
+        .collection('User')
+        .doc('leejaewon')
+        .get()
+        .then((DocumentSnapshot ds) {
+      temp = ds.get('Name');
+      print(temp + "data : ${ds.get('Name')}");
+    });
+
+    final String userName = temp;
     final String userPhoneNumber = "010-****-1234"; // user.phoneNumber
     bool isAdmin = true;
 
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
+        bottomNavigationBar:
+            NaviBarButtons(MediaQuery.of(context).size, context),
         body: Container(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -40,7 +54,7 @@ class _MyPageState extends State<MyPage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          Text(userName,
+                          Text(temp,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 32,
@@ -49,7 +63,7 @@ class _MyPageState extends State<MyPage> {
                             width: 10,
                           ),
                           isAdmin
-                              ? Text("관리자",
+                              ? Text('관리자',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
