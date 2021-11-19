@@ -1,4 +1,6 @@
 ﻿import 'package:flutter/material.dart';
+import '../widget/navigation_bar.dart';
+import '../pages/alarmList.dart';
 // import 'alarmList.dart';
 
 // move to util/colors.dart later..
@@ -154,6 +156,8 @@ class _MyPageState extends State<MyPage> {
                 ),
               ]),
         ),
+        bottomNavigationBar:
+            NaviBarButtons(MediaQuery.of(context).size, context),
       ),
     );
   }

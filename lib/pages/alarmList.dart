@@ -1,7 +1,7 @@
 ﻿// alarmList.dart
 import 'package:flutter/material.dart';
 import '../util/colors.dart';
-import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 
 class AlarmList extends StatefulWidget {
   @override
@@ -14,13 +14,12 @@ class _AlarmListState extends State<AlarmList> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            // 값 전달 받기
+              // 값 전달 받기
               title: Text('알림함',
-                  style:TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                  )
-              ),
+                  )),
               centerTitle: true,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
@@ -28,9 +27,7 @@ class _AlarmListState extends State<AlarmList> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Icon(Icons.arrow_back)
-              )
-          ),
+                  child: const Icon(Icons.arrow_back))),
           body: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,

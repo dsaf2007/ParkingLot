@@ -30,15 +30,30 @@ dependencies:
   flutter:
     sdk: flutter
 
+  firebase_auth: ^3.2.0
+  firebase_analytics: ^8.3.4
+  # Add the dependencies for any other Firebase products you want to use in your app
+  # For example, to use Firebase Authentication and Cloud Firestore
+  cloud_firestore: ^3.1.0
+  firebase_core: ^1.0.0
 
+  # google map search
+  google_maps_flutter:
+  # address_search_field: ^4.0.1
+  # flutter_google_places:
+  # current position
+  # geolocator: # error
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  # date picker in reservation
+  flutter_calendar_carousel: ^2.1.0
+  table_calendar: ^3.0.3
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -46,7 +61,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
   flutter_native_splash: ^0.1.9
-# For information on the generic Dart part of this file, see the
+  # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
@@ -54,7 +69,7 @@ flutter:
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
-  # the material Icons class.
+  # the material Icons class.fl
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

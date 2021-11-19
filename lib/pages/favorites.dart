@@ -1,14 +1,14 @@
 ﻿import 'package:flutter/material.dart';
-import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 
-class Favorites extends StatefulWidget {
-  const Favorites({Key? key}) : super(key: key);
+class FavoritesPage extends StatefulWidget {
+  const FavoritesPage({Key? key}) : super(key: key);
 
   @override
-  _FavoritesState createState() => _FavoritesState();
+  _FavoritesPageState createState() => _FavoritesPageState();
 }
 
-class _FavoritesState extends State<Favorites> {
+class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
