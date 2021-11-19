@@ -32,6 +32,7 @@ class _MyPageState extends State<MyPage> {
     final String userName = temp;
     final String userPhoneNumber = "010-****-1234"; // user.phoneNumber
     bool isAdmin = true;
+    //comment for comit test
 
     return SafeArea(
       child: Scaffold(
