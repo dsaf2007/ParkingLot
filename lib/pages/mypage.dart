@@ -1,6 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../widget/navigation_bar.dart';
 import '../pages/alarmList.dart';
+import 'edit_profile_checkpassword.dart';
+
 // import 'alarmList.dart';
 
 // move to util/colors.dart later..
@@ -112,6 +114,13 @@ class _MyPageState extends State<MyPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
+			     onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                                  )
+                                );
+                              },
                         ),
                         ListTile(
                           leading: Icon(Icons.people),
