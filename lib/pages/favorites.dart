@@ -31,8 +31,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            )
-          ),
+          )
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black, 
@@ -40,57 +40,51 @@ class _FavoritesPageState extends State<FavoritesPage> {
       body: ListView.builder(
         itemCount: parkinglot.length,
         itemBuilder: (context, index) {
-          return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
-              child: Card(
-                child: ListTile(
-                  onTap: () {},
-                  subtitle: 
-                    Column(
+          return Padding(padding:const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
+            child: Card(
+              child: ListTile(
+                onTap: () {},
+                subtitle: Column(
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Column(
-                              
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(parkinglot[index].name,
-                                          style: TextStyle(
-                                            fontSize: 23,
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold
-                                          )
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(parkinglot[index].address),
-                                        Text(parkinglot[index].number),
-                                      ]
+                                    Text(parkinglot[index].name,
+                                      style: TextStyle(
+                                        fontSize: 23,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.bold
+                                      )
                                     ),
-                                    SizedBox(width: 110),
-                                    Image.asset('lib/images/park.png',
-                                      width: 70, 
-                                      height: 70
-                                    ),
-                                  ],
-                                    
-                                )
-                                      
-                              ],
-                            ),
+                                    SizedBox(height: 10),
+                                    Text(parkinglot[index].address),
+                                    Text(parkinglot[index].number),
+                                  ]
+                                ),
+                                SizedBox(width: 110),
+                                Image.asset('lib/images/park.png',
+                                  width: 70, 
+                                  height: 70
+                                ),
+                              ], 
+                            )                      
                           ],
-                        ),
+                          ),
                       ],
-                    ),
-                  ),
-                  // --- 이미지 넣기 ---
+                    )
+                  ],
+                ),
               ),
-            );
+                  // --- 이미지 넣기 ---
+            ),
+          );
         },
       ),
     );

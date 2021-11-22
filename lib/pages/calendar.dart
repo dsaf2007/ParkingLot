@@ -32,9 +32,10 @@ class _CalendarState extends State<Calendar> {
   DateTime _targetDateTime = DateTime(2021, 11, 30);
   static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(1000)),
-        border: Border.all(color: Colors.blue, width: 2.0)),
+      color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(1000)),
+      border: Border.all(color: Colors.blue, width: 2.0)
+    ),
     child: new Icon(
       Icons.person,
       color: Colors.amber,
@@ -135,65 +136,65 @@ class _CalendarState extends State<Calendar> {
     );
 
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(widget.title),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              //custom icon
-              // This trailing comma makes auto-formatting nicer for build methods.
-              //custom icon without header
-              Container(
-                margin: EdgeInsets.only(
-                  top: 30.0,
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: new Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: Text(
+      appBar: new AppBar(
+        title: new Text(widget.title),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            //custom icon
+            // This trailing comma makes auto-formatting nicer for build methods.
+            //custom icon without header
+            Container(
+              margin: EdgeInsets.only(
+                top: 30.0,
+                bottom: 16.0,
+                left: 16.0,
+                right: 16.0,
+              ),
+              child: new Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
                       _currentMonth,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24.0,
                       ),
-                    )),
-                    FlatButton(
-                      child: Text('PREV'),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month - 1);
-                          _currentMonth =
-                              DateFormat.yMMM().format(_targetDateTime);
-                        });
-                      },
-                    ),
-                    FlatButton(
-                      child: Text('NEXT'),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month + 1);
-                          _currentMonth =
-                              DateFormat.yMMM().format(_targetDateTime);
-                        });
-                      },
                     )
-                  ],
-                ),
+                  ),
+                  FlatButton(
+                    child: Text('PREV'),
+                    onPressed: () {
+                      setState(() {
+                        _targetDateTime = DateTime(
+                            _targetDateTime.year, _targetDateTime.month - 1);
+                        _currentMonth = DateFormat.yMMM().format(_targetDateTime);
+                      });
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('NEXT'),
+                    onPressed: () {
+                      setState(() {
+                        _targetDateTime = DateTime(
+                            _targetDateTime.year, _targetDateTime.month + 1);
+                        _currentMonth = DateFormat.yMMM().format(_targetDateTime);
+                      });
+                    },
+                  )
+                ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarouselNoHeader,
-              ), //
-            ],
-          ),
-        ));
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.0),
+              child: _calendarCarouselNoHeader,
+            ), //
+          ],
+        ),
+      )
+    );
   }
 }

@@ -25,92 +25,94 @@ class _SignInPageState extends State<SignInPage> {
   _buildBody() {
     return Scaffold(
       body: Center(
-          child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset('lib/images/logo.PNG'),
-            SizedBox(height: 40),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: TextFormField(
-                autofocus: true,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.email),
-                  border: OutlineInputBorder(),
-                  hintText: '이메일 입력',
-                ),
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                validator: (String? value) {
-                  RegExp regex = new RegExp(
-                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                  return (!regex.hasMatch(value!))
-                      ? '이메일 형식을 지켜서 작성해주세요.'
-                      : null;
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: TextFormField(
-                autofocus: true,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.password),
-                  border: OutlineInputBorder(),
-                  hintText: '비밀번호 입력',
-                ),
-                controller: passwordController,
-                obscureText: true,
-                validator: (String? value) {
-                  return (value!.length < 8) ? '비밀번호는 8자리 이상이여야 합니다.' : null;
-                },
-              ),
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.9,
-              child: TextButton(
-                onPressed: () async {
-                  if (!_formKey.currentState!.validate()) return;
-                  try {
-                    setState(() => _loading = true);
-                    /*
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
-
-                       */
-                    Navigator.pushReplacementNamed(context, '/auth');
-                  } catch (e) {
-                    print(e);
-                  } finally {
-                    setState(() => _loading = false);
-                  }
-                },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue)),
-                child: Text('로그인', style: TextStyle(color: Colors.white)),
-              ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(onPressed: () {}, child: const Text('아이디 찾기')),
-              TextButton(onPressed: () {}, child: const Text('비밀번호 찾기')),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpPage()),
-                    );
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('lib/images/logo.PNG'),
+              SizedBox(height: 40),
+              Padding(
+                padding: EdgeInsets.all(15.0),
+                child: TextFormField(
+                  autofocus: true,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    icon: const Icon(Icons.email),
+                    border: OutlineInputBorder(),
+                    hintText: '이메일 입력',
+                  ),
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (String? value) {
+                    RegExp regex = new RegExp(
+                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                    return (!regex.hasMatch(value!))? '이메일 형식을 지켜서 작성해주세요.': null;
                   },
-                  child: const Text('회원가입')),
-            ]),
-          ],
-        ),
-      )),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(15.0),
+                child: TextFormField(
+                  autofocus: true,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    icon: const Icon(Icons.password),
+                    border: OutlineInputBorder(),
+                    hintText: '비밀번호 입력',
+                  ),
+                  controller: passwordController,
+                  obscureText: true,
+                  validator: (String? value) {
+                    return (value!.length < 8) ? '비밀번호는 8자리 이상이여야 합니다.' : null;
+                  },
+                ),
+              ),
+              FractionallySizedBox(
+                widthFactor: 0.9,
+                child: TextButton(
+                  onPressed: () async {
+                    if (!_formKey.currentState!.validate()) return;
+                    try {
+                      setState(() => _loading = true);
+                      /*
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+
+                        */
+                      Navigator.pushReplacementNamed(context, '/auth');
+                    } catch (e) {
+                      print(e);
+                    } finally {
+                      setState(() => _loading = false);
+                    }
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                  child: Text('로그인', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, 
+                children: [
+                  TextButton(onPressed: () {}, child: const Text('아이디 찾기')),
+                  TextButton(onPressed: () {}, child: const Text('비밀번호 찾기')),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                    child: const Text('회원가입')
+                  ),
+                ]
+              ),
+            ],
+          ),
+        )
+      ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
