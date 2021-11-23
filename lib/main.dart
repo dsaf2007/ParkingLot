@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/check_reservation.dart';
+import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'pages/home.dart';
 
@@ -18,6 +20,6 @@ class MyApp extends StatelessWidget {
         ),
         // home: HomePage()
 
-        home: HomePage());
+        home: DateTimeSelection());
   }
 }

@@ -97,9 +97,6 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
   }
 }
 
-const loremIpsum =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod";
-
 List<ExpandableController> controllerList = [
   ExpandableController(),
   ExpandableController(),
@@ -197,35 +194,46 @@ class Card2 extends StatefulWidget {
 }
 
 class _Card2State extends State<Card2> {
-  // MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
-  //   final getColor = (Set<MaterialState> states) {
-  //     if (states.contains(MaterialState.pressed)) {
-  //       return colorPressed;
-  //     } else {
-  //       return color;
-  //     }
-  //   };
-  //   return MaterialStateProperty.resolveWith(getColor);
-  // }
-
   String timeSelectionMessage = "시간 선택";
 
   List<String> timeListAM = [];
   List<String> timeListPM = [];
+  // 버튼 선택 여부
   List<bool> isSelectedAM = [];
   List<bool> isSelectedPM = [];
+  // 예약 가능/불가능 상태
+  List<bool> isDisabledAM = [];
+  List<bool> isDisabledPM = [];
+
+  ButtonStyle buildButtonStyle(Color color) {
+    ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      primary: color, // 초록
+      textStyle: const TextStyle(
+        fontSize: 16,
+      ),
+    );
+    return buttonStyle;
+  }
+
   @override
   void initState() {
-    for (int i = 6; i <= 11; i++) {
+    for (int i = 6; i < 12; i++) {
       timeListAM.add("$i:00");
       timeListAM.add("$i:30");
     }
-    for (int i = 12; i <= 21; i++) {
+    for (int i = 12; i < 24; i++) {
       timeListPM.add("$i:00");
       timeListPM.add("$i:30");
     }
     isSelectedAM = List.filled(timeListAM.length, false);
     isSelectedPM = List.filled(timeListPM.length, false);
+
+    isDisabledAM = List.filled(timeListAM.length, false);
+    isDisabledPM = List.filled(timeListPM.length, true);
+    isDisabledPM[0] = false;
+    isDisabledPM[1] = false;
   }
 
   List<Row> _buildButtonRowsWithTimes(
@@ -256,10 +264,6 @@ class _Card2State extends State<Card2> {
         } else {
           buttonList.add(ElevatedButton(
               style: buttonStyle,
-              // style: ButtonStyle(
-              //   foregroundColor: getColor(green, blue),
-              //   backgroundColor: getColor(blue, green),
-              // ),
               onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
               child: Text(
                 timeList[idx],
@@ -267,10 +271,6 @@ class _Card2State extends State<Card2> {
         }
         allButtonList.add(ElevatedButton(
             style: buttonStyle,
-            // style: ButtonStyle(
-            //   foregroundColor: getColor(green, blue),
-            //   backgroundColor: getColor(blue, green),
-            // ),
             onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
             child: Text(
               timeList[idx],
@@ -286,8 +286,54 @@ class _Card2State extends State<Card2> {
     return buttonRowList;
   }
 
-  List<ElevatedButton> _buildButtonsWithTimes(
-      List<String> timeList, ButtonStyle buttonStyle) {
+  List<InkWell> _buildButtonsWithTimes(List<String> timeList, bool isAM) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    Color boxColor;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
+      }
+      rows += 1;
+    }
+    List<bool> isButtonDisabled = isAM ? isDisabledAM : isDisabledPM;
+    List<bool> isSelected = isAM ? isSelectedAM : isSelectedPM;
+
+    List<InkWell> allButtonList = []; // toggle button
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        Color defaultButtonColor = isButtonDisabled[idx] ? Colors.grey : green;
+        // boxColor = isSelected[idx] ? blue : defaultButtonColor;
+        allButtonList.add(InkWell(
+          child: ElevatedButton(
+              // style: buildButtonStyle(boxColor),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                primary: Colors.grey, // 초록
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  isSelected[idx] = !isSelected[idx];
+                  // boxColor = isSelected[idx] ? blue : defaultButtonColor;
+                });
+              },
+              child: Text(
+                timeList[idx],
+              )),
+        ));
+      }
+    }
+    return allButtonList;
+  }
+
+  List<InkWell> _buildButtonsWithTimesPM(List<String> timeList) {
     int cols = 4;
     int rows = timeList.length ~/ cols;
     if (timeList.length % cols != 0) {
@@ -296,47 +342,97 @@ class _Card2State extends State<Card2> {
       }
       rows += 1;
     }
-    List<ElevatedButton> allButtonList = []; // toggle button
+
+    List<InkWell> allButtonList = []; // toggle button
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         int idx = i * cols + j;
         if (timeList[idx] == "") break;
-        allButtonList.add(ElevatedButton(
-            style: buttonStyle,
-            // style: ButtonStyle(
-            //   foregroundColor: getColor(green, blue),
-            //   backgroundColor: getColor(blue, green),
-            // ),
-            onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
-            child: Text(
-              timeList[idx],
-            )));
+        Color defaultButtonColor = isDisabledPM[idx] ? Colors.grey : green;
+        Color boxColor =
+            !isDisabledPM[idx] && isSelectedPM[idx] ? blue : defaultButtonColor;
+        allButtonList.add(InkWell(
+          child: ElevatedButton(
+              style: buildButtonStyle(boxColor),
+              onPressed: () {
+                setState(() => isSelectedPM[idx] = !isSelectedPM[idx]);
+              },
+              child: Text(
+                timeList[idx],
+              )),
+        ));
       }
     }
     return allButtonList;
   }
 
+  List<InkWell> _buildButtonsWithTimesAM(List<String> timeList) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
+      }
+      rows += 1;
+    }
+    List<InkWell> allButtonList = []; // toggle button
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        Color defaultButtonColor = isDisabledAM[idx] ? Colors.grey : green;
+        // Color boxColor = isSelectedAM[idx] ? green : defaultButtonColor;
+        allButtonList.add(InkWell(
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                primary: isSelectedAM[idx] ? blue : defaultButtonColor, // 초록
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  if (!isDisabledAM[idx])
+                    isSelectedAM[idx] = !isSelectedAM[idx];
+                  // boxColor = isSelectedAM[idx] ? green : defaultButtonColor;
+                });
+              },
+              child: Text(
+                timeList[idx],
+              )),
+        ));
+      }
+    }
+    return allButtonList;
+  }
+
+  CustomScrollView buildToggleButtonScrollView(
+      List<String> timeList, bool isAM) {
+    return CustomScrollView(
+      primary: false,
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.all(5),
+          sliver: SliverGrid.count(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 4,
+            childAspectRatio: 2.0,
+            children: isAM
+                ? _buildButtonsWithTimesAM(timeList)
+                : _buildButtonsWithTimesPM(timeList),
+          ),
+        ),
+      ],
+    );
+  }
+
   // void resetData() {}
   @override
   Widget build(BuildContext context) {
-    ButtonStyle timeOptionButtonStyle = ElevatedButton.styleFrom(
-      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      primary: green, // 초록
-      onPrimary: Colors.white,
-      textStyle: const TextStyle(
-        fontSize: 16,
-      ),
-    );
-    ButtonStyle emptyButtonStyle = ElevatedButton.styleFrom(
-      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      primary: Colors.transparent, // 초록
-      onPrimary: Colors.transparent,
-      textStyle: const TextStyle(
-        fontSize: 16,
-      ),
-    );
     return ExpandableNotifier(
         child: Padding(
       padding: const EdgeInsets.all(15),
@@ -404,9 +500,13 @@ class _Card2State extends State<Card2> {
                         Divider(
                           color: Colors.grey,
                         ),
-                        Column(
-                          children: _buildButtonRowsWithTimes(
-                              timeListAM, timeOptionButtonStyle),
+                        // Column(
+                        //   children: _buildButtonRowsWithTimes(
+                        //       timeListAM, timeOptionButtonStyle),
+                        // ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: buildToggleButtonScrollView(timeListAM, true),
                         ),
                         SizedBox(
                           height: 10,
@@ -415,29 +515,17 @@ class _Card2State extends State<Card2> {
                         Divider(
                           color: Colors.grey,
                         ),
-                        Column(
-                          children: _buildButtonRowsWithTimes(
-                              timeListPM, timeOptionButtonStyle),
-                        ),
-                        // ToggleButtons(
-                        //   children: _buildButtonsWithTimes(
-                        //       timeListPM, timeOptionButtonStyle),
-                        //   color: Colors.yellow,
-                        //   selectedColor: Colors.red,
-                        //   onPressed: (int index) {
-                        //     int count = 0;
-                        //     isSelectedPM.forEach((bool val) {
-                        //       if (val) count++;
-                        //     });
-
-                        //     if (isSelectedPM[index] && count < 2) return;
-
-                        //     setState(() {
-                        //       isSelectedPM[index] = !isSelectedPM[index];
-                        //     });
-                        //   },
-                        //   isSelected: isSelectedPM,
+                        // Column(
+                        //   children: _buildButtonsWithTimesPM(timeListPM),
                         // ),
+                        // Container(
+                        //   child: buildToggleButtonScrollView(timeListPM),
+                        // ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: buildToggleButtonScrollView(timeListPM, false),
+                        ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
