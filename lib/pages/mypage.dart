@@ -38,19 +38,21 @@ class _MyPageState extends State<MyPage> {
     //comment for comit test
     CollectionReference User = FirebaseFirestore.instance.collection('User');
 
-    return FutureBuilder<DocumentSnapshot>(
-      future: User.doc('leejaewon').get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    return FutureBuilder<QuerySnapshot>(
+      future: User.get(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          this.userName = data['Name'];
-          this.userPhoneNumber = data['User_PhoneNum'];
-
+          // Map<String, dynamic> data =
+          //     snapshot.data!.data() as Map<String, dynamic>;
+          // this.userName = data['Name'];
+          // this.userPhoneNumber = data['User_PhoneNum'];
+          for (var doc in snapshot.data!.docs) {
+            userName += doc["Name"];
+            print("hi" + doc["Name"]);
+          }
           return SafeArea(
             child: Scaffold(
               bottomNavigationBar:
