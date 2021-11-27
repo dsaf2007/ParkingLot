@@ -130,7 +130,6 @@ List<ExpandableController> controllerList = [
 int currentIndex = -1;
 
 class Card1 extends StatelessWidget {
-  final String dateSelectionMessage = "날짜 선택";
   CalendarTable cardBody = CalendarTable();
 
   @override
@@ -185,11 +184,10 @@ class Card1 extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                dateSelectionMessage,
+                                "날짜 선택",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
@@ -233,8 +231,6 @@ class _Card2State extends State<Card2> {
   //   };
   //   return MaterialStateProperty.resolveWith(getColor);
   // }
-
-  String timeSelectionMessage = "시간 선택";
 
   List<String> timeListAM = [];
   List<String> timeListPM = [];
@@ -519,7 +515,7 @@ class _Card2State extends State<Card2> {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                timeSelectionMessage,
+                                "시간 선택",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
