@@ -39,7 +39,7 @@ class _MyPageState extends State<MyPage> {
     CollectionReference User = FirebaseFirestore.instance.collection('User');
 
     return FutureBuilder<QuerySnapshot>(
-      future: User.get(),
+      future: User.where("IsAdmin", isEqualTo: "false").get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
