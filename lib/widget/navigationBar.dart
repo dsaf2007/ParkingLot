@@ -39,12 +39,8 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             ),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SearchPage(
-                            title: "search",
-                          )));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SearchPage()));
             },
           ),
         ),
@@ -60,7 +56,7 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             onPressed: () {
               Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Favorites()));
+                  MaterialPageRoute(builder: (context) => FavoritesPage()));
             },
           ),
         ),
@@ -75,12 +71,8 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             ),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CheckReservation(
-                            title: '',
-                          )));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CheckReservation()));
             },
           ),
         ),
