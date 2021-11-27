@@ -1,5 +1,9 @@
 ﻿import 'package:flutter/material.dart';
-import 'alarmList.dart';
+import '../widget/navigation_bar.dart';
+import 'alarm_list.dart';
+import 'edit_profile_checkpassword.dart';
+
+// import 'alarmList.dart';
 
 // move to util/colors.dart later..
 const blue = Color.fromRGBO(100, 149, 237, 1.0); // 메인 파란색
@@ -110,6 +114,12 @@ class _MyPageState extends State<MyPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FixProfileCKPW()));
+                          },
                         ),
                         ListTile(
                           leading: Icon(Icons.people),
@@ -154,6 +164,8 @@ class _MyPageState extends State<MyPage> {
                 ),
               ]),
         ),
+        bottomNavigationBar:
+            NaviBarButtons(MediaQuery.of(context).size, context),
       ),
     );
   }

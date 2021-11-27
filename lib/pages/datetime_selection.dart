@@ -1,9 +1,10 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:parkinglot/pages/approve_reservation.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 
 import '../util/colors.dart';
-import './caledar_table.dart';
+import '../pages/calendar_table.dart';
 
 class DateTimeSelection extends StatefulWidget {
   const DateTimeSelection({Key? key}) : super(key: key);
@@ -31,8 +32,20 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text(parkingLotName),
+        // 값 전달 받기
+        title: Text(parkingLotName,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back)),
       ),
       body: ExpandableTheme(
         data: const ExpandableThemeData(
@@ -62,7 +75,10 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                       fontSize: 22,
                     ),
                   ),
-                  child: const Text("초기화"),
+                  child: const Text("초기화",
+                      style: TextStyle(
+                        fontSize: 15,
+                      )),
                   onPressed: () {
                     // 초기화
                     // printData();
@@ -83,9 +99,18 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                       fontSize: 22,
                     ),
                   ),
-                  child: const Text("선택완료"),
+                  child: const Text(
+                    "선택완료",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
                   onPressed: () {
                     // 선택완료
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApproveReservation()));
                   },
                 ),
               ],
@@ -153,14 +178,18 @@ class Card1 extends StatelessWidget {
                                   color: Colors.black,
                                   size: 35,
                                 )),
-                            Expanded(flex: 1, child: Container()),
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
                             Expanded(
                               flex: 4,
                               child: Text(
                                 dateSelectionMessage,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -194,6 +223,17 @@ class Card2 extends StatefulWidget {
 }
 
 class _Card2State extends State<Card2> {
+  // MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
+  //   final getColor = (Set<MaterialState> states) {
+  //     if (states.contains(MaterialState.pressed)) {
+  //       return colorPressed;
+  //     } else {
+  //       return color;
+  //     }
+  //   };
+  //   return MaterialStateProperty.resolveWith(getColor);
+  // }
+
   String timeSelectionMessage = "시간 선택";
 
   List<String> timeListAM = [];
@@ -229,7 +269,6 @@ class _Card2State extends State<Card2> {
     }
     isSelectedAM = List.filled(timeListAM.length, false);
     isSelectedPM = List.filled(timeListPM.length, false);
-
     isDisabledAM = List.filled(timeListAM.length, false);
     isDisabledPM = List.filled(timeListPM.length, true);
     isDisabledPM[0] = false;

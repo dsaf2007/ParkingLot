@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 import '../models/HistoryList.dart';
 import '../util/colors.dart';
 
 class CheckReservation extends StatefulWidget {
-  const CheckReservation({Key? key, required this.title}) : super(key: key);
-  final String title;
-
   @override
   State<CheckReservation> createState() => _CheckReservationState();
 }
@@ -39,7 +36,8 @@ class _CheckReservationState extends State<CheckReservation> {
             Container(
                 child: TabBar(
               indicatorColor: Colors.black54,
-              indicatorWeight: 4, //밑줄 길이
+              indicatorWeight: 4,
+              //밑줄 길이
               labelColor: Colors.black,
               unselectedLabelColor: Colors.black54,
               tabs: [
@@ -48,7 +46,7 @@ class _CheckReservationState extends State<CheckReservation> {
               ],
             )),
             Container(
-              height: 480, //height of TabBarView
+              height: 570, //height of TabBarView
               decoration: BoxDecoration(
                   border:
                       Border(top: BorderSide(color: Colors.grey, width: 0.5))),
@@ -119,7 +117,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             //Positioned(right: 100, child: Icon(Icons.star, size: 50)), // left, top
-
                                             Icon(Icons.clear_outlined,
                                                 color: Colors.black54,
                                                 size: 17),
@@ -150,7 +147,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                           onPressed: () {},
                                           style: TextButton.styleFrom(
                                               backgroundColor: blue,
-                                              minimumSize: Size(330, 20)),
+                                              minimumSize: Size(350, 20)),
                                           child: const Text('수정하기',
                                               style: TextStyle(
                                                   color: Colors.white)),
