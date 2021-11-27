@@ -195,7 +195,7 @@ class _MyPageState extends State<MyPage> {
             ),
           );
         }
-        return Text("loading");
+        return CircularProgressIndicator();
       },
     );
   }

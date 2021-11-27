@@ -4,6 +4,7 @@ import 'package:parkinglot/pages/favorites.dart';
 import '../models/ParkingLot.dart';
 import '../util/colors.dart';
 import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.title}) : super(key: key);
@@ -37,59 +38,91 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-        bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
-        appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: TextFormField(
-          controller: TextEditingController(),
-          decoration: InputDecoration(
-            hintText: '주차장 검색',
-            hintStyle: TextStyle(color: Colors.grey),
-            suffixIcon: IconButton(icon: Icon(Icons.search), onPressed: () {  },),
-          )
-
-        )
-      ),
-      body: ListView.builder(
-        itemCount: parkinglot.length,
-        itemBuilder: (context, index){
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
-            child: Card(
-              child: ListTile(
-                onTap: () {},
-                subtitle: Column(
-                    children:[
-                        Row(
-                          children : [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children : [
-                                  Text(parkinglot[index].name,
-                                      style: TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold)),
-                                  SizedBox(height: 5),
-                                  Text(parkinglot[index].address),
-                                  Text(parkinglot[index].number),
-                                  Text('30분 ${parkinglot[index].cost} 원   |   총 ${parkinglot[index].total_space} 면'),
-                                ]
-                              ),
-                            SizedBox(width: 80),
-                            Image.asset('lib/images/park.png',width: 100, height: 100),
-                            ],
+    CollectionReference ParkingLotDB =
+        FirebaseFirestore.instance.collection('ParkingLot');
+    return FutureBuilder<QuerySnapshot>(
+      future: ParkingLotDB.get(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Sth Wrong");
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          parkinglot.clear();
+          for (var doc in snapshot.data!.docs) {
+            parkinglot.add(new ParkingLot(
+                'park.png',
+                doc["ParkingLot_Name"],
+                doc["ParkingLot_Address"],
+                doc["Phone_Num"],
+                doc["ParkingLot_Fee"],
+                doc["ParkingLot_Space"],
+                true));
+            // print(doc);
+          }
+          return Scaffold(
+              bottomNavigationBar:
+                  NaviBarButtons(MediaQuery.of(context).size, context),
+              appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  title: TextFormField(
+                      controller: TextEditingController(),
+                      decoration: InputDecoration(
+                        hintText: '주차장 검색',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            // parkinglot.clear();
+                            // for
+                          },
                         ),
-                      SizedBox(height: 5),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children:[
-                          TextButton(
-                            onPressed: () =>
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                        content: const Text(favoriteConvert, style: TextStyle(fontSize: 15),),
+                      ))),
+              body: ListView.builder(
+                itemCount: parkinglot.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1.0, horizontal: 3.0),
+                      child: Card(
+                        child: ListTile(
+                          onTap: () {},
+                          subtitle: Column(children: [
+                            Row(
+                              children: [
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(parkinglot[index].name,
+                                          style: TextStyle(
+                                              fontSize: 23,
+                                              color: blue,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 5),
+                                      Text(parkinglot[index].address),
+                                      Text(parkinglot[index].number),
+                                      Text(
+                                          '30분 ${parkinglot[index].cost} 원   |   총 ${parkinglot[index].total_space} 면'),
+                                    ]),
+                                SizedBox(width: 80),
+                                Image.asset('lib/images/park.png',
+                                    width: 100, height: 100),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  TextButton(
+                                    onPressed: () => showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        content: const Text(
+                                          favoriteConvert,
+                                          style: TextStyle(fontSize: 15),
+                                        ),
                                         //children: Image.asset('lib/images/ga.PNG'),
                                         actions: <Widget>[
                                           TextButton(
@@ -101,30 +134,44 @@ class _SearchPageState extends State<SearchPage> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                               Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => Favorites()));
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Favorites()));
                                             },
                                             child: const Text('확인'),
                                           ),
                                         ],
                                       ),
-                                ),
-                            style: TextButton.styleFrom(backgroundColor: lightGrey, minimumSize: Size(165,20)),
-                            child: const Text('즐겨찾기 추가', style: TextStyle(color: Colors.black)),
-                          ),
-                          SizedBox(width: 10),
-                          TextButton(
-                            onPressed: () {  },
-                            style: TextButton.styleFrom(backgroundColor: blue, minimumSize: Size(165,20)),
-                            child: const Text('예약하기', style: TextStyle(color: Colors.white)),
-                          ),
-                            SizedBox(height: 5),
-                          ])
-                    ]),
-                    // --- 이미지 넣기 ---
-                  ),
-                ));
-          },
-        ));
+                                    ),
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: lightGrey,
+                                        minimumSize: Size(165, 20)),
+                                    child: const Text('즐겨찾기 추가',
+                                        style: TextStyle(color: Colors.black)),
+                                  ),
+                                  SizedBox(width: 10),
+                                  TextButton(
+                                    onPressed: () {},
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: blue,
+                                        minimumSize: Size(165, 20)),
+                                    child: const Text('예약하기',
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  SizedBox(height: 5),
+                                ])
+                          ]),
+                          // --- 이미지 넣기 ---
+                        ),
+                      ));
+                },
+              ));
+        }
+        return CircularProgressIndicator();
+      },
+    );
+    // TODO: implement build
   }
 }
 
