@@ -18,7 +18,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  dynamic temp = "";
   List<ParkingLotItem> parkingLotItemList = [];
 
   @override
@@ -27,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
     //comment for comit test
     bool isAdmin = true;
     CollectionReference parkinglots =
-        FirebaseFirestore.instance.collection('parkinglots');
+        FirebaseFirestore.instance.collection('ParkingLot');
 
     return FutureBuilder<QuerySnapshot>(
       future: parkinglots.get(),

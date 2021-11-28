@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:parkinglot/models/ParkingLot.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-
 import 'datetime_selection.dart';
 
 class FavoritesPage extends StatefulWidget {

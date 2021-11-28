@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/check_reservation_admin.dart';
 import 'pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: CheckReservationAdmin(),
     );
   }
 }
