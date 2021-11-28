@@ -4,8 +4,12 @@ import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
 import 'check_reservation.dart';
+import '../models/parkinglot_item.dart';
 
 class ApproveReservation extends StatefulWidget {
+  final ParkingLotItem parkingLotItem;
+  const ApproveReservation({Key? key, required this.parkingLotItem})
+      : super(key: key);
   @override
   _ApproveReservationState createState() => _ApproveReservationState();
 }
@@ -27,10 +31,11 @@ class _ApproveReservationState extends State<ApproveReservation> {
 
   @override
   Widget build(BuildContext context) {
+    ParkingLotItem parkingLotItem = widget.parkingLotItem;
     return Scaffold(
       appBar: AppBar(
           // 값 전달 받기
-          title: Text(parkingLotName,
+          title: Text(parkingLotItem.name,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -172,7 +177,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
-                child: Text(parkingLotAddress,
+                child: Text(parkingLotItem.address,
                     style: TextStyle(
                       fontSize: 15,
                     )),

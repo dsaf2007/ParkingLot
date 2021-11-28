@@ -118,7 +118,10 @@ class _SearchPageState extends State<SearchPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  DateTimeSelection()));
+                                                  DateTimeSelection(
+                                                      parkingLotItem:
+                                                          parkingLotItemList[
+                                                              index])));
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: blue,

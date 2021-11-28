@@ -187,7 +187,10 @@ class _CheckReservationState extends State<CheckReservation> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  DateTimeSelection()));
+                                                  DateTimeSelection(
+                                                      parkingLotItem:
+                                                          ReservationList[index]
+                                                              .parkingLotItem)));
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: blue,
