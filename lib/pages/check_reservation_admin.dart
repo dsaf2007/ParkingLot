@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
+import 'package:parkinglot/widget/user_data_table.dart';
 
 class CheckReservationAdmin extends StatefulWidget {
   @override
@@ -133,6 +134,7 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
                           )),
                     ],
                   ),
+                  UserDataTableWidget(),
                 ],
               ),
               bottomNavigationBar:
