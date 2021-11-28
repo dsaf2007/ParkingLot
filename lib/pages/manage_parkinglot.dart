@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/util/colors.dart';
-import 'package:parkinglot/models/ParkingLot.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
 
 import 'package:parkinglot/widget/navigation_bar.dart';
 
@@ -25,11 +25,11 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
   );
   String dropDownValue = "중구";
   List<String> positionList = ["중구", "강서구", "서초구", "강남구"];
-  List<ParkingLot> parkinglotToManage = [
-    ParkingLot(
-        'park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '장충공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 900, 30, true),
+  List<ParkingLotItem> parkinglotToManage = [
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
   ];
 
   void showAlert(BuildContext context, String _cost) {
