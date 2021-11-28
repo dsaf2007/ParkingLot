@@ -52,8 +52,9 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
               decoration: InputDecoration(
                 hintText: '비밀번호를 입력해주세요.',
                 border: OutlineInputBorder(),
-                suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.grey,),
-              )
+              ),
+              keyboardType: TextInputType.text,
+              obscureText: true,
             ),
                   
           ),

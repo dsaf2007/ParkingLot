@@ -3,6 +3,8 @@ import 'package:parkinglot/models/ParkingLot.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
+import 'datetime_selection.dart';
+
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({Key? key}) : super(key: key);
 
@@ -53,6 +55,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           children: <Widget>[
                             Row(
                               children: [
+                                Image.asset('lib/images/park.png',
+                                      width: 70, 
+                                      height: 70
+                                    ),
+                                    SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -63,18 +70,39 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                         fontWeight: FontWeight.bold
                                       )
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: 5),
                                     Text(parkinglot[index].address),
                                     Text(parkinglot[index].number),
                                   ]
                                 ),
-                                SizedBox(width: 110),
-                                Image.asset('lib/images/park.png',
-                                  width: 70, 
-                                  height: 70
-                                ),
+                                SizedBox(width: 60),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.close),
+                                    ),
                               ], 
-                            )                      
+                            ) 
+                            TextButton(
+                                  // onPressed: () {
+                                  //   Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                                  //     )
+                                  //   );
+                                  // },
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) =>DateTimeSelection()));
+                                  },
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: blue,
+                                    minimumSize: Size(350, 20)),
+                                  child: const Text('예약하기',
+                                    style: TextStyle(
+                                      color: Colors.white)
+                                    ),
+                                ),                     
                           ],
                           ),
                       ],

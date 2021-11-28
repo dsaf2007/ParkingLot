@@ -29,10 +29,11 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leadingWidth: 5,
         title: TextFormField(
           controller: TextEditingController(),
           decoration: InputDecoration(
-            hintText: '주차장 검색',
+            hintText: '  주차장 검색',
             hintStyle: TextStyle(color: Colors.grey),
             suffixIcon: IconButton(
               icon: Icon(Icons.search),

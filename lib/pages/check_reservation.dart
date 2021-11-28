@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import '../models/HistoryList.dart';
 import '../util/colors.dart';
@@ -50,7 +51,7 @@ class _CheckReservationState extends State<CheckReservation> {
               )
             ),
             Container(
-              height: 570, //height of TabBarView
+              height: 530, //height of TabBarView
               decoration: BoxDecoration(
                 border:
                   Border(top: BorderSide(color: Colors.grey, width: 0.5)
@@ -73,6 +74,9 @@ class _CheckReservationState extends State<CheckReservation> {
                                   children: [
                                     Row(
                                       children: [
+                                        Image.asset('lib/images/park.png',
+                                          width: 100, height: 100),
+                                        SizedBox(width: 15,),
                                         Column(
                                           crossAxisAlignment:CrossAxisAlignment.start,
                                           children: [
@@ -91,11 +95,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                             Text(historyList[index].paidFee),
                                           ]
                                         ),
-                                        SizedBox(width: 80),
-                                        Image.asset('lib/images/park.png',
-                                          width: 100, 
-                                          height: 100
-                                        ),
+                                        SizedBox(height: 20),
                                       ],
                                     ),
                                     SizedBox(height: 5),
@@ -123,56 +123,60 @@ class _CheckReservationState extends State<CheckReservation> {
                                 subtitle: Column(
                                   children: [
                                     Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    
+                                    children: [
+                                      Image.asset('lib/images/park.png',
+                                          width: 100, height: 100),
+                                      SizedBox(width: 15,),
+                                      Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            //Positioned(right: 100, child: Icon(Icons.star, size: 50)), // left, top
-                                            Icon(Icons.clear_outlined,
-                                              color: Colors.black54,
-                                              size: 17
-                                            ),
                                             Text(historyList[index].name,
-                                              style: TextStyle(
-                                                fontSize: 23,
-                                                color: Colors.black87,
-                                                fontWeight:FontWeight.bold
-                                              )
-                                            ),
+                                                style: TextStyle(
+                                                    fontSize: 23,
+                                                    color: Colors.black87,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             SizedBox(height: 5),
                                             Text(historyList[index].address),
                                             Text(historyList[index].number),
                                             Text(historyList[index].date),
                                             Text(historyList[index].hours),
                                             Text(historyList[index].paidFee),
-                                          ]
-                                        ),
-                                        SizedBox(width: 80),
-                                        Image.asset('lib/images/park.png',
-                                          width: 100, 
-                                          height: 100
-                                        ),
-                                      ],
-                                    ),
+                                          ]),
+                                      SizedBox(height: 20),SizedBox(width: 25),
+                                      IconButton(
+                                      padding: EdgeInsets.zero,                                      
+                                      onPressed: () {},
+                                        icon: Icon(Icons.close),
+                                      ),
+                                      // Image.asset('lib/images/park.png',
+                                      //     width: 100, height: 100),
+                                    ],
+                                  ),
                                     SizedBox(height: 5),
-                                    Row(
-                                      mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {},
-                                          style: TextButton.styleFrom(
-                                            backgroundColor: blue,
-                                            minimumSize: Size(350, 20)
-                                          ),
-                                          child: const Text('수정하기',
-                                            style: TextStyle(
-                                              color: Colors.white
-                                            )
-                                          ),
+                                    TextButton(
+                                      // onPressed: () {
+                                      //   Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                                      //     )
+                                      //   );
+                                      // },
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) =>DateTimeSelection()));
+                                      },
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: blue,
+                                        minimumSize: Size(350, 20)),
+                                      child: const Text('예약하기',
+                                        style: TextStyle(
+                                          color: Colors.white)
                                         ),
-                                        SizedBox(height: 5),
-                                      ]
-                                    )
+                                    ),
                                   ]
                                 ),
                                 // --- 이미지 넣기 ---
