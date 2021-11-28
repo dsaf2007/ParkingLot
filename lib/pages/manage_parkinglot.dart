@@ -2,7 +2,7 @@
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/ParkingLot.dart';
 
-import 'package:parkinglot/widget/navigationBar.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 
 class ManageParkingLot extends StatefulWidget {
   const ManageParkingLot({Key? key}) : super(key: key);
@@ -392,6 +392,10 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
               ),
             ),
           ])),
+      bottomNavigationBar: NaviBarButtons(
+        MediaQuery.of(context).size,
+        context,
+      ),
     );
   }
 }

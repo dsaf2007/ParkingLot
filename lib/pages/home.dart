@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   // google map
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition seoul =
-      CameraPosition(target: LatLng(37.562, 127), zoom: 14);
+      CameraPosition(target: LatLng(37.562, 127), zoom: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     //   isValidCurrentLocation = true;
     // });
 
-    return new Scaffold(
+    return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       body: Center(
         child: Container(
