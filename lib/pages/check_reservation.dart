@@ -64,7 +64,6 @@ class _CheckReservationState extends State<CheckReservation> {
                     // 과거 예약 내역
                     child: Center(
                         child: ListView.builder(
-
                       itemCount: ReservationList.length,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -89,7 +88,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                 ReservationList[index]
                                                     .parkingLotItem
                                                     .name,
-\                                                style: TextStyle(
+                                                style: TextStyle(
                                                     fontSize: 23,
                                                     color: Colors.black87,
                                                     fontWeight:
