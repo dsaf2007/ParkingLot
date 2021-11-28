@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:parkinglot/models/ParkingLot.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-
 import 'datetime_selection.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -13,13 +12,17 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  List<ParkingLot> parkinglot = [
-    ParkingLot(
-        'park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '장충공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '필동공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+  List<ParkingLotItem> parkinglotlist = [
+    //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
+    // this.minute, this.fee, this.total_space, this.favorite);
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
   ];
 
   @override
@@ -38,7 +41,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         foregroundColor: Colors.black,
       ),
       body: ListView.builder(
-        itemCount: parkinglot.length,
+        itemCount: parkinglotlist.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
@@ -61,14 +64,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(parkinglot[index].name,
+                                      Text(parkinglotlist[index].name,
                                           style: TextStyle(
                                               fontSize: 23,
                                               color: Colors.black87,
                                               fontWeight: FontWeight.bold)),
                                       SizedBox(height: 5),
-                                      Text(parkinglot[index].address),
-                                      Text(parkinglot[index].number),
+                                      Text(parkinglotlist[index].address),
+                                      Text(parkinglotlist[index].telephone),
                                     ]),
                                 SizedBox(width: 60),
                                 IconButton(

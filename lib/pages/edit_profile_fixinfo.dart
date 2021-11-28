@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
 import 'package:parkinglot/pages/mypage.dart';
 
+import 'edit_profile_checkpassword.dart';
+
 String checkPassword = '';
 String CarNum = '';
 bool IsAdmin = false;

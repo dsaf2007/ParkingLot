@@ -22,8 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // todo : maker builder, dynamic create
-    // List<Marker> mapBitmapsToMarkers(List<Uint8List> bitmaps) {itmaps.asMap().forEach((mid, bmp)}
     List<Marker> markers = [
       Marker(
           markerId: MarkerId("testMarker1"),

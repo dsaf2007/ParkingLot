@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-import '../models/HistoryList.dart';
+import '../models/reservation_item.dart';
 import '../util/colors.dart';
 
 class CheckReservation extends StatefulWidget {
@@ -10,13 +11,19 @@ class CheckReservation extends StatefulWidget {
 }
 
 class _CheckReservationState extends State<CheckReservation> {
-  List<HistoryList> historyList = [
-    HistoryList('park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', '날짜',
-        '시간', '결제금액'),
-    HistoryList('park.png', '장충공영주차장1', '서울 중구 필동 2가', '02-1234-5678', '날짜',
-        '시간', '결제금액'),
-    HistoryList('park.png', '필동공영주차장1', '서울 중구 필동 2가', '02-1234-5678', '날짜',
-        '시간', '결제금액'),
+  List<ReservationItem> ReservationList = [
+    ReservationItem(
+        ParkingLotItem(
+            '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+        '날짜',
+        '시간',
+        '결제금액'),
+    ReservationItem(
+        ParkingLotItem(
+            '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+        '날짜',
+        '시간',
+        '결제금액'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,8 @@ class _CheckReservationState extends State<CheckReservation> {
                     // 과거 예약 내역
                     child: Center(
                         child: ListView.builder(
-                      itemCount: historyList.length,
+
+                      itemCount: ReservationList.length,
                       itemBuilder: (context, index) {
                         return Padding(
                             padding: const EdgeInsets.symmetric(
@@ -77,18 +85,26 @@ class _CheckReservationState extends State<CheckReservation> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(historyList[index].name,
-                                                style: TextStyle(
+                                            Text(
+                                                ReservationList[index]
+                                                    .parkingLotItem
+                                                    .name,
+\                                                style: TextStyle(
                                                     fontSize: 23,
                                                     color: Colors.black87,
                                                     fontWeight:
                                                         FontWeight.bold)),
                                             SizedBox(height: 5),
-                                            Text(historyList[index].address),
-                                            Text(historyList[index].number),
-                                            Text(historyList[index].date),
-                                            Text(historyList[index].hours),
-                                            Text(historyList[index].paidFee),
+                                            Text(ReservationList[index]
+                                                .parkingLotItem
+                                                .address),
+                                            Text(ReservationList[index]
+                                                .parkingLotItem
+                                                .telephone),
+                                            Text(ReservationList[index].date),
+                                            Text(ReservationList[index].hours),
+                                            Text(ReservationList[index]
+                                                .total_fee),
                                           ]),
                                       SizedBox(height: 20),
                                     ],
@@ -105,7 +121,7 @@ class _CheckReservationState extends State<CheckReservation> {
                     // 현재 예약 내역
                     child: Center(
                         child: ListView.builder(
-                      itemCount: historyList.length,
+                      itemCount: ReservationList.length,
                       itemBuilder: (context, index) {
                         return Padding(
                             padding: const EdgeInsets.symmetric(
@@ -127,18 +143,26 @@ class _CheckReservationState extends State<CheckReservation> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(historyList[index].name,
+                                            Text(
+                                                ReservationList[index]
+                                                    .parkingLotItem
+                                                    .name,
                                                 style: TextStyle(
                                                     fontSize: 23,
                                                     color: Colors.black87,
                                                     fontWeight:
                                                         FontWeight.bold)),
                                             SizedBox(height: 5),
-                                            Text(historyList[index].address),
-                                            Text(historyList[index].number),
-                                            Text(historyList[index].date),
-                                            Text(historyList[index].hours),
-                                            Text(historyList[index].paidFee),
+                                            Text(ReservationList[index]
+                                                .parkingLotItem
+                                                .address),
+                                            Text(ReservationList[index]
+                                                .parkingLotItem
+                                                .telephone),
+                                            Text(ReservationList[index].date),
+                                            Text(ReservationList[index].hours),
+                                            Text(ReservationList[index]
+                                                .total_fee),
                                           ]),
                                       SizedBox(height: 20), SizedBox(width: 25),
                                       IconButton(

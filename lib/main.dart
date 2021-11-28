@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/check_reservation.dart';
-import 'package:parkinglot/pages/datetime_selection.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:parkinglot/pages/check_reservation_admin.dart';
 import 'pages/home.dart';
-import 'pages/manage_parkinglot.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
