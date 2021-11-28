@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:parkinglot/pages/approve_reservation.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
@@ -32,22 +32,20 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
-          // 값 전달 받기
+        // 값 전달 받기
         title: Text(parkingLotName,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          )
-        ),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(Icons.arrow_back)
-        )
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back)),
       ),
       body: ExpandableTheme(
         data: const ExpandableThemeData(
@@ -68,7 +66,8 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
               children: <Widget>[
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize:Size(MediaQuery.of(context).size.width * 0.45, 0),
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.45, 0),
                     padding: const EdgeInsets.all(10),
                     primary: Colors.grey,
                     onPrimary: Colors.white,
@@ -77,10 +76,9 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                     ),
                   ),
                   child: const Text("초기화",
-                    style: TextStyle(
-                      fontSize: 15,
-                    )
-                  ),
+                      style: TextStyle(
+                        fontSize: 15,
+                      )),
                   onPressed: () {
                     // 초기화
                     // printData();
@@ -92,7 +90,8 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize:Size(MediaQuery.of(context).size.width * 0.45, 0),
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.45, 0),
                     padding: const EdgeInsets.all(10),
                     primary: blue,
                     onPrimary: Colors.white,
@@ -100,17 +99,18 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                       fontSize: 22,
                     ),
                   ),
-                  child: const Text("선택완료",
+                  child: const Text(
+                    "선택완료",
                     style: TextStyle(
                       fontSize: 15,
-                    )
+                    ),
                   ),
                   onPressed: () {
                     // 선택완료
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ApproveReservation())
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApproveReservation()));
                   },
                 ),
               ],
@@ -122,9 +122,6 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
   }
 }
 
-const loremIpsum =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod";
-
 List<ExpandableController> controllerList = [
   ExpandableController(),
   ExpandableController(),
@@ -133,86 +130,86 @@ List<ExpandableController> controllerList = [
 int currentIndex = -1;
 
 class Card1 extends StatelessWidget {
-  final String dateSelectionMessage = "날짜 선택";
   CalendarTable cardBody = CalendarTable();
 
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Card(
-          color: Colors.white,
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: <Widget>[
-              ScrollOnExpand(
-                scrollOnExpand: true,
-                scrollOnCollapse: false,
-                child: ExpandablePanel(
-                  controller: controllerList[0],
-                  theme: const ExpandableThemeData(
-                    iconColor: Colors.black, // expand icon (down arrow)
-                    headerAlignment: ExpandablePanelHeaderAlignment.center,
-                    tapBodyToCollapse: true,
-                  ),
-                  header: InkWell(
-                    onTap: () {
-                      currentIndex = 0;
-                      for (int i = 0; i < controllerList.length; i++) {
-                        if (i == currentIndex) {
-                          controllerList[i].expanded = true;
-                        } else {
-                          controllerList[i].expanded = false;
-                        }
+        child: Padding(
+      padding: const EdgeInsets.all(15),
+      child: Card(
+        color: Colors.white,
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: <Widget>[
+            ScrollOnExpand(
+              scrollOnExpand: true,
+              scrollOnCollapse: false,
+              child: ExpandablePanel(
+                controller: controllerList[0],
+                theme: const ExpandableThemeData(
+                  iconColor: Colors.black, // expand icon (down arrow)
+                  headerAlignment: ExpandablePanelHeaderAlignment.center,
+                  tapBodyToCollapse: true,
+                ),
+                header: InkWell(
+                  onTap: () {
+                    currentIndex = 0;
+                    for (int i = 0; i < controllerList.length; i++) {
+                      if (i == currentIndex) {
+                        controllerList[i].expanded = true;
+                      } else {
+                        controllerList[i].expanded = false;
                       }
-                    },
-                    child: Container(
-                      color: Colors.white,
-                      child: Padding(
+                    }
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
                         padding: EdgeInsets.all(10),
-                        child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.black,
+                                  size: 35,
+                                )),
+                            Expanded(
                               flex: 1,
-                              child: Icon(
-                                Icons.calendar_today,
-                                color: Colors.black,
-                                size: 35,
-                              )
+                              child: Container(),
                             ),
-                            Expanded(flex: 1, child: Container()),
                             Expanded(
                               flex: 4,
                               child: Text(
-                                dateSelectionMessage,
+                                "날짜 선택",
                                 style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
                           ],
-                        )
-                      ),
-                    ),
+                        )),
                   ),
-                  collapsed: Container(),
-                  expanded: cardBody,
-                  builder: (_, collapsed, expanded) {
-                    return Expandable(
-                      collapsed: collapsed,
-                      expanded: expanded,
-                      theme: const ExpandableThemeData(crossFadePoint: 0),
-                    );
-                  },
                 ),
+                collapsed: Container(),
+                expanded: cardBody,
+                builder: (_, collapsed, expanded) {
+                  return Expandable(
+                    collapsed: collapsed,
+                    expanded: expanded,
+                    theme: const ExpandableThemeData(crossFadePoint: 0),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 }
 
@@ -235,78 +232,84 @@ class _Card2State extends State<Card2> {
   //   return MaterialStateProperty.resolveWith(getColor);
   // }
 
-  String timeSelectionMessage = "시간 선택";
-
   List<String> timeListAM = [];
   List<String> timeListPM = [];
+  // 버튼 선택 여부
   List<bool> isSelectedAM = [];
   List<bool> isSelectedPM = [];
+  // 예약 가능/불가능 상태
+  List<bool> isDisabledAM = [];
+  List<bool> isDisabledPM = [];
+
+  ButtonStyle buildButtonStyle(Color color) {
+    ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      primary: color, // 초록
+      textStyle: const TextStyle(
+        fontSize: 16,
+      ),
+    );
+    return buttonStyle;
+  }
+
   @override
   void initState() {
-    for (int i = 6; i <= 11; i++) {
+    for (int i = 6; i < 12; i++) {
       timeListAM.add("$i:00");
       timeListAM.add("$i:30");
     }
-    for (int i = 12; i <= 21; i++) {
+    for (int i = 12; i < 24; i++) {
       timeListPM.add("$i:00");
       timeListPM.add("$i:30");
     }
     isSelectedAM = List.filled(timeListAM.length, false);
     isSelectedPM = List.filled(timeListPM.length, false);
+    isDisabledAM = List.filled(timeListAM.length, false);
+    isDisabledPM = List.filled(timeListPM.length, true);
+    isDisabledPM[0] = false;
+    isDisabledPM[1] = false;
   }
 
   List<Row> _buildButtonRowsWithTimes(
-    List<String> timeList, ButtonStyle buttonStyle) {
-      int cols = 4;
-      int rows = timeList.length ~/ cols;
-      if (timeList.length % cols != 0) {
-        for (int i = 0; i < timeList.length % cols; i++) {
-          timeList.add("");
-        }
-        rows += 1;
+      List<String> timeList, ButtonStyle buttonStyle) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
       }
-      List<ElevatedButton> allButtonList = []; // toggle button
-      List<Row> buttonRowList = [];
-      for (int i = 0; i < rows; i++) {
-        List<ElevatedButton> buttonList = [];
-        for (int j = 0; j < cols; j++) {
-          int idx = i * cols + j;
-          if (timeList[idx] == "") {
-            buttonList.add(ElevatedButton(
-              onPressed: () {},
-              child: Container(),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.transparent, // 초록
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-              ),
-            ));
-          } 
-          else {
-            buttonList.add(ElevatedButton(
+      rows += 1;
+    }
+    List<ElevatedButton> allButtonList = []; // toggle button
+    List<Row> buttonRowList = [];
+    for (int i = 0; i < rows; i++) {
+      List<ElevatedButton> buttonList = [];
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") {
+          buttonList.add(ElevatedButton(
+            onPressed: () {},
+            child: Container(),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent, // 초록
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+            ),
+          ));
+        } else {
+          buttonList.add(ElevatedButton(
               style: buttonStyle,
-              // style: ButtonStyle(
-              //   foregroundColor: getColor(green, blue),
-              //   backgroundColor: getColor(blue, green),
-              // ),
               onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
               child: Text(
                 timeList[idx],
-              )
-            )
-          );
+              )));
         }
         allButtonList.add(ElevatedButton(
             style: buttonStyle,
-            // style: ButtonStyle(
-            //   foregroundColor: getColor(green, blue),
-            //   backgroundColor: getColor(blue, green),
-            // ),
             onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
             child: Text(
               timeList[idx],
-            )
-          )
-        );
+            )));
       }
       Row buttonRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -318,121 +321,213 @@ class _Card2State extends State<Card2> {
     return buttonRowList;
   }
 
-  List<ElevatedButton> _buildButtonsWithTimes(
-    List<String> timeList, ButtonStyle buttonStyle) {
-      int cols = 4;
-      int rows = timeList.length ~/ cols;
-      if (timeList.length % cols != 0) {
-        for (int i = 0; i < timeList.length % cols; i++) {
-          timeList.add("");
-        }
-        rows += 1;
+  List<InkWell> _buildButtonsWithTimes(List<String> timeList, bool isAM) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    Color boxColor;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
       }
-      List<ElevatedButton> allButtonList = []; // toggle button
-      for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-          int idx = i * cols + j;
-          if (timeList[idx] == "") break;
-          allButtonList.add(ElevatedButton(
-            style: buttonStyle,
-            // style: ButtonStyle(
-            //   foregroundColor: getColor(green, blue),
-            //   backgroundColor: getColor(blue, green),
-            // ),
-            onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
-            child: Text(
-              timeList[idx],
-            )
-          )
-        );
+      rows += 1;
+    }
+    List<bool> isButtonDisabled = isAM ? isDisabledAM : isDisabledPM;
+    List<bool> isSelected = isAM ? isSelectedAM : isSelectedPM;
+
+    List<InkWell> allButtonList = []; // toggle button
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        Color defaultButtonColor = isButtonDisabled[idx] ? Colors.grey : green;
+        // boxColor = isSelected[idx] ? blue : defaultButtonColor;
+        allButtonList.add(InkWell(
+          child: ElevatedButton(
+              // style: buildButtonStyle(boxColor),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                primary: Colors.grey, // 초록
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  isSelected[idx] = !isSelected[idx];
+                  // boxColor = isSelected[idx] ? blue : defaultButtonColor;
+                });
+              },
+              child: Text(
+                timeList[idx],
+              )),
+        ));
       }
     }
     return allButtonList;
   }
 
+  List<InkWell> _buildButtonsWithTimesPM(List<String> timeList) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
+      }
+      rows += 1;
+    }
+
+    List<InkWell> allButtonList = []; // toggle button
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        Color defaultButtonColor = isDisabledPM[idx] ? Colors.grey : green;
+        Color boxColor =
+            !isDisabledPM[idx] && isSelectedPM[idx] ? blue : defaultButtonColor;
+        allButtonList.add(InkWell(
+          child: ElevatedButton(
+              style: buildButtonStyle(boxColor),
+              onPressed: () {
+                setState(() => isSelectedPM[idx] = !isSelectedPM[idx]);
+              },
+              child: Text(
+                timeList[idx],
+              )),
+        ));
+      }
+    }
+    return allButtonList;
+  }
+
+  List<InkWell> _buildButtonsWithTimesAM(List<String> timeList) {
+    int cols = 4;
+    int rows = timeList.length ~/ cols;
+    if (timeList.length % cols != 0) {
+      for (int i = 0; i < timeList.length % cols; i++) {
+        timeList.add("");
+      }
+      rows += 1;
+    }
+    List<InkWell> allButtonList = []; // toggle button
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        int idx = i * cols + j;
+        if (timeList[idx] == "") break;
+        Color defaultButtonColor = isDisabledAM[idx] ? Colors.grey : green;
+        // Color boxColor = isSelectedAM[idx] ? green : defaultButtonColor;
+        allButtonList.add(InkWell(
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                primary: isSelectedAM[idx] ? blue : defaultButtonColor, // 초록
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  if (!isDisabledAM[idx])
+                    isSelectedAM[idx] = !isSelectedAM[idx];
+                  // boxColor = isSelectedAM[idx] ? green : defaultButtonColor;
+                });
+              },
+              child: Text(
+                timeList[idx],
+              )),
+        ));
+      }
+    }
+    return allButtonList;
+  }
+
+  CustomScrollView buildToggleButtonScrollView(
+      List<String> timeList, bool isAM) {
+    return CustomScrollView(
+      primary: false,
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.all(5),
+          sliver: SliverGrid.count(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 4,
+            childAspectRatio: 2.0,
+            children: isAM
+                ? _buildButtonsWithTimesAM(timeList)
+                : _buildButtonsWithTimesPM(timeList),
+          ),
+        ),
+      ],
+    );
+  }
+
   // void resetData() {}
   @override
   Widget build(BuildContext context) {
-    ButtonStyle timeOptionButtonStyle = ElevatedButton.styleFrom(
-      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      primary: green, // 초록
-      onPrimary: Colors.white,
-      textStyle: const TextStyle(
-        fontSize: 16,
-      ),
-    );
-    ButtonStyle emptyButtonStyle = ElevatedButton.styleFrom(
-      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      primary: Colors.transparent, // 초록
-      onPrimary: Colors.transparent,
-      textStyle: const TextStyle(
-        fontSize: 16,
-      ),
-    );
     return ExpandableNotifier(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Card(
-          color: Colors.white,
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: <Widget>[
-              ScrollOnExpand(
-                scrollOnExpand: true,
-                scrollOnCollapse: false,
-                child: ExpandablePanel(
-                  controller: controllerList[1],
-                  theme: const ExpandableThemeData(
-                    iconColor: Colors.black,
-                    headerAlignment: ExpandablePanelHeaderAlignment.center,
-                    tapBodyToCollapse: true,
-                  ),
-                  header: InkWell(
-                    onTap: () {
-                      currentIndex = 1;
-                      for (int i = 0; i < controllerList.length; i++) {
-                        if (i == currentIndex) {
-                          controllerList[i].expanded = true;
-                        } else {
-                          controllerList[i].expanded = false;
-                        }
+        child: Padding(
+      padding: const EdgeInsets.all(15),
+      child: Card(
+        color: Colors.white,
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: <Widget>[
+            ScrollOnExpand(
+              scrollOnExpand: true,
+              scrollOnCollapse: false,
+              child: ExpandablePanel(
+                controller: controllerList[1],
+                theme: const ExpandableThemeData(
+                  iconColor: Colors.black,
+                  headerAlignment: ExpandablePanelHeaderAlignment.center,
+                  tapBodyToCollapse: true,
+                ),
+                header: InkWell(
+                  onTap: () {
+                    currentIndex = 1;
+                    for (int i = 0; i < controllerList.length; i++) {
+                      if (i == currentIndex) {
+                        controllerList[i].expanded = true;
+                      } else {
+                        controllerList[i].expanded = false;
                       }
-                    },
-                    child: Container(
-                      color: Colors.white,
-                      child: Padding(
+                    }
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
                         padding: EdgeInsets.all(15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.access_alarm,
-                                color: Colors.black,
-                                size: 35,
-                              )
-                            ),
+                                flex: 1,
+                                child: Icon(
+                                  Icons.access_alarm,
+                                  color: Colors.black,
+                                  size: 35,
+                                )),
                             Expanded(flex: 1, child: Container()),
                             Expanded(
                               flex: 4,
                               child: Text(
-                                timeSelectionMessage,
+                                "시간 선택",
                                 style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
                           ],
-                        )
-                      ),
-                    ),
+                        )),
                   ),
-                  collapsed: Container(),
-                  expanded: Container(
+                ),
+                collapsed: Container(),
+                expanded: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: <Widget>[
@@ -440,9 +535,13 @@ class _Card2State extends State<Card2> {
                         Divider(
                           color: Colors.grey,
                         ),
-                        Column(
-                          children: _buildButtonRowsWithTimes(
-                              timeListAM, timeOptionButtonStyle),
+                        // Column(
+                        //   children: _buildButtonRowsWithTimes(
+                        //       timeListAM, timeOptionButtonStyle),
+                        // ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: buildToggleButtonScrollView(timeListAM, true),
                         ),
                         SizedBox(
                           height: 10,
@@ -451,29 +550,17 @@ class _Card2State extends State<Card2> {
                         Divider(
                           color: Colors.grey,
                         ),
-                        Column(
-                          children: _buildButtonRowsWithTimes(
-                              timeListPM, timeOptionButtonStyle),
+                        // Column(
+                        //   children: _buildButtonsWithTimesPM(timeListPM),
+                        // ),
+                        // Container(
+                        //   child: buildToggleButtonScrollView(timeListPM),
+                        // ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: buildToggleButtonScrollView(timeListPM, false),
                         ),
-                          // ToggleButtons(
-                          //   children: _buildButtonsWithTimes(
-                          //       timeListPM, timeOptionButtonStyle),
-                          //   color: Colors.yellow,
-                          //   selectedColor: Colors.red,
-                          //   onPressed: (int index) {
-                          //     int count = 0;
-                          //     isSelectedPM.forEach((bool val) {
-                          //       if (val) count++;
-                          //     });
 
-                          //     if (isSelectedPM[index] && count < 2) return;
-
-                          //     setState(() {
-                          //       isSelectedPM[index] = !isSelectedPM[index];
-                          //     });
-                          //   },
-                          //   isSelected: isSelectedPM,
-                          // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -490,12 +577,11 @@ class _Card2State extends State<Card2> {
                               width: 5,
                             ),
                             TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "선택가능",
-                                style: TextStyle(color: Colors.black),
-                              )
-                            ),
+                                onPressed: () {},
+                                child: Text(
+                                  "선택가능",
+                                  style: TextStyle(color: Colors.black),
+                                )),
                             SizedBox(
                               width: 5,
                             ),
@@ -509,30 +595,27 @@ class _Card2State extends State<Card2> {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "불가",
-                                style: TextStyle(color: Colors.black),
-                              )
-                            ),
+                                onPressed: () {},
+                                child: Text(
+                                  "불가",
+                                  style: TextStyle(color: Colors.black),
+                                )),
                           ],
                         ),
                       ],
-                    )
-                  ),
-                  builder: (_, collapsed, expanded) {
-                    return Expandable(
-                      collapsed: collapsed,
-                      expanded: expanded,
-                      theme: const ExpandableThemeData(crossFadePoint: 0),
-                    );
-                  },
-                ),
+                    )),
+                builder: (_, collapsed, expanded) {
+                  return Expandable(
+                    collapsed: collapsed,
+                    expanded: expanded,
+                    theme: const ExpandableThemeData(crossFadePoint: 0),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 }

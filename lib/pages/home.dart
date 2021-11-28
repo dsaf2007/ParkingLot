@@ -1,13 +1,12 @@
 ﻿// home.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:parkinglot/pages/favorites.dart';
+import '../widget/navigation_bar.dart';
+import '../util/colors.dart';
+import 'datetime_selection.dart';
 // google map
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:parkinglot/util/colors.dart';
-import '../widget/navigation_bar.dart';
-import 'datetime_selection.dart';
-import 'favorites.dart';
 
 // map search
 class HomePage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   // google map
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition seoul =
-      CameraPosition(target: LatLng(37.562, 127), zoom: 14);
+      CameraPosition(target: LatLng(37.562, 127), zoom: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -126,20 +125,82 @@ class _HomePageState extends State<HomePage> {
                 // --- 이미지 넣기 ---
               ),
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => Card(
+            //       child: ListTile(
+            //         onTap: () {},
+            //         subtitle: Column(children: [
+            //           Row(
+            //             children: [
+            //               Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     Text("주차장A",
+            //                         style: TextStyle(
+            //                             fontSize: 23,
+            //                             color: blue,
+            //                             fontWeight: FontWeight.bold)),
+            //                     SizedBox(height: 5),
+            //                     Text("주차장A주소"),
+            //                     Text("주차장A전화번호"),
+            //                     Text('30분 500 원   |   총 180 면'),
+            //                   ]),
+            //               SizedBox(width: 80),
+            //               Image.asset('lib/images/park.png',
+            //                   width: 100, height: 100),
+            //             ],
+            //           ),
+            //           SizedBox(height: 5),
+            //           Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //               children: [
+            //                 TextButton(
+            //                   onPressed: () {},
+            //                   style: TextButton.styleFrom(
+            //                       backgroundColor: lightGrey,
+            //                       minimumSize: Size(165, 20)),
+            //                   child: const Text('즐겨찾기 추가',
+            //                       style: TextStyle(color: Colors.black)),
+            //                 ),
+            //                 SizedBox(width: 10),
+            //                 TextButton(
+            //                   onPressed: () {
+            //                     Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) =>
+            //                                 DateTimeSelection()));
+            //                   },
+            //                   style: TextButton.styleFrom(
+            //                       backgroundColor: blue,
+            //                       minimumSize: Size(165, 20)),
+            //                   child: const Text('예약하기',
+            //                       style: TextStyle(color: Colors.white)),
+            //                 ),
+            //                 SizedBox(height: 5),
+            //               ])
+            //         ]),
+            //         // --- 이미지 넣기 ---
+            //       ),
+            //     ),
+            //   ),
+            // );
           },
         ),
         markerId: MarkerId("testMarker2"),
         position: LatLng(37.562, 127),
       ),
     ];
-
-    return new Scaffold(
+    return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       body: Center(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.7,
           width: MediaQuery.of(context).size.width * 0.9,
           child: GoogleMap(
+            markers: markers.toSet(),
             mapType: MapType.normal,
             initialCameraPosition: seoul,
             onMapCreated: (GoogleMapController controller) {
