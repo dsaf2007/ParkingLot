@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 // google map
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:parkinglot/util/colors.dart';
 import '../widget/navigation_bar.dart';
+import 'datetime_selection.dart';
+import 'favorites.dart';
+
 // map search
 class HomePage extends StatefulWidget {
   @override
@@ -12,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   // google map
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition seoul =
@@ -20,7 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     List<Marker> markers = [
       Marker(
           markerId: MarkerId("testMarker1"),

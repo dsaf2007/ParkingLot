@@ -13,7 +13,6 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-
   List<ParkingLot> parkinglot = [
     ParkingLot(
         'park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
@@ -28,21 +27,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
-          // 값 전달 받기
+        // 값 전달 받기
         title: Text('즐겨찾기',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          )
-        ),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
         centerTitle: true,
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black, 
+        foregroundColor: Colors.black,
       ),
       body: ListView.builder(
         itemCount: parkinglot.length,
         itemBuilder: (context, index) {
-          return Padding(padding:const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
             child: Card(
               child: ListTile(
                 onTap: () {},
@@ -56,61 +55,57 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             Row(
                               children: [
                                 Image.asset('lib/images/park.png',
-                                      width: 70, 
-                                      height: 70
-                                    ),
-                                    SizedBox(width: 10),
+                                    width: 70, height: 70),
+                                SizedBox(width: 10),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(parkinglot[index].name,
-                                      style: TextStyle(
-                                        fontSize: 23,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.bold
-                                      )
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(parkinglot[index].address),
-                                    Text(parkinglot[index].number),
-                                  ]
-                                ),
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(parkinglot[index].name,
+                                          style: TextStyle(
+                                              fontSize: 23,
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 5),
+                                      Text(parkinglot[index].address),
+                                      Text(parkinglot[index].number),
+                                    ]),
                                 SizedBox(width: 60),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.close),
-                                    ),
-                              ], 
-                            ) 
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.close),
+                                ),
+                              ],
+                            ),
                             TextButton(
-                                  // onPressed: () {
-                                  //   Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                                  //     )
-                                  //   );
-                                  // },
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) =>DateTimeSelection()));
-                                  },
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: blue,
-                                    minimumSize: Size(350, 20)),
-                                  child: const Text('예약하기',
-                                    style: TextStyle(
-                                      color: Colors.white)
-                                    ),
-                                ),                     
+                              // onPressed: () {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                              //     )
+                              //   );
+                              // },
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DateTimeSelection()));
+                              },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: blue,
+                                  minimumSize: Size(350, 20)),
+                              child: const Text('예약하기',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
                           ],
-                          ),
+                        ),
                       ],
                     )
                   ],
                 ),
               ),
-                  // --- 이미지 넣기 ---
+              // --- 이미지 넣기 ---
             ),
           );
         },
