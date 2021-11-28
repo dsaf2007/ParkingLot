@@ -192,7 +192,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                     style: TextButton.styleFrom(
                                         backgroundColor: blue,
                                         minimumSize: Size(350, 20)),
-                                    child: const Text('예약하기',
+                                    child: const Text('수정하기',
                                         style: TextStyle(color: Colors.white)),
                                   ),
                                 ]),

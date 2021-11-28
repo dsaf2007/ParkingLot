@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/manage_parkinglot.dart';
 import '../widget/navigation_bar.dart';
 import 'alarm_list.dart';
 import 'edit_profile_checkpassword.dart';
@@ -80,13 +81,29 @@ class _MyPageState extends State<MyPage> {
                       // itemExtent: 55, // height of list tile
                       scrollDirection: Axis.vertical,
                       children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.sticky_note_2_outlined),
-                          title: Text("서비스 사용방법",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
+                        isAdmin
+                            ? ListTile(
+                                leading: Icon(Icons.sticky_note_2_outlined),
+                                title: Text("주차장 관리",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ManageParkingLot()),
+                                  );
+                                },
+                              )
+                            : ListTile(
+                                leading: Icon(Icons.sticky_note_2_outlined),
+                                title: Text("서비스 사용방법",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              ),
                         ListTile(
                           leading: Icon(Icons.favorite_border_rounded),
                           title: Text("즐겨찾기",

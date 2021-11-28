@@ -92,8 +92,15 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text("주차장 관리"),
+        // 값 전달 받기
+        title: Text('주차장 관리',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
       body: DefaultTabController(
           length: 2,
