@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/models/ParkingLot.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
@@ -14,12 +15,16 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   List<ParkingLotItem> parkinglotlist = [
-    //ParkingLotItem(this.image_path, this.name, this.address, this.telephone, 
+    //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
     // this.minute, this.fee, this.total_space, this.favorite);
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
   ];
 
   @override
@@ -38,7 +43,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         foregroundColor: Colors.black,
       ),
       body: ListView.builder(
-        itemCount: parkinglot.length,
+        itemCount: parkinglotlist.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
@@ -58,21 +63,18 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                     width: 70, height: 70),
                                 SizedBox(width: 10),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                        Text(parkinglotlist[index].name,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(parkinglotlist[index].name,
                                           style: TextStyle(
-                                            fontSize: 23,
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold
-                                          )
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(parkinglotlist[index].address),
-                                        Text(parkinglotlist[index].telephone),
-                                      ]
-                                ),
-
+                                              fontSize: 23,
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 5),
+                                      Text(parkinglotlist[index].address),
+                                      Text(parkinglotlist[index].telephone),
+                                    ]),
                                 SizedBox(width: 60),
                                 IconButton(
                                   onPressed: () {},
