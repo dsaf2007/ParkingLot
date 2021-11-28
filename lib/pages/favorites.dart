@@ -13,13 +13,13 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  List<ParkingLot> parkinglot = [
-    ParkingLot(
-        'park.png', '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '장충공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
-    ParkingLot(
-        'park.png', '필동공영주차장1', '서울 중구 필동 2가', '02-1234-5678', 800, 30, true),
+  List<ParkingLotItem> parkinglotlist = [
+    //ParkingLotItem(this.image_path, this.name, this.address, this.telephone, 
+    // this.minute, this.fee, this.total_space, this.favorite);
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
   ];
 
   @override
@@ -58,18 +58,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                     width: 70, height: 70),
                                 SizedBox(width: 10),
                                 Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(parkinglot[index].name,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                        Text(parkinglotlist[index].name,
                                           style: TextStyle(
-                                              fontSize: 23,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.bold)),
-                                      SizedBox(height: 5),
-                                      Text(parkinglot[index].address),
-                                      Text(parkinglot[index].number),
-                                    ]),
+                                            fontSize: 23,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.bold
+                                          )
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(parkinglotlist[index].address),
+                                        Text(parkinglotlist[index].telephone),
+                                      ]
+                                ),
+
                                 SizedBox(width: 60),
                                 IconButton(
                                   onPressed: () {},
