@@ -153,8 +153,6 @@ class _ApproveReservationState extends State<ApproveReservation> {
                     )),
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(40, 0, 0, 0), child: Text(' ')),
-              Padding(
                   padding: EdgeInsets.fromLTRB(40, 0, 0, 5), child: Text(' ')),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 5),
@@ -187,15 +185,8 @@ class _ApproveReservationState extends State<ApproveReservation> {
                     )),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-                child: Text('토요일 ' + parkingLotTime_sat,
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
-              ),
-              Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
-                child: Text('일요일 ' + parkingLotTime_sun,
+                child: Text('주말 ' + parkingLotTime_sun,
                     style: TextStyle(
                       fontSize: 15,
                     )),

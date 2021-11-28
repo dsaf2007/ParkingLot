@@ -1,6 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
 import 'package:parkinglot/pages/mypage.dart';
 
 String checkPassword = '';
@@ -10,6 +11,11 @@ String Name = '';
 String User_ID = '';
 String User_Password = '';
 String User_PhoneNum = '';
+
+EdgeInsets textFormContentPadding = EdgeInsets.symmetric(
+  vertical: 5.0,
+  horizontal: 15.0,
+);
 
 class FixProfileINFO extends StatefulWidget {
   @override
@@ -31,7 +37,14 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
             centerTitle: true,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
-            leading: GestureDetector(child: const Icon(Icons.arrow_back))),
+            leading: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FixProfileCKPW()));
+                },
+                child: const Icon(Icons.arrow_back))),
         body: ListView(children: [
           Container(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
@@ -49,6 +62,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   Name = text;
                 },
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.person),
                   border: OutlineInputBorder(),
                   hintText: '이름',
@@ -63,6 +77,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   User_PhoneNum = text;
                 },
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.phone),
                   border: OutlineInputBorder(),
                   hintText: '전화번호',
@@ -77,6 +92,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   User_ID = text;
                 },
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.email),
                   border: OutlineInputBorder(),
                   hintText: '아이디(이메일)',
@@ -91,6 +107,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   User_Password = text;
                 },
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '새 비밀번호',
@@ -102,6 +119,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '새 비밀번호 확인',
@@ -116,6 +134,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   CarNum = text;
                 },
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.car_rental),
                   border: OutlineInputBorder(),
                   hintText: '차량번호',
@@ -138,19 +157,19 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
           Center(),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 5, 15, 5),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: blue,
-              minimumSize: Size(165, 20),
-              padding: const EdgeInsets.all(10.0),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: blue,
+                minimumSize: Size(165, 20),
+                padding: const EdgeInsets.all(10.0),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FixProfileINFO()));
+              },
+              child: const Text('확인', style: TextStyle(color: Colors.white)),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FixProfileINFO()));
-            },
-            child: const Text('확인', style: TextStyle(color: Colors.white)),
           ),
           SizedBox(height: 5),
         ]));
