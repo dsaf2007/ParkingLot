@@ -15,6 +15,7 @@ class UserDataTableWidget extends StatelessWidget {
     return FutureBuilder<QuerySnapshot>(
         future: users.get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          return Container();
           if (snapshot.hasError) {
             return Text("Sth Wrong");
           }
