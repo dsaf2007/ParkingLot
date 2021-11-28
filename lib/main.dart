@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: HomePage(),
-      home: ManageParkingLot(),
+      home: HomePage(),
     );
   }
 }
