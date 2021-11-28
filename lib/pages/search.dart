@@ -185,9 +185,9 @@ class _SearchPageState extends State<SearchPage> {
     //         NaviBarButtons(MediaQuery.of(context).size, context),
     //   ),
     // );
-
+    String testUserName = 'leejaewon'; //테스트용 이름
     return FutureBuilder<QuerySnapshot>(
-      future: parkinglots.limit(documentLimit).get(),
+      future: parkinglots.orderBy('code').limit(documentLimit).get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
@@ -268,7 +268,41 @@ class _SearchPageState extends State<SearchPage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection("Favorites")
+                                          .doc(parkingLotItemList[index].name +
+                                              '_' +
+                                              testUserName)
+                                          .set({
+                                        "UserName": testUserName,
+                                        "name": parkingLotItemList[index].name,
+                                        "address":
+                                            parkingLotItemList[index].address,
+                                        "telephone":
+                                            parkingLotItemList[index].telephone,
+                                        "minute":
+                                            parkingLotItemList[index].minute,
+                                        "fee": parkingLotItemList[index].fee,
+                                        "total_space": parkingLotItemList[index]
+                                            .total_space,
+                                      });
+                                    },
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: lightGrey,
+                                        minimumSize: Size(165, 20)),
+                                    child: const Text('즐겨찾기 추가',
+                                        style: TextStyle(color: Colors.black)),
+                                  ),
+                                  SizedBox(width: 10),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DateTimeSelection()));
+                                    },
                                     style: TextButton.styleFrom(
                                         backgroundColor: lightGrey,
                                         minimumSize: Size(165, 20)),
