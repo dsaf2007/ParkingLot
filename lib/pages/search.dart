@@ -1,5 +1,3 @@
-// ignore_for_file: use_function_type_syntax_for_parameters
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -7,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parkinglot/pages/favorites.dart';
 import '../widget/navigation_bar.dart';
 
 // import 'package:parkinglot/models/parking_lot.dart' as globals;
@@ -22,6 +21,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   _SearchPageState();
   List<ParkingLotItem> parkingLotItemList = [];
+  List<String> parkingLotNameLists = [];
+
   List<DocumentSnapshot> products = [];
   bool isLoading = false;
   bool hasMore = true;
@@ -97,11 +98,11 @@ class _SearchPageState extends State<SearchPage> {
     //bool isAdmin = true;
     //comment for comit test
     bool isAdmin = true;
-    //getParkinglots();
+    String testUserName = 'leejaewon'; //테스트용 이름
+
     CollectionReference parkinglots =
         FirebaseFirestore.instance.collection('ParkingLot');
 
-    String testUserName = 'leejaewon'; //테스트용 이름
     return FutureBuilder<QuerySnapshot>(
       future: parkinglots.orderBy('code').limit(documentLimit).get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -109,14 +110,7 @@ class _SearchPageState extends State<SearchPage> {
           return Text("Sth Wrong");
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          // Map<String, dynamic> data =
-          //     snapshot.data!.data() as Map<String, dynamic>;
-          // this.userName = data['Name'];
-          // this.userPhoneNumber = data['User_PhoneNum'];
           for (var doc in snapshot.data!.docs) {
-            //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
-            // this.minute, this.fee, this.total_space, this.favorite);
-            print(doc);
             parkingLotItemList.add(ParkingLotItem(
                 doc["name"],
                 doc["address"],
@@ -125,128 +119,21 @@ class _SearchPageState extends State<SearchPage> {
                 doc["pay_fee"],
                 doc["capacity"],
                 false));
+            parkingLotNameLists.add(doc["name"].toString());
             print(doc);
             lastDocument = doc;
           }
-          // getParkinglots();
-          // lastDocument = snapshot.docs[snapshot.docs.length - 1];
           // TODO: implement build
           return SafeArea(
             child: Scaffold(
-              appBar: AppBar(
-                  backgroundColor: Colors.white,
-                  leadingWidth: 5,
-                  title: TextFormField(
-                      controller: TextEditingController(),
-                      decoration: InputDecoration(
-                        hintText: '  주차장 검색',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.search),
-                          onPressed: () {},
-                        ),
-                      ))),
-              body: ListView.builder(
-                itemCount: parkingLotItemList.length,
-                controller: _scrollController,
-                //itemCount: products.length,
-                itemBuilder: (context, index) {
-                  //getParkinglots();
-                  return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 1.0, horizontal: 3.0),
-                      child: Card(
-                        child: ListTile(
-                          onTap: () {},
-                          subtitle: Column(children: [
-                            Row(
-                              children: [
-                                Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(parkingLotItemList[index].name,
-                                          style: TextStyle(
-                                              fontSize: 23,
-                                              color: blue,
-                                              fontWeight: FontWeight.bold)),
-                                      SizedBox(height: 5),
-                                      Text(parkingLotItemList[index].address),
-                                      Text(parkingLotItemList[index].telephone),
-                                      Text(
-                                          '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
-                                    ]),
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection("Favorites")
-                                          .doc(parkingLotItemList[index].name +
-                                              '_' +
-                                              testUserName)
-                                          .set({
-                                        "user_name": testUserName,
-                                        "name": parkingLotItemList[index].name,
-                                        "address":
-                                            parkingLotItemList[index].address,
-                                        "telephone":
-                                            parkingLotItemList[index].telephone,
-                                        "minute":
-                                            parkingLotItemList[index].minute,
-                                        "fee": parkingLotItemList[index].fee,
-                                        "total_space": parkingLotItemList[index]
-                                            .total_space,
-                                      });
-                                    },
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: lightGrey,
-                                        minimumSize: Size(165, 20)),
-                                    child: const Text('즐겨찾기 추가',
-                                        style: TextStyle(color: Colors.black)),
-                                  ),
-                                  SizedBox(width: 10),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DateTimeSelection()));
-                                    },
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: lightGrey,
-                                        minimumSize: Size(165, 20)),
-                                    child: const Text('즐겨찾기 추가',
-                                        style: TextStyle(color: Colors.black)),
-                                  ),
-                                  SizedBox(width: 10),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DateTimeSelection()));
-                                    },
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: blue,
-                                        minimumSize: Size(165, 20)),
-                                    child: const Text('예약하기',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                  SizedBox(height: 5),
-                                ])
-                          ]),
-                          // --- 이미지 넣기 ---
-                        ),
-                      ));
-                },
+              body: Container(
+                margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                child: Column(
+                  children: <Widget>[
+                    _createSearchView(),
+                    _firstSearch ? _createListView() : _performSearch()
+                  ],
+                ),
               ),
               bottomNavigationBar:
                   NaviBarButtons(MediaQuery.of(context).size, context),
@@ -255,6 +142,172 @@ class _SearchPageState extends State<SearchPage> {
         }
         return CircularProgressIndicator();
       },
+    );
+  }
+
+  var _searchview = TextEditingController();
+  bool _firstSearch = true;
+  String _query = "";
+  List<String> _filterList = [];
+
+  _SearchBarState() {
+    //Register a closure to be called when the object changes.
+    _searchview.addListener(() {
+      if (_searchview.text.isEmpty) {
+        //Notify the framework that the internal state of this object has changed.
+        setState(() {
+          _firstSearch = true;
+          _query = "";
+        });
+      } else {
+        setState(() {
+          _firstSearch = false;
+          _query = _searchview.text;
+        });
+      }
+    });
+  }
+
+  Widget _createSearchView() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
+      child: TextField(
+          controller: _searchview,
+          decoration: InputDecoration(
+            hintText: '  주차장 검색',
+            hintStyle: TextStyle(color: Colors.grey),
+            suffixIcon: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ),
+          textAlign: TextAlign.center),
+    );
+  }
+
+  Widget _createListView() {
+    return Flexible(
+      child: ListView.builder(
+        itemCount: parkingLotItemList.length,
+        controller: _scrollController,
+        //itemCount: products.length,
+        itemBuilder: (context, index) {
+          //getParkinglots();
+          return Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
+              child: Card(
+                child: ListTile(
+                  onTap: () {},
+                  subtitle: Column(children: [
+                    Row(
+                      children: [
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(parkingLotItemList[index].name,
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      color: blue,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(parkingLotItemList[index].address),
+                              Text(parkingLotItemList[index].telephone.isEmpty
+                                  ? "전화번호 없음"
+                                  : parkingLotItemList[index].telephone),
+                              Text(
+                                  '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
+                            ]),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection("Favorites")
+                                  .doc(parkingLotItemList[index].name +
+                                      '_' +
+                                      'leejaewon')
+                                  .set({
+                                "user_name": 'leejaewon',
+                                "name": parkingLotItemList[index].name,
+                                "address": parkingLotItemList[index].address,
+                                "telephone":
+                                    parkingLotItemList[index].telephone,
+                                "minute": parkingLotItemList[index].minute,
+                                "fee": parkingLotItemList[index].fee,
+                                "total_space":
+                                    parkingLotItemList[index].total_space,
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FavoritesPage()));
+                            },
+                            style: TextButton.styleFrom(
+                                backgroundColor: lightGrey,
+                                minimumSize: Size(165, 20)),
+                            child: const Text('즐겨찾기 추가',
+                                style: TextStyle(color: Colors.black)),
+                          ),
+                          SizedBox(width: 10),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DateTimeSelection()));
+                            },
+                            style: TextButton.styleFrom(
+                                backgroundColor: blue,
+                                minimumSize: Size(165, 20)),
+                            child: const Text('예약하기',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                          SizedBox(height: 5),
+                        ])
+                  ]),
+                  // --- 이미지 넣기 ---
+                ),
+              ));
+        },
+      ),
+    );
+  }
+
+  Widget _performSearch() {
+    _filterList = [];
+    for (int i = 0; i < parkingLotNameLists.length; i++) {
+      var item = parkingLotNameLists[i];
+
+      if (item.contains(_query)) {
+        _filterList.add(item);
+      }
+    }
+    return _createFilteredListView();
+  }
+
+  Widget _createFilteredListView() {
+    for (var list in _filterList) {
+      print("list : " + list);
+    }
+    return Flexible(
+      child: ListView.builder(
+          itemCount: _filterList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              color: Colors.white,
+              elevation: 5.0,
+              child: Container(
+                margin: EdgeInsets.all(15.0),
+                child: Text("${_filterList[index]}"),
+              ),
+            );
+          }),
     );
   }
 }
