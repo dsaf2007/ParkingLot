@@ -6,6 +6,9 @@ import '../models/reservation_item.dart';
 import '../util/colors.dart';
 
 class CheckReservation extends StatefulWidget {
+  final userId;
+  CheckReservation({@required this.userId}) : super();
+
   @override
   State<CheckReservation> createState() => _CheckReservationState();
 }
@@ -29,7 +32,7 @@ class _CheckReservationState extends State<CheckReservation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('예약 내역 확인',
+        title: Text('님의 예약 내역 확인',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

@@ -13,12 +13,14 @@ class CheckReservationAdmin extends StatefulWidget {
 class _CheckReservationAdminState extends State<CheckReservationAdmin> {
   String selectedLocationFirst = '';
   String selectedLocationSecond = '';
-  String selectedParkingLot = '';
 
   Map<String, List<String>> locationList = {
     '시/도': ['시/군/구'],
   };
   List<String> cities = [];
+
+  List<String> parkingLotList = ['주차장', '첫번째 주차장', '두번째 주차장', '세번째 주차장'];
+  String selectedParkingLot = '주차장';
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +67,13 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
                   leading: GestureDetector(
                       onTap: () {}, child: const Icon(Icons.arrow_back))),
               body: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
                         child: Text('지역선택',
                             style: TextStyle(
                               fontSize: 15,
@@ -78,7 +81,7 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
                             )),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(100, 20, 20, 20),
+                        padding: EdgeInsets.fromLTRB(140, 15, 0, 0),
                         child: Text('주차장 선택',
                             style: TextStyle(
                               fontSize: 15,
@@ -90,7 +93,7 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
                   Row(
                     children: [
                       Padding(
-                          padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                           child: DropdownButton<String>(
                             value: selectedLocationFirst,
                             icon: const Icon(Icons.keyboard_arrow_down),
@@ -132,9 +135,30 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
                               );
                             }).toList(),
                           )),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          child: DropdownButton<String>(
+                            value: selectedParkingLot,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedParkingLot = newValue!;
+                              });
+                            },
+                            items: parkingLotList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )),
                     ],
                   ),
-                  UserDataTableWidget(),
+                  UserDataTableWidget(context)
                 ],
               ),
               bottomNavigationBar:
