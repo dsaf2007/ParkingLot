@@ -75,6 +75,7 @@ class _SearchPageState extends State<SearchPage> {
               doc["parkingtime_permin"],
               doc["pay_fee"],
               doc["capacity"],
+              doc["code"],
               false));
         }
         print(parkingLotItemList.first.name);

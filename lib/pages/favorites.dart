@@ -52,6 +52,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
               doc["minute"],
               doc["fee"],
               doc["total_space"],
+              doc["fee"],
               false));
         }
 

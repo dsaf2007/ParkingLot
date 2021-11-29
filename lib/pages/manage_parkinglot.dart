@@ -1,5 +1,6 @@
 ﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 
@@ -83,6 +84,33 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
     );
   }
 
+  CollectionReference update =
+      FirebaseFirestore.instance.collection('ParkingLot');
+
+  Future<void> updateFee(int code, int fee) async {
+    var doc_id = '';
+    var doc_parse = [];
+    print("update2 " + code.toString());
+    FirebaseFirestore.instance
+        .collection('ParkingLot')
+        .where('code', isEqualTo: code)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      print("doc doc");
+      for (var doc in snapshot.docs) {
+        doc_id = doc.reference.path.toString();
+        doc_parse = doc_id.split("/");
+        print("abc" + doc_parse[1]);
+        return update
+            .doc(doc_parse[1])
+            .update({'pay_fee': fee})
+            .then((value) => print("User Updated"))
+            .catchError((error) => print("Failed to update user: $error"));
+      }
+    });
+    print(doc_id + " dkdkdkdkdkdkdkdkdk");
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isAdmin = true;
@@ -105,6 +133,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                 doc["parkingtime_permin"],
                 doc["pay_fee"],
                 doc["capacity"],
+                doc["code"],
                 false));
           }
           print(parkingLotItemList.first.name);
@@ -343,6 +372,12 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                 index]
                                                             .fee
                                                             .toString());
+                                                    updateFee(
+                                                        parkingLotItemList[
+                                                                index]
+                                                            .code,
+                                                        10000);
+                                                    print("update");
                                                   },
                                                   child: Text(
                                                     "요금 수정하기",
