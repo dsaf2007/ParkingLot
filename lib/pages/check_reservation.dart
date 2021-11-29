@@ -75,8 +75,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                   children: [
                                     Row(
                                       children: [
-                                        Image.asset('lib/images/park.png',
-                                          width: 100, height: 100),
                                         SizedBox(width: 15,),
                                         Column(
                                           crossAxisAlignment:CrossAxisAlignment.start,
@@ -126,8 +124,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     
                                     children: [
-                                      Image.asset('lib/images/park.png',
-                                          width: 100, height: 100),
                                       SizedBox(width: 15,),
                                       Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,8 +147,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                       onPressed: () {},
                                         icon: Icon(Icons.close),
                                       ),
-                                      // Image.asset('lib/images/park.png',
-                                      //     width: 100, height: 100),
                                     ],
                                   ),
                                     SizedBox(height: 5),
