@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:intl/intl.dart';
 import 'package:parkinglot/pages/approve_reservation.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
@@ -38,8 +39,8 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
   Widget build(BuildContext context) {
     final ParkingLotItem parkingLotItem = widget.parkingLotItem;
     DateTime reservationDate;
-    ReservationItem reservationInfo =
-        ReservationItem(parkingLotItem, "No Data", "No Data", "No Data");
+    ReservationItem reservationInfo = ReservationItem(
+        parkingLotItem, "No Data", "No Data", "No Data", "No Data", false);
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
@@ -67,17 +68,19 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
             Card1(
-              onSelectData: (DateTime date) {
-                reservationDate = date;
-                reservationInfo = ReservationItem(
-                  parkingLotItem,
-                  reservationDate.toString(),
-                  "[test] 13:00",
-                  "[test] 12,000",
-                );
+              onSelectData: (String date) {
+                reservationInfo.date = date;
               },
             ),
-            Card2(),
+            Card2(
+              onSelectData: (
+                String startTime,
+                String endTime,
+              ) {
+                reservationInfo.start_time = startTime;
+                reservationInfo.end_time = endTime;
+              },
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -156,9 +159,10 @@ int currentIndex = -1;
 
 class Card1 extends StatefulWidget {
   Card1({Key? key, required this.onSelectData}) : super(key: key);
-  Function(DateTime) onSelectData;
+  Function(String) onSelectData;
   // to get data from calendar
   late DateTime selectedDay;
+  late DateTime selectedDayForHeader;
   // for callback
   late DateTime reservationDay;
   @override
@@ -166,11 +170,22 @@ class Card1 extends StatefulWidget {
 }
 
 class _Card1State extends State<Card1> {
+  String dateSelectionMessage = "날짜 선택";
+
   @override
   Widget build(BuildContext context) {
-    CalendarTable cardBody = CalendarTable(onSelectDay: (selectedDay) {
-      widget.onSelectData(selectedDay);
-    });
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    CalendarTable cardBody = CalendarTable(
+      onSelectDay: (selectedDay) {
+        final String formatted = formatter.format(selectedDay);
+        widget.onSelectData(formatted);
+        setState(() {
+          // dateSelectionMessage = formatted;
+          dateSelectionMessage = formatted;
+        });
+      },
+    );
+
     return ExpandableNotifier(
         child: Padding(
       padding: const EdgeInsets.all(15),
@@ -221,7 +236,7 @@ class _Card1State extends State<Card1> {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                "날짜 선택",
+                                dateSelectionMessage,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
@@ -251,21 +266,31 @@ class _Card1State extends State<Card1> {
 }
 
 class Card2 extends StatefulWidget {
-  const Card2({Key? key}) : super(key: key);
+  Card2({Key? key, required this.onSelectData}) : super(key: key);
+  Function(String, String) onSelectData;
+  // to get data from calendar
+  late String startTime;
+  // for callback
+  late String endTime;
 
   @override
   _Card2State createState() => _Card2State();
 }
 
 class _Card2State extends State<Card2> {
-  List<String> timeListAM = [];
-  List<String> timeListPM = [];
-  // 버튼 선택 여부
-  List<bool> isSelectedAM = [];
-  List<bool> isSelectedPM = [];
-  // 예약 가능/불가능 상태
-  List<bool> isDisabledAM = [];
-  List<bool> isDisabledPM = [];
+  String timeSelectionHeader = "시간 선택";
+
+  final int openTime = 6;
+  final int closeTime = 24;
+  int startTimeIndex = -1;
+  int endTimeIndex = -1;
+  int lastSelectedTimeIndex = -1;
+  bool isSelectionDone = false;
+  // structure change
+  List<String> timeStringList = [];
+  List<bool> isSelected = [];
+  List<bool> isDisabled = [];
+  Color selectColor = selectBlue;
 
   ButtonStyle buildButtonStyle(Color color) {
     ButtonStyle buttonStyle = ElevatedButton.styleFrom(
@@ -281,211 +306,143 @@ class _Card2State extends State<Card2> {
 
   @override
   void initState() {
-    for (int i = 6; i < 12; i++) {
-      timeListAM.add("$i:00");
-      timeListAM.add("$i:30");
+    // new --------------
+    for (int i = openTime; i < closeTime; i++) {
+      timeStringList.add("$i:00");
+      timeStringList.add("$i:30");
     }
-    for (int i = 12; i < 24; i++) {
-      timeListPM.add("$i:00");
-      timeListPM.add("$i:30");
-    }
-    isSelectedAM = List.filled(timeListAM.length, false);
-    isSelectedPM = List.filled(timeListPM.length, false);
-    isDisabledAM = List.filled(timeListAM.length, false);
-    isDisabledPM = List.filled(timeListPM.length, true);
-    isDisabledPM[0] = false;
-    isDisabledPM[1] = false;
+    isSelected = List.filled(timeStringList.length, false);
+    // todo: real availiable time update
+    isDisabled = List.filled(timeStringList.length, false);
+    isDisabled[0] = true;
+    isDisabled[1] = true;
   }
 
-  List<Row> _buildButtonRowsWithTimes(
-      List<String> timeList, ButtonStyle buttonStyle) {
-    int cols = 4;
-    int rows = timeList.length ~/ cols;
-    if (timeList.length % cols != 0) {
-      for (int i = 0; i < timeList.length % cols; i++) {
-        timeList.add("");
-      }
-      rows += 1;
+  String formatEndTime(int endIdx) {
+    String endTime;
+    if (endIdx == timeStringList.length - 1) {
+      endTime = "$closeTime:00";
+    } else {
+      endTime = timeStringList[endIdx + 1];
     }
-    List<ElevatedButton> allButtonList = []; // toggle button
-    List<Row> buttonRowList = [];
-    for (int i = 0; i < rows; i++) {
-      List<ElevatedButton> buttonList = [];
-      for (int j = 0; j < cols; j++) {
-        int idx = i * cols + j;
-        if (timeList[idx] == "") {
-          buttonList.add(ElevatedButton(
-            onPressed: () {},
-            child: Container(),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.transparent, // 초록
-              minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-            ),
-          ));
-        } else {
-          buttonList.add(ElevatedButton(
-              style: buttonStyle,
-              onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
-              child: Text(
-                timeList[idx],
-              )));
-        }
-        allButtonList.add(ElevatedButton(
-            style: buttonStyle,
-            onPressed: (idx % 2 == 0) ? null : () {}, // is button valid?
-            child: Text(
-              timeList[idx],
-            )));
-      }
-      Row buttonRow = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: buttonList,
-      );
-      buttonRowList.add(buttonRow);
-    }
-    return buttonRowList;
+    return endTime;
   }
 
-  List<InkWell> _buildButtonsWithTimes(List<String> timeList, bool isAM) {
-    int cols = 4;
-    int rows = timeList.length ~/ cols;
-    Color boxColor;
-    if (timeList.length % cols != 0) {
-      for (int i = 0; i < timeList.length % cols; i++) {
-        timeList.add("");
-      }
-      rows += 1;
-    }
-    List<bool> isButtonDisabled = isAM ? isDisabledAM : isDisabledPM;
-    List<bool> isSelected = isAM ? isSelectedAM : isSelectedPM;
+  String _buildTimeRangeString(int startIdx, int endIdx) {
+    String startTime = timeStringList[startIdx];
+    String endTime = formatEndTime(endIdx);
+    return startTime + " ~ " + endTime;
+  }
 
-    List<InkWell> allButtonList = []; // toggle button
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        int idx = i * cols + j;
-        if (timeList[idx] == "") break;
-        Color defaultButtonColor = isButtonDisabled[idx] ? Colors.grey : green;
-        // boxColor = isSelected[idx] ? blue : defaultButtonColor;
-        allButtonList.add(InkWell(
-          child: ElevatedButton(
-              // style: buildButtonStyle(boxColor),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                primary: Colors.grey, // 초록
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              onPressed: () {
-                setState(() {
-                  isSelected[idx] = !isSelected[idx];
-                  // boxColor = isSelected[idx] ? blue : defaultButtonColor;
-                });
-              },
-              child: Text(
-                timeList[idx],
-              )),
-        ));
-      }
+  void selectTime(int index) {
+    if (isDisabled[index]) {
+      isSelected = List.filled(isSelected.length, false);
+      timeSelectionHeader = "시간 선택";
+      return;
     }
-    return allButtonList;
+    // 첫 선택
+    if (lastSelectedTimeIndex < 0) {
+      isSelected[index] = true;
+      widget.onSelectData(timeStringList[index], formatEndTime(index));
+      timeSelectionHeader = _buildTimeRangeString(index, index);
+    } // 새로운 시작 날짜 재선택
+    else if (isSelectionDone ||
+        (index < lastSelectedTimeIndex) ||
+        (index == lastSelectedTimeIndex)) {
+      // print("select:$index, last:$lastSelectedTimeIndex");
+      isSelected = List.filled(isSelected.length, false);
+      isSelected[index] = true;
+      isSelectionDone = false;
+
+      widget.onSelectData(timeStringList[index], formatEndTime(index));
+      timeSelectionHeader = _buildTimeRangeString(index, index);
+    } // 다중 선택
+    else {
+      for (int i = lastSelectedTimeIndex; i <= index; i++) {
+        isSelected[i] = true;
+      }
+      isSelectionDone = true;
+      // pass to approval
+      startTimeIndex = lastSelectedTimeIndex;
+      endTimeIndex = index;
+      widget.onSelectData(timeStringList[startTimeIndex], formatEndTime(index));
+      timeSelectionHeader = _buildTimeRangeString(startTimeIndex, endTimeIndex);
+    }
+    if (isSelected[index]) {
+      lastSelectedTimeIndex = index;
+    }
   }
 
   List<InkWell> _buildButtonsWithTimesPM(List<String> timeList) {
-    int cols = 4;
-    int rows = timeList.length ~/ cols;
-    if (timeList.length % cols != 0) {
-      for (int i = 0; i < timeList.length % cols; i++) {
-        timeList.add("");
-      }
-      rows += 1;
-    }
-
     List<InkWell> allButtonList = []; // toggle button
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        int idx = i * cols + j;
-        if (timeList[idx] == "") break;
-        Color defaultButtonColor = isDisabledPM[idx] ? Colors.grey : green;
-        Color boxColor =
-            !isDisabledPM[idx] && isSelectedPM[idx] ? blue : defaultButtonColor;
-        allButtonList.add(InkWell(
-          child: ElevatedButton(
-              style: buildButtonStyle(boxColor),
-              onPressed: () {
-                setState(() => isSelectedPM[idx] = !isSelectedPM[idx]);
-              },
-              child: Text(
-                timeList[idx],
-              )),
-        ));
-      }
+    for (int i = 0; i < timeList.length; i++) {
+      // 오전 개수 만큼 더해야 전체 시간 리스트의 오후 인덱스
+      final int PM = 2 * (12 - openTime);
+      Color defaultButtonColor = isDisabled[i + PM] ? mediumGrey : lightBlue;
+      allButtonList.add(InkWell(
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              primary:
+                  isSelected[i + PM] ? selectColor : defaultButtonColor, // 초록
+              textStyle: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            onPressed: () {
+              setState(() {
+                selectTime(i + PM);
+              });
+            },
+            child: Text(timeList[i])),
+      ));
     }
     return allButtonList;
   }
 
   List<InkWell> _buildButtonsWithTimesAM(List<String> timeList) {
-    int cols = 4;
-    int rows = timeList.length ~/ cols;
-    if (timeList.length % cols != 0) {
-      for (int i = 0; i < timeList.length % cols; i++) {
-        timeList.add("");
-      }
-      rows += 1;
-    }
     List<InkWell> allButtonList = []; // toggle button
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        int idx = i * cols + j;
-        if (timeList[idx] == "") break;
-        Color defaultButtonColor = isDisabledAM[idx] ? Colors.grey : green;
-        // Color boxColor = isSelectedAM[idx] ? green : defaultButtonColor;
-        allButtonList.add(InkWell(
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                primary: isSelectedAM[idx] ? blue : defaultButtonColor, // 초록
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                ),
+    for (int i = 0; i < timeList.length; i++) {
+      if (timeList[i] == "") break;
+      Color defaultButtonColor = isDisabled[i] ? mediumGrey : lightBlue;
+      allButtonList.add(InkWell(
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              primary: isSelected[i] ? selectColor : defaultButtonColor, // 초록
+              textStyle: const TextStyle(
+                fontSize: 16,
               ),
-              onPressed: () {
-                setState(() {
-                  if (!isDisabledAM[idx])
-                    isSelectedAM[idx] = !isSelectedAM[idx];
-                  // boxColor = isSelectedAM[idx] ? green : defaultButtonColor;
-                });
-              },
-              child: Text(
-                timeList[idx],
-              )),
-        ));
-      }
+            ),
+            onPressed: () {
+              setState(() {
+                selectTime(i);
+              });
+            },
+            child: Text(timeList[i])),
+      ));
     }
     return allButtonList;
   }
 
-  CustomScrollView buildToggleButtonScrollView(
-      List<String> timeList, bool isAM) {
+  CustomScrollView buildToggleButtonScrollView(bool isAM) {
     return CustomScrollView(
       primary: false,
       slivers: <Widget>[
         SliverPadding(
           padding: const EdgeInsets.all(5),
           sliver: SliverGrid.count(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            crossAxisCount: 4,
-            childAspectRatio: 2.0,
-            children: isAM
-                ? _buildButtonsWithTimesAM(timeList)
-                : _buildButtonsWithTimesPM(timeList),
-          ),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisCount: 4,
+              childAspectRatio: 2.0,
+              children: isAM
+                  ? _buildButtonsWithTimesAM(
+                      timeStringList.sublist(0, 2 * (12 - openTime)))
+                  : _buildButtonsWithTimesPM(timeStringList.sublist(
+                      2 * (12 - openTime), timeStringList.length))),
         ),
       ],
     );
@@ -541,7 +498,7 @@ class _Card2State extends State<Card2> {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                "시간 선택",
+                                timeSelectionHeader,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
@@ -567,7 +524,7 @@ class _Card2State extends State<Card2> {
                         // ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.2,
-                          child: buildToggleButtonScrollView(timeListAM, true),
+                          child: buildToggleButtonScrollView(true),
                         ),
                         SizedBox(
                           height: 10,
@@ -584,7 +541,7 @@ class _Card2State extends State<Card2> {
                         // ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
-                          child: buildToggleButtonScrollView(timeListPM, false),
+                          child: buildToggleButtonScrollView(false),
                         ),
 
                         Row(
@@ -595,7 +552,7 @@ class _Card2State extends State<Card2> {
                               height: 15,
                               child: const DecoratedBox(
                                 decoration: const BoxDecoration(
-                                  color: green,
+                                  color: lightBlue,
                                 ),
                               ),
                             ),
@@ -616,7 +573,7 @@ class _Card2State extends State<Card2> {
                               height: 15,
                               child: const DecoratedBox(
                                 decoration: const BoxDecoration(
-                                  color: Colors.grey,
+                                  color: mediumGrey,
                                 ),
                               ),
                             ),

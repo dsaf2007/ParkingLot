@@ -17,11 +17,7 @@ class ApproveReservation extends StatefulWidget {
 
 class _ApproveReservationState extends State<ApproveReservation> {
   String reserveDate = '2021.11.19 (금)';
-  String reserveStartTime = '09:00';
-  String reserveEndTime = '10:00';
 
-  String parkingLotName = '대한극장';
-  String parkingLotAddress = '서울 중구 필동 2가';
   String parkingLotTime_week = '00:00~24:00';
   String parkingLotTime_sat = '00:00~24:00';
   String parkingLotTime_sun = '00:00~24:00';
@@ -116,7 +112,10 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-                child: Text(reserveStartTime + ' ~ ' + reserveEndTime,
+                child: Text(
+                    widget.reservationItem.start_time +
+                        ' ~ ' +
+                        widget.reservationItem.end_time,
                     style: TextStyle(
                       fontSize: 15,
                     )),

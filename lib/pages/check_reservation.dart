@@ -19,14 +19,18 @@ class _CheckReservationState extends State<CheckReservation> {
         ParkingLotItem(
             '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
         '날짜',
-        '시간',
-        '결제금액'),
+        '시작시간',
+        '종료시간',
+        '결제금액',
+        false),
     ReservationItem(
         ParkingLotItem(
             '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
         '날짜',
-        '시간',
-        '결제금액'),
+        '시작시간',
+        '종료시간',
+        '결제금액',
+        false),
   ];
   @override
   Widget build(BuildContext context) {
@@ -75,13 +79,15 @@ class _CheckReservationState extends State<CheckReservation> {
                             child: Card(
                               child: ListTile(
                                 onTap: () {},
-                                subtitle: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(width: 15,),
-                                        Column(
-                                          crossAxisAlignment:CrossAxisAlignment.start,
+                                subtitle: Column(children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                                 ReservationList[index]
@@ -99,8 +105,10 @@ class _CheckReservationState extends State<CheckReservation> {
                                             Text(ReservationList[index]
                                                 .parkingLotItem
                                                 .telephone),
-                                            Text(ReservationList[index].date),
-                                            Text(ReservationList[index].hours),
+                                            Text(ReservationList[index]
+                                                .start_time),
+                                            Text(ReservationList[index]
+                                                .end_time),
                                             Text(ReservationList[index]
                                                 .total_fee),
                                           ]),
@@ -132,7 +140,9 @@ class _CheckReservationState extends State<CheckReservation> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(width: 15,),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
                                       Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -154,11 +164,15 @@ class _CheckReservationState extends State<CheckReservation> {
                                                 .parkingLotItem
                                                 .telephone),
                                             Text(ReservationList[index].date),
-                                            Text(ReservationList[index].hours),
+                                            Text(ReservationList[index]
+                                                .start_time),
+                                            Text(ReservationList[index]
+                                                .end_time),
                                             Text(ReservationList[index]
                                                 .total_fee),
                                           ]),
-                                      SizedBox(height: 20), SizedBox(width: 25),
+                                      SizedBox(height: 20),
+                                      SizedBox(width: 25),
                                       IconButton(
                                         padding: EdgeInsets.zero,
                                         onPressed: () {},
