@@ -96,12 +96,13 @@ class _SearchPageState extends State<SearchPage> {
     //bool isAdmin = true;
     //comment for comit test
     bool isAdmin = true;
-    CollectionReference parkinglots = FirebaseFirestore.instance.collection('ParkingLot');
-          String testUserName = 'leejaewon'; //테스트용 이름
+    CollectionReference parkinglots =
+        FirebaseFirestore.instance.collection('ParkingLot');
 
-        return FutureBuilder<QuerySnapshot>(
-          future: parkinglots.orderBy('code').limit(documentLimit).get(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    String testUserName = 'leejaewon'; //테스트용 이름
+    return FutureBuilder<QuerySnapshot>(
+      future: parkinglots.orderBy('code').limit(documentLimit).get(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
@@ -123,7 +124,10 @@ class _SearchPageState extends State<SearchPage> {
                 doc["capacity"],
                 false));
             print(doc);
+            lastDocument = doc;
           }
+          // getParkinglots();
+          // lastDocument = snapshot.docs[snapshot.docs.length - 1];
           // TODO: implement build
           return SafeArea(
             child: Scaffold(
@@ -141,8 +145,11 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ))),
               body: ListView.builder(
-                //itemCount: parkinglot.length,
+                itemCount: parkingLotItemList.length,
+                controller: _scrollController,
+                //itemCount: products.length,
                 itemBuilder: (context, index) {
+                  //getParkinglots();
                   return Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 1.0, horizontal: 3.0),
@@ -163,7 +170,12 @@ class _SearchPageState extends State<SearchPage> {
                                               fontWeight: FontWeight.bold)),
                                       SizedBox(height: 5),
                                       Text(parkingLotItemList[index].address),
-                                      Text(parkingLotItemList[index].telephone),
+                                      Text(parkingLotItemList[index]
+                                              .telephone
+                                              .isEmpty
+                                          ? "전화번호 없음"
+                                          : parkingLotItemList[index]
+                                              .telephone),
                                       Text(
                                           '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
                                     ]),
@@ -174,42 +186,26 @@ class _SearchPageState extends State<SearchPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                    Text(parkingLotItemList[index].name,
-                                        style: TextStyle(
-                                            fontSize: 23,
-                                            color: blue,
-                                            fontWeight: FontWeight.bold)),
-                                    SizedBox(height: 5),
-                                    Text(parkingLotItemList[index].address),
-                                    Text(parkingLotItemList[index].telephone),
-                                    Text('30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
-                                  ]
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
                                   TextButton(
                                     onPressed: () {
                                       FirebaseFirestore.instance
                                           .collection("Favorites")
-                                          .doc(parkingLotItemList[index].name + '_' + testUserName)
+                                          .doc(parkingLotItemList[index].name +
+                                              '_' +
+                                              testUserName)
                                           .set({
-                                            "user_name": testUserName,
-                                            "name": parkingLotItemList[index].name,
-                                            "address":
-                                                parkingLotItemList[index].address,
-                                            "telephone":
-                                                parkingLotItemList[index].telephone,
-                                            "minute":
-                                                parkingLotItemList[index].minute,
-                                            "fee": parkingLotItemList[index].fee,
-                                            "total_space": parkingLotItemList[index]
-                                                .total_space,
-                                          });
+                                        "user_name": testUserName,
+                                        "name": parkingLotItemList[index].name,
+                                        "address":
+                                            parkingLotItemList[index].address,
+                                        "telephone":
+                                            parkingLotItemList[index].telephone,
+                                        "minute":
+                                            parkingLotItemList[index].minute,
+                                        "fee": parkingLotItemList[index].fee,
+                                        "total_space": parkingLotItemList[index]
+                                            .total_space,
+                                      });
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -239,15 +235,11 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                   SizedBox(height: 5),
                                 ])
-                        ]
-                      ),
-                        // --- 이미지 넣기 ---
-                    ),
-                  )
-                );
-              },
-            ),
-              bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
+                          ]),
+                          // --- 이미지 넣기 ---
+                        ),
+                      ));
+                },
               ),
               bottomNavigationBar:
                   NaviBarButtons(MediaQuery.of(context).size, context),

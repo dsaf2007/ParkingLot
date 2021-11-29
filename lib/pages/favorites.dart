@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-import 'datetime_selection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
 //import 'read.dart';
@@ -75,87 +74,86 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   child: Card(
                     child: ListTile(
                       onTap: () {},
-                      subtitle: 
-                      // Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.stretch,
+                      subtitle:
+                          // Column(
+                          //           crossAxisAlignment: CrossAxisAlignment.stretch,
 
-                      //   children: [
-                      //     Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
+                          //   children: [
+                          //     Row(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // IconButton(
+                              //   onPressed: () {},
+                              //   icon: Icon(Icons.close),
+                              //   iconSize: 15,
+                              // ),
+                              // SizedBox(width: 10),
                               Column(
-
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                    children: [
-                                      // IconButton(
-                                      //   onPressed: () {},
-                                      //   icon: Icon(Icons.close),
-                                      //   iconSize: 15,
-                                      // ),
-                                      // SizedBox(width: 10),
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            
-                                            Text(parkinglot[index].name,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.black87,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 5),
-                                            Text(parkinglot[index].address),
-                                            Text(parkinglot[index].telephone),
-                                          ]),
-                                      //SizedBox(width: 120),
-                                      IconButton(
-                                        padding: EdgeInsets.only(top: 5),
-                                        constraints: BoxConstraints(),
-                                        onPressed: () {},
-                                        icon: Icon(Icons.close),
-                                        iconSize: 20,
-                                      ),
-                                    ],
-                                  ),
-                                  TextButton(
-                                    // onPressed: () {
-                                    //   Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                                    //     )
-                                    //   );
-                                    // },
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DateTimeSelection()));
-                                    },
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: blue,
-                                        minimumSize: Size(350, 20)),
-                                    child: const Text('예약하기',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ],
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(parkinglot[index].name,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 5),
+                                    Text(parkinglot[index].address),
+                                    Text(parkinglot[index].telephone),
+                                  ]),
+                              //SizedBox(width: 120),
+                              IconButton(
+                                padding: EdgeInsets.only(top: 5),
+                                constraints: BoxConstraints(),
+                                onPressed: () {},
+                                icon: Icon(Icons.close),
+                                iconSize: 20,
                               ),
-                            // ],
-                          // )
-                        // ],
+                            ],
+                          ),
+                          TextButton(
+                            // onPressed: () {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                            //     )
+                            //   );
+                            // },
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DateTimeSelection()));
+                            },
+                            style: TextButton.styleFrom(
+                                backgroundColor: blue,
+                                minimumSize: Size(350, 20)),
+                            child: const Text('예약하기',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
                       ),
+                      // ],
+                      // )
+                      // ],
                     ),
-                    // --- 이미지 넣기 ---
+                  ),
+                  // — 이미지 넣기 —
                   // ),
                 );
               },
             ),
-          )); 
+          )); //scaffold
+        }
+        return CircularProgressIndicator();
+      },
+    );
   }
 }
