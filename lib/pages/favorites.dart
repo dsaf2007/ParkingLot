@@ -37,8 +37,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return Text("Sth Wrong");
         }
         if (snapshot.connectionState == ConnectionState.done) {
+          parkinglot.clear();
           for (var doc in snapshot.data!.docs) {
-            parkinglot.clear(); //list에 쌓이는 것 방지 clear로 초기화.
+            //list에 쌓이는 것 방지 clear로 초기화.
             //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
             // this.minute, this.fee, this.total_space, this.favorite);
             parkinglot.add(ParkingLotItem(

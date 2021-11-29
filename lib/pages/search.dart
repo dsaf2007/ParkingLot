@@ -100,91 +100,7 @@ class _SearchPageState extends State<SearchPage> {
     //getParkinglots();
     CollectionReference parkinglots =
         FirebaseFirestore.instance.collection('ParkingLot');
-    //getParkinglots();
-    // return SafeArea(
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //         backgroundColor: Colors.white,
-    //         leadingWidth: 5,
-    //         title: TextFormField(
-    //             controller: TextEditingController(),
-    //             decoration: InputDecoration(
-    //               hintText: '  주차장 검색',
-    //               hintStyle: TextStyle(color: Colors.grey),
-    //               suffixIcon: IconButton(
-    //                 icon: Icon(Icons.search),
-    //                 onPressed: () {},
-    //               ),
-    //             ))),
-    //     body: ListView.builder(
-    //       itemCount: parkingLotItemList.length,
-    //       controller: _scrollController,
-    //       itemCount: products.length,
-    //       itemBuilder: (context, index) {
-    //         return Padding(
-    //             padding:
-    //                 const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
-    //             child: Card(
-    //               child: ListTile(
-    //                 onTap: () {},
-    //                 subtitle: Column(children: [
-    //                   Row(
-    //                     children: [
-    //                       Column(
-    //                           crossAxisAlignment: CrossAxisAlignment.start,
-    //                           children: [
-    //                             Text(parkingLotItemList[index].name,
-    //                                 style: TextStyle(
-    //                                     fontSize: 23,
-    //                                     color: blue,
-    //                                     fontWeight: FontWeight.bold)),
-    //                             SizedBox(height: 5),
-    //                             Text(parkingLotItemList[index].address),
-    //                             Text(parkingLotItemList[index].telephone),
-    //                             Text(
-    //                                 '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
-    //                           ]),
-    //                     ],
-    //                   ),
-    //                   SizedBox(height: 5),
-    //                   Row(
-    //                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //                       children: [
-    //                         TextButton(
-    //                           onPressed: () {},
-    //                           style: TextButton.styleFrom(
-    //                               backgroundColor: lightGrey,
-    //                               minimumSize: Size(165, 20)),
-    //                           child: const Text('즐겨찾기 추가',
-    //                               style: TextStyle(color: Colors.black)),
-    //                         ),
-    //                         SizedBox(width: 10),
-    //                         TextButton(
-    //                           onPressed: () {
-    //                             Navigator.push(
-    //                                 context,
-    //                                 MaterialPageRoute(
-    //                                     builder: (context) =>
-    //                                         DateTimeSelection()));
-    //                           },
-    //                           style: TextButton.styleFrom(
-    //                               backgroundColor: blue,
-    //                               minimumSize: Size(165, 20)),
-    //                           child: const Text('예약하기',
-    //                               style: TextStyle(color: Colors.white)),
-    //                         ),
-    //                         SizedBox(height: 5),
-    //                       ])
-    //                 ]),
-    //                 --- 이미지 넣기 ---
-    //               ),
-    //             ));
-    //       },
-    //     ),
-    //     bottomNavigationBar:
-    //         NaviBarButtons(MediaQuery.of(context).size, context),
-    //   ),
-    // );
+
     String testUserName = 'leejaewon'; //테스트용 이름
     return FutureBuilder<QuerySnapshot>(
       future: parkinglots.orderBy('code').limit(documentLimit).get(),
@@ -275,7 +191,7 @@ class _SearchPageState extends State<SearchPage> {
                                               '_' +
                                               testUserName)
                                           .set({
-                                        "UserName": testUserName,
+                                        "user_name": testUserName,
                                         "name": parkingLotItemList[index].name,
                                         "address":
                                             parkingLotItemList[index].address,
