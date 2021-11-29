@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/check_reservation_admin.dart';
 import 'package:parkinglot/pages/home.dart';
 import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/pages/check_reservation.dart';
@@ -6,6 +7,9 @@ import 'package:parkinglot/pages/search.dart';
 import 'package:parkinglot/pages/mypage.dart';
 
 Widget NaviBarButtons(Size size, BuildContext context) {
+  // 관리자 vs 고객 수정 가능
+  bool isAdmin = true;
+
   return Container(
       color: Colors.white10,
       height: 80,
@@ -76,9 +80,19 @@ Widget NaviBarButtons(Size size, BuildContext context) {
                         fontWeight: FontWeight.bold)),
               ]),
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FavoritesPage()));
+                isAdmin
+                    ? showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => const AlertDialog(
+                              content: Text(
+                                '관리자는 즐겨찾기 탭에 접근이 불가합니다.',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ))
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FavoritesPage()));
               },
             ),
           ),
@@ -99,10 +113,15 @@ Widget NaviBarButtons(Size size, BuildContext context) {
               ]),
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CheckReservation()));
+                isAdmin
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckReservationAdmin()))
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckReservation()));
               },
             ),
           ),
