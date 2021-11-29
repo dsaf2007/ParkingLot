@@ -75,17 +75,13 @@ class _CheckReservationState extends State<CheckReservation> {
                             child: Card(
                               child: ListTile(
                                 onTap: () {},
-                                subtitle: Column(children: [
-                                  Row(
-                                    children: [
-                                      Image.asset('lib/images/park.png',
-                                          width: 100, height: 100),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                subtitle: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(width: 15,),
+                                        Column(
+                                          crossAxisAlignment:CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                                 ReservationList[index]
@@ -136,11 +132,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Image.asset('lib/images/park.png',
-                                          width: 100, height: 100),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
+                                      SizedBox(width: 15,),
                                       Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -172,8 +164,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                         onPressed: () {},
                                         icon: Icon(Icons.close),
                                       ),
-                                      // Image.asset('lib/images/park.png',
-                                      //     width: 100, height: 100),
                                     ],
                                   ),
                                   SizedBox(height: 5),
