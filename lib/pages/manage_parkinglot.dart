@@ -296,8 +296,8 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                       child: ElevatedButton(
                                         style: ButtonStyle(),
                                         onPressed: () {
-                                          addParkingLot(
-                                              name, address, fee, capacity);
+                                          // addParkingLot(
+                                          //     name, address, fee, capacity);
                                         },
                                         child: Text(
                                           "등록하기",
