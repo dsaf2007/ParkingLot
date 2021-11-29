@@ -7,6 +7,7 @@ import '../util/colors.dart';
 import '../pages/calendar_table.dart';
 
 import '../models/parkinglot_item.dart';
+import '../models/reservation_item.dart';
 
 class DateTimeSelection extends StatefulWidget {
   final ParkingLotItem parkingLotItem;
@@ -36,6 +37,9 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
   @override
   Widget build(BuildContext context) {
     final ParkingLotItem parkingLotItem = widget.parkingLotItem;
+    DateTime reservationDate;
+    ReservationItem reservationInfo =
+        ReservationItem(parkingLotItem, "No Data", "No Data", "No Data");
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
@@ -62,7 +66,17 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
-            Card1(),
+            Card1(
+              onSelectData: (DateTime date) {
+                reservationDate = date;
+                reservationInfo = ReservationItem(
+                  parkingLotItem,
+                  reservationDate.toString(),
+                  "[test] 13:00",
+                  "[test] 12,000",
+                );
+              },
+            ),
             Card2(),
             const SizedBox(
               height: 10,
@@ -120,7 +134,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                             builder: (context) => ApproveReservation(
                                   // todo: not parkinglotItem, but ReservationItem
                                   // build ReservationItem data and send!!
-                                  parkingLotItem: parkingLotItem,
+                                  reservationItem: reservationInfo,
                                 )));
                   },
                 ),
@@ -140,11 +154,23 @@ List<ExpandableController> controllerList = [
 
 int currentIndex = -1;
 
-class Card1 extends StatelessWidget {
-  CalendarTable cardBody = CalendarTable();
+class Card1 extends StatefulWidget {
+  Card1({Key? key, required this.onSelectData}) : super(key: key);
+  Function(DateTime) onSelectData;
+  // to get data from calendar
+  late DateTime selectedDay;
+  // for callback
+  late DateTime reservationDay;
+  @override
+  _Card1State createState() => _Card1State();
+}
 
+class _Card1State extends State<Card1> {
   @override
   Widget build(BuildContext context) {
+    CalendarTable cardBody = CalendarTable(onSelectDay: (selectedDay) {
+      widget.onSelectData(selectedDay);
+    });
     return ExpandableNotifier(
         child: Padding(
       padding: const EdgeInsets.all(15),
@@ -232,17 +258,6 @@ class Card2 extends StatefulWidget {
 }
 
 class _Card2State extends State<Card2> {
-  // MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
-  //   final getColor = (Set<MaterialState> states) {
-  //     if (states.contains(MaterialState.pressed)) {
-  //       return colorPressed;
-  //     } else {
-  //       return color;
-  //     }
-  //   };
-  //   return MaterialStateProperty.resolveWith(getColor);
-  // }
-
   List<String> timeListAM = [];
   List<String> timeListPM = [];
   // 버튼 선택 여부
