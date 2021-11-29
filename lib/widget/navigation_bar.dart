@@ -20,7 +20,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             padding: EdgeInsets.all(0),
             child: TextButton(
               child: Column(children: [
-                Icon(Icons.home_outlined),
+                Icon(
+                  Icons.home_outlined,
+                  color: darkGrey,
+                ),
                 SizedBox(height: 2),
                 Text('홈',
                     style: TextStyle(
@@ -39,7 +42,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             padding: EdgeInsets.all(0),
             child: TextButton(
               child: Column(children: [
-                Icon(Icons.search_outlined),
+                Icon(
+                  Icons.search_outlined,
+                  color: darkGrey,
+                ),
                 SizedBox(height: 2),
                 Text('검색',
                     style: TextStyle(
@@ -58,7 +64,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             padding: EdgeInsets.all(0),
             child: TextButton(
               child: Column(children: [
-                Icon(Icons.favorite_outline_sharp),
+                Icon(
+                  Icons.favorite_outline_sharp,
+                  color: darkGrey,
+                ),
                 SizedBox(height: 2),
                 Text('즐겨찾기',
                     style: TextStyle(
@@ -77,7 +86,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             padding: EdgeInsets.all(0),
             child: TextButton(
               child: Column(children: [
-                Icon(Icons.receipt_outlined),
+                Icon(
+                  Icons.receipt_outlined,
+                  color: darkGrey,
+                ),
                 SizedBox(height: 2),
                 Text('예약내역',
                     style: TextStyle(
@@ -98,7 +110,10 @@ Widget NaviBarButtons(Size size, BuildContext context) {
             padding: EdgeInsets.all(0),
             child: TextButton(
               child: Column(children: [
-                Icon(Icons.person_outline),
+                Icon(
+                  Icons.person_outline,
+                  color: darkGrey,
+                ),
                 SizedBox(height: 2),
                 Text('마이페이지',
                     style: TextStyle(
