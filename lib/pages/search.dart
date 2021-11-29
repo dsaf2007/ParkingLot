@@ -23,75 +23,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   _SearchPageState();
   List<ParkingLotItem> parkingLotItemList = [];
-  List<DocumentSnapshot> products = [];
-  bool isLoading = false;
-  bool hasMore = true;
-  int documentLimit = 10;
-  late DocumentSnapshot lastDocument;
-  final ScrollController _scrollController = ScrollController();
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  getParkinglots() async {
-    if (!hasMore) {
-      print('No More Parkinglot');
-      return;
-    }
-    if (isLoading) {
-      return;
-    }
-    setState(() {
-      isLoading = true;
-    });
-    QuerySnapshot querySnapshot;
-    // if (lastDocument == null) {
-    //   querySnapshot =
-    //       await firestore.collection('ParkingLot').limit(documentLimit).get();
-    // } else {
-    parkingLotItemList.clear();
-    querySnapshot = await firestore
-        .collection('ParkingLot')
-        .orderBy('code')
-        .limit(documentLimit)
-        .get();
-    print(1);
-    //}
-    if (querySnapshot.docs.length < documentLimit) {
-      hasMore = false;
-    }
-    products.addAll(querySnapshot.docs);
-    for (var doc in querySnapshot.docs) {
-      parkingLotItemList.add(ParkingLotItem(
-          doc["name"],
-          doc["address"],
-          doc["telephone"],
-          doc["parkingtime_permin"],
-          doc["pay_fee"],
-          doc["capacity"],
-          false));
-      print("doc :" + doc["name"]);
-      lastDocument = doc;
-    }
-    documentLimit += 10;
-    setState(() {
-      isLoading = false;
-      lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
-      lastDocument = products.last;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      double maxScroll = _scrollController.position.maxScrollExtent;
-      double currentScroll = _scrollController.position.pixels;
-      double delta = MediaQuery.of(context).size.height * 0.20;
-      if (maxScroll - currentScroll <= delta) {
-        getParkinglots();
-        print(
-            "scrollingscrollingscrollingscrollingscrollingscrollingscrollingscrollingscrollingscrolling");
-      }
-    });
-  }
 
   final key = GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = TextEditingController();
@@ -115,6 +46,11 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  final Stream<QuerySnapshot> parkinglots = FirebaseFirestore.instance
+      .collection('ParkingLot')
+      .orderBy('code')
+      .snapshots(includeMetadataChanges: true);
+
   @override
   Widget build(BuildContext context) {
     //bool isAdmin = true;
@@ -122,62 +58,58 @@ class _SearchPageState extends State<SearchPage> {
     bool isAdmin = true;
     String testUserName = 'leejaewon'; //테스트용 이름
 
-    CollectionReference parkinglots =
-        FirebaseFirestore.instance.collection('ParkingLot');
-
-    return FutureBuilder<QuerySnapshot>(
-      future: parkinglots.orderBy('code').limit(documentLimit).get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: parkinglots,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
-        if (snapshot.connectionState == ConnectionState.done) {
-          for (var doc in snapshot.data!.docs) {
-            parkingLotItemList.add(ParkingLotItem(
-                doc["name"],
-                doc["address"],
-                doc["telephone"],
-                doc["parkingtime_permin"],
-                doc["pay_fee"],
-                doc["capacity"],
-                false));
-            lastDocument = doc;
-          }
-          print(parkingLotItemList.first.name);
-          // TODO: implement build
-
-          return SafeArea(
-            child: Scaffold(
-              appBar: AppBar(
-                  backgroundColor: Colors.white,
-                  centerTitle: true,
-                  title: TextField(
-                    controller: _searchQuery,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                    decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.search, color: Colors.black),
-                        hintText: "  주차장을 검색하세요. ",
-                        hintStyle: TextStyle(color: Colors.black)),
-                  )),
-              // body: ListView(
-              //   padding: EdgeInsets.symmetric(vertical: 8.0),
-              //   children: <Widget>[
-              //     _IsSearching ? _createListView() : _createFilteredListView()
-              //   ],
-              // ),
-              body: Container(
-                  margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-                  child: _IsSearching
-                      ? _createFilteredListView()
-                      : _createListView()),
-              bottomNavigationBar:
-                  NaviBarButtons(MediaQuery.of(context).size, context),
-            ),
-          );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
         }
-        return CircularProgressIndicator();
+        for (var doc in snapshot.data!.docs) {
+          parkingLotItemList.add(ParkingLotItem(
+              doc["name"],
+              doc["address"],
+              doc["telephone"],
+              doc["parkingtime_permin"],
+              doc["pay_fee"],
+              doc["capacity"],
+              false));
+        }
+        print(parkingLotItemList.first.name);
+        // TODO: implement build
+
+        return SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+                backgroundColor: Colors.white,
+                centerTitle: true,
+                title: TextField(
+                  controller: _searchQuery,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.search, color: Colors.black),
+                      hintText: "  주차장 검색 ",
+                      hintStyle: TextStyle(color: Colors.black)),
+                )),
+            // body: ListView(
+            //   padding: EdgeInsets.symmetric(vertical: 8.0),
+            //   children: <Widget>[
+            //     _IsSearching ? _createListView() : _createFilteredListView()
+            //   ],
+            // ),
+            body: Container(
+                margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                child: _IsSearching
+                    ? _createFilteredListView()
+                    : _createListView()),
+            bottomNavigationBar:
+                NaviBarButtons(MediaQuery.of(context).size, context),
+          ),
+        );
       },
     );
   }
@@ -187,7 +119,6 @@ class _SearchPageState extends State<SearchPage> {
     return Flexible(
       child: ListView.builder(
         itemCount: parkingLotItemList.length,
-        controller: _scrollController,
         //itemCount: products.length,
         itemBuilder: (context, index) {
           //getParkinglots();
