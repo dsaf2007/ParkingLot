@@ -6,8 +6,12 @@ import 'package:parkinglot/widget/navigation_bar.dart';
 import '../util/colors.dart';
 import '../pages/calendar_table.dart';
 
+import '../models/parkinglot_item.dart';
+
 class DateTimeSelection extends StatefulWidget {
-  const DateTimeSelection({Key? key}) : super(key: key);
+  final ParkingLotItem parkingLotItem;
+  const DateTimeSelection({Key? key, required this.parkingLotItem})
+      : super(key: key);
 
   @override
   _DateTimeSelectionState createState() => _DateTimeSelectionState();
@@ -22,18 +26,21 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
-        pageBuilder: (_, __, ___) => DateTimeSelection(),
+        pageBuilder: (_, __, ___) => DateTimeSelection(
+          parkingLotItem: widget.parkingLotItem,
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final ParkingLotItem parkingLotItem = widget.parkingLotItem;
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
         // 값 전달 받기
-        title: Text(parkingLotName,
+        title: Text(parkingLotItem.name,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -110,7 +117,11 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ApproveReservation()));
+                            builder: (context) => ApproveReservation(
+                                  // todo: not parkinglotItem, but ReservationItem
+                                  // build ReservationItem data and send!!
+                                  parkingLotItem: parkingLotItem,
+                                )));
                   },
                 ),
               ],

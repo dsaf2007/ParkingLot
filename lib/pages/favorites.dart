@@ -129,8 +129,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          DateTimeSelection()));
+                                      builder: (context) => DateTimeSelection(
+                                            parkingLotItem: parkinglot[index],
+                                          )));
                             },
                             style: TextButton.styleFrom(
                                 backgroundColor: blue,
