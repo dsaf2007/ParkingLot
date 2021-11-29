@@ -156,6 +156,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 );
               },
             ),
-          )); 
+          ));
+        }
+      return CircularProgressIndicator();
+
+        },
+    ); 
   }
 }
