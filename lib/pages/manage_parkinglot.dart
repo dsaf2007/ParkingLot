@@ -104,8 +104,32 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
         return update
             .doc(doc_parse[1])
             .update({'pay_fee': fee})
-            .then((value) => print("User Updated"))
-            .catchError((error) => print("Failed to update user: $error"));
+            .then((value) => print("Fee Updated"))
+            .catchError((error) => print("Failed to update fee: $error"));
+      }
+    });
+    print(doc_id + " dkdkdkdkdkdkdkdkdk");
+  }
+
+  Future<void> deleteParkingLot(int code) async {
+    var doc_id = '';
+    var doc_parse = [];
+    print("update2 " + code.toString());
+    FirebaseFirestore.instance
+        .collection('ParkingLot')
+        .where('code', isEqualTo: code)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        doc_id = doc.reference.path.toString();
+        doc_parse = doc_id.split("/");
+        print("abc" + doc_parse[1]);
+        return update
+            .doc(doc_parse[1])
+            .delete()
+            .then((value) => print("ParkingLot Deleted"))
+            .catchError(
+                (error) => print("Failed to delete ParkingLot: $error"));
       }
     });
     print(doc_id + " dkdkdkdkdkdkdkdkdk");
