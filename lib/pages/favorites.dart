@@ -26,141 +26,137 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     String testUserName = 'leejaewon';
-    CollectionReference favDB =
-        FirebaseFirestore.instance.collection('Favorites');
+    // CollectionReference favDB =   FirebaseFirestore.instance.collection('Favorites');
+    final Stream<QuerySnapshot> favDB = FirebaseFirestore.instance
+        .collection('Favorites')
+        .snapshots(includeMetadataChanges: true);
 
-    return FutureBuilder<QuerySnapshot>(
-      future: favDB.get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: favDB,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
-        if (snapshot.connectionState == ConnectionState.done) {
-          parkinglot.clear();
-          for (var doc in snapshot.data!.docs) {
-            //list에 쌓이는 것 방지 clear로 초기화.
-            //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
-            // this.minute, this.fee, this.total_space, this.favorite);
-            parkinglot.add(ParkingLotItem(
-                doc["name"],
-                doc["address"],
-                doc["telephone"],
-                doc["minute"],
-                doc["fee"],
-                doc["total_space"],
-                false));
-          }
-
-          return SafeArea(
-              child: Scaffold(
-            bottomNavigationBar:
-                NaviBarButtons(MediaQuery.of(context).size, context),
-            appBar: AppBar(
-              // 값 전달 받기
-              title: Text('즐겨찾기',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-            ),
-            body: ListView.builder(
-              itemCount: parkinglot.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 1.0, horizontal: 1.0),
-                  child: Card(
-                    child: ListTile(
-                      onTap: () {},
-                      subtitle: 
-                      // Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                      //   children: [
-                      //     Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                              Column(
-
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                    children: [
-                                      // IconButton(
-                                      //   onPressed: () {},
-                                      //   icon: Icon(Icons.close),
-                                      //   iconSize: 15,
-                                      // ),
-                                      // SizedBox(width: 10),
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            
-                                            Text(parkinglot[index].name,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.black87,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 5),
-                                            Text(parkinglot[index].address),
-                                            Text(parkinglot[index].telephone),
-                                          ]),
-                                      //SizedBox(width: 120),
-                                      IconButton(
-                                        padding: EdgeInsets.only(top: 5),
-                                        constraints: BoxConstraints(),
-                                        onPressed: () {},
-                                        icon: Icon(Icons.close),
-                                        iconSize: 20,
-                                      ),
-                                    ],
-                                  ),
-                                  TextButton(
-                                    // onPressed: () {
-                                    //   Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                                    //     )
-                                    //   );
-                                    // },
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DateTimeSelection()));
-                                    },
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: blue,
-                                        minimumSize: Size(350, 20)),
-                                    child: const Text('예약하기',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ],
-                              ),
-                            // ],
-                          // )
-                        // ],
-                      ),
-                    ),
-                    // --- 이미지 넣기 ---
-                  // ),
-                );
-              },
-            ),
-          ));
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
         }
-      return CircularProgressIndicator();
+        parkinglot.clear();
+        for (var doc in snapshot.data!.docs) {
+          //list에 쌓이는 것 방지 clear로 초기화.
+          //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
+          // this.minute, this.fee, this.total_space, this.favorite);
+          parkinglot.add(ParkingLotItem(
+              doc["name"],
+              doc["address"],
+              doc["telephone"],
+              doc["minute"],
+              doc["fee"],
+              doc["total_space"],
+              doc["fee"],
+              false));
+        }
 
-        },
-    ); 
+        return SafeArea(
+            child: Scaffold(
+          bottomNavigationBar:
+              NaviBarButtons(MediaQuery.of(context).size, context),
+          appBar: AppBar(
+            // 값 전달 받기
+            title: Text('즐겨찾기',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+          ),
+          body: ListView.builder(
+            itemCount: parkinglot.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
+                child: Card(
+                  child: ListTile(
+                    onTap: () {},
+                    subtitle:
+                        // Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                        //   children: [
+                        //     Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // IconButton(
+                            //   onPressed: () {},
+                            //   icon: Icon(Icons.close),
+                            //   iconSize: 15,
+                            // ),
+                            // SizedBox(width: 10),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(parkinglot[index].name,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold)),
+                                  SizedBox(height: 5),
+                                  Text(parkinglot[index].address),
+                                  Text(parkinglot[index].telephone),
+                                ]),
+                            //SizedBox(width: 120),
+                            IconButton(
+                              padding: EdgeInsets.only(top: 5),
+                              constraints: BoxConstraints(),
+                              onPressed: () {},
+                              icon: Icon(Icons.close),
+                              iconSize: 20,
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          // onPressed: () {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                          //     )
+                          //   );
+                          // },
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DateTimeSelection()));
+                          },
+                          style: TextButton.styleFrom(
+                              backgroundColor: blue,
+                              minimumSize: Size(350, 20)),
+                          child: const Text('예약하기',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                    // ],
+                    // )
+                    // ],
+                  ),
+                ),
+                // --- 이미지 넣기 ---
+                // ),
+              );
+            },
+          ),
+        ));
+      },
+    );
   }
 }
