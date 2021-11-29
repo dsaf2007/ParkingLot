@@ -377,7 +377,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                 index]
                                                             .code,
                                                         10000);
-                                                    print("update");
+                                                    setState(() {});
                                                   },
                                                   child: Text(
                                                     "요금 수정하기",
