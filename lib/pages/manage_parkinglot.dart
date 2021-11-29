@@ -366,7 +366,10 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                               102),
                                                                       IconButton(
                                                                         onPressed:
-                                                                            () {},
+                                                                            () {
+                                                                          deleteParkingLot(
+                                                                              parkingLotItemList[index].code);
+                                                                        },
                                                                         icon: Icon(
                                                                             Icons.close),
                                                                       ),
