@@ -28,6 +28,7 @@ class _MyPageState extends State<MyPage> {
         Provider.of<userData>(context, listen: false).telephone;
     bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
 
+    print(isAdmin);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -56,12 +57,14 @@ class _MyPageState extends State<MyPage> {
                             width: 10,
                           ),
                           isAdmin
-                              ? Text("")
-                              : Text("관리자",
+                              ? Text("관리자",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
-                                  )),
+                                  ))
+                              : Text(
+                                  "",
+                                ),
                         ],
                       ),
                       SizedBox(

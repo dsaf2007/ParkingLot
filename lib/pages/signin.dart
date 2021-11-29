@@ -100,7 +100,7 @@ class _SignInPageState extends State<SignInPage> {
                       for (var doc in snapshot.docs) {
                         int passwd = doc["user_password"];
                         if (enterPW == passwd) {
-                          if (doc["is_admin"] == "False") {
+                          if (doc["is_admin"].compareTo("FALSE") == 0) {
                             Provider.of<userData>(context, listen: false)
                                 .adminEdit(false);
                           } else {
