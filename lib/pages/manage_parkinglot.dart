@@ -135,6 +135,21 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
     print(doc_id + " dkdkdkdkdkdkdkdkdk");
   }
 
+  Future<void> addParkingLot(
+      String name, String address, int fee, int capacity) {
+    // Call the user's CollectionReference to add a new user
+    return FirebaseFirestore.instance
+        .collection('ParkingLot')
+        .add({
+          'name': name,
+          'address': address,
+          'pay_fee': fee,
+          'capacity': capacity
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isAdmin = true;
@@ -281,7 +296,10 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                           EdgeInsets.fromLTRB(15, 10, 15, 10),
                                       child: ElevatedButton(
                                         style: ButtonStyle(),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          addParkingLot(
+                                              name, address, fee, capacity);
+                                        },
                                         child: Text(
                                           "등록하기",
                                           style: TextStyle(
