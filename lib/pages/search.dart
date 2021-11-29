@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/favorites.dart';
 import '../widget/navigation_bar.dart';
 
-
 // import 'package:parkinglot/models/parking_lot.dart' as globals;
 
 import '../util/colors.dart';
@@ -112,47 +111,68 @@ class _SearchPageState extends State<SearchPage> {
           // this.userName = data['Name'];
           // this.userPhoneNumber = data['User_PhoneNum'];
           for (var doc in snapshot.data!.docs) {
-            //ParkingLotItem(this.image_path, this.name, this.address, this.telephone, 
+            //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
             // this.minute, this.fee, this.total_space, this.favorite);
             print(doc);
-            parkingLotItemList.add(ParkingLotItem(doc["name"], doc["address"],doc["telephone"],
-              doc["parkingtime_permin"],doc["pay_fee"],doc["capacity"], false));
+            parkingLotItemList.add(ParkingLotItem(
+                doc["name"],
+                doc["address"],
+                doc["telephone"],
+                doc["parkingtime_permin"],
+                doc["pay_fee"],
+                doc["capacity"],
+                false));
             print(doc);
           }
-        // TODO: implement build
-        return SafeArea(
-    // TODO: implement build
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              leadingWidth: 5,
-              title: TextFormField(
-                controller: TextEditingController(),
-                decoration: InputDecoration(
-                  hintText: '  주차장 검색',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {},
-                  ),
-                )
-              )
-            ),
-            body: ListView.builder(
-              itemCount: parkinglot.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding:
-                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
-                  child: Card(
-                    child: ListTile(
-                      onTap: () {},
-                      subtitle: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+          // TODO: implement build
+          return SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  leadingWidth: 5,
+                  title: TextFormField(
+                      controller: TextEditingController(),
+                      decoration: InputDecoration(
+                        hintText: '  주차장 검색',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () {},
+                        ),
+                      ))),
+              body: ListView.builder(
+                //itemCount: parkinglot.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1.0, horizontal: 3.0),
+                      child: Card(
+                        child: ListTile(
+                          onTap: () {},
+                          subtitle: Column(children: [
+                            Row(
+                              children: [
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(parkingLotItemList[index].name,
+                                          style: TextStyle(
+                                              fontSize: 23,
+                                              color: blue,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 5),
+                                      Text(parkingLotItemList[index].address),
+                                      Text(parkingLotItemList[index].telephone),
+                                      Text(
+                                          '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
+                                    ]),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                     Text(parkingLotItemList[index].name,
                                         style: TextStyle(
@@ -229,6 +249,9 @@ class _SearchPageState extends State<SearchPage> {
             ),
               bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
               ),
+              bottomNavigationBar:
+                  NaviBarButtons(MediaQuery.of(context).size, context),
+            ),
           );
         }
         return CircularProgressIndicator();

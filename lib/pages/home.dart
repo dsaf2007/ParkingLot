@@ -1,13 +1,12 @@
 ﻿// home.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:parkinglot/pages/favorites.dart';
+import '../widget/navigation_bar.dart';
+import '../util/colors.dart';
+import 'datetime_selection.dart';
 // google map
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:parkinglot/util/colors.dart';
-import '../widget/navigation_bar.dart';
-import 'datetime_selection.dart';
-import 'favorites.dart';
 
 // map search
 class HomePage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   // google map
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition seoul =
-      CameraPosition(target: LatLng(37.562, 127), zoom: 14);
+      CameraPosition(target: LatLng(37.562, 127), zoom: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -132,14 +131,14 @@ class _HomePageState extends State<HomePage> {
         position: LatLng(37.562, 127),
       ),
     ];
-
-    return new Scaffold(
+    return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       body: Center(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.7,
           width: MediaQuery.of(context).size.width * 0.9,
           child: GoogleMap(
+            markers: markers.toSet(),
             mapType: MapType.normal,
             initialCameraPosition: seoul,
             onMapCreated: (GoogleMapController controller) {

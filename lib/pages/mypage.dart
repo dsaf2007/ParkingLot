@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/manage_parkinglot.dart';
 import '../widget/navigation_bar.dart';
 import 'alarm_list.dart';
 import 'edit_profile_checkpassword.dart';
@@ -27,152 +28,161 @@ class _MyPageState extends State<MyPage> {
       child: Scaffold(
         body: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // SizedBox(
+                      //   height: 50,
+                      // ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(userName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          isAdmin
+                              ? Text("관리자",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ))
+                              : Text(""),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(userPhoneNumber, style: TextStyle(fontSize: 18)),
+                      // SizedBox(
+                      //   height: 30,
+                      // )
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 5.0,
+                  color: lightGrey,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 5, left: 10),
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: ListView(
+                      // itemExtent: 55, // height of list tile
+                      scrollDirection: Axis.vertical,
                       children: <Widget>[
-                        Text(userName,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32,
-                            )),
-                        SizedBox(
-                          width: 10,
-                        ),
                         isAdmin
-                            ? Text("관리자",
+                            ? ListTile(
+                                leading: Icon(Icons.sticky_note_2_outlined),
+                                title: Text("주차장 관리",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ManageParkingLot()),
+                                  );
+                                },
+                              )
+                            : ListTile(
+                                leading: Icon(Icons.sticky_note_2_outlined),
+                                title: Text("서비스 사용방법",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              ),
+                        ListTile(
+                          leading: Icon(Icons.favorite_border_rounded),
+                          title: Text("즐겨찾기",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.notifications_none),
+                          title: Text("알림함",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AlarmList()),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text("회원정보 수정",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FixProfileCKPW()));
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.people),
+                          title: Text("팀 소개",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                        ListTile(
+                            leading: Icon(Icons.local_phone_outlined),
+                            title: Text("고객센터",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ))
-                            : Text(""),
-                      ],
+                                ))),
+                        ListTile(
+                          leading: Icon(Icons.help_outline),
+                          title: Text("FAQ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                      ]),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "로그아웃",
                     ),
                     SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                    Text(userPhoneNumber, style: TextStyle(fontSize: 18)),
-                    // SizedBox(
-                    //   height: 30,
-                    // )
+                    Text("|",
+                        style: TextStyle(
+                          color: Colors.black54,
+                        )),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("회원탈퇴"),
                   ],
                 ),
-              ),
-              Divider(
-                thickness: 5.0,
-                color: lightGrey,
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 5, left: 10),
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: ListView(
-                    // itemExtent: 55, // height of list tile
-                  scrollDirection: Axis.vertical,
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.sticky_note_2_outlined),
-                      title: Text("서비스 사용방법",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.favorite_border_rounded),
-                      title: Text("즐겨찾기",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.notifications_none),
-                      title: Text("알림함",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AlarmList()
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.person),
-                      title: Text("회원정보 수정",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                          )
-                        );
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text("팀 소개",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    ListTile(
-                        leading: Icon(Icons.local_phone_outlined),
-                        title: Text("고객센터",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ))),
-                    ListTile(
-                      leading: Icon(Icons.help_outline),
-                      title: Text("FAQ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                  ]
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "로그아웃",
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text("|",
-                    style: TextStyle(
-                      color: Colors.black54,
-                    )
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text("회원탈퇴"),
-                ],
-              ),
-            ]
-          ),
+              ]),
         ),
-        bottomNavigationBar:NaviBarButtons(MediaQuery.of(context).size, context),
+        bottomNavigationBar:
+            NaviBarButtons(MediaQuery.of(context).size, context),
       ),
     );
   }

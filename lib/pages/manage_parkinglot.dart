@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 
@@ -88,8 +88,15 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text("주차장 관리"),
+        // 값 전달 받기
+        title: Text('주차장 관리',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
       body: DefaultTabController(
           length: 2,
@@ -321,13 +328,13 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                             .address),
                                                         Text(parkinglotToManage[
                                                                 index]
-                                                            .number),
+                                                            .telephone),
                                                         Row(
                                                           children: <Widget>[
                                                             Text(
                                                               parkinglotToManage[
                                                                           index]
-                                                                      .cost
+                                                                      .fee
                                                                       .toString() +
                                                                   "원",
                                                               style: TextStyle(
@@ -367,7 +374,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                           showAlert(
                                               context,
                                               parkinglotToManage[index]
-                                                  .cost
+                                                  .fee
                                                   .toString());
                                         },
                                         child: Text(
