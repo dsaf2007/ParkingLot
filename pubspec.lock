@@ -21,11 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.8.1"
-=======
     version: "2.8.2"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   boolean_selector:
     dependency: transitive
     description:
@@ -39,11 +35,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.1.0"
-=======
     version: "1.2.0"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   charcode:
     dependency: transitive
     description:
@@ -64,33 +56,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.1.0"
-=======
     version: "1.0.7"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "5.4.5"
-=======
     version: "4.0.3"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.5.0"
-=======
     version: "1.0.7"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   collection:
     dependency: transitive
     description:
@@ -322,11 +302,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.12.10"
-=======
     version: "0.12.11"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   meta:
     dependency: transitive
     description:
@@ -436,11 +412,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.4.2"
-=======
     version: "0.4.8"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   typed_data:
     dependency: transitive
     description:
@@ -454,11 +426,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.1.0"
-=======
     version: "2.1.1"
->>>>>>> caadde4... add helper/doubleButtonBuilder
   xml:
     dependency: transitive
     description:

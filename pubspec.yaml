@@ -34,13 +34,10 @@ dependencies:
   firebase_analytics: ^8.3.4
   # Add the dependencies for any other Firebase products you want to use in your app
   # For example, to use Firebase Authentication and Cloud Firestore
-<<<<<<< HEAD
-  cloud_firestore: ^3.1.0
-=======
+
   # cloud_firestore: ^3.1.0
   cloud_firestore: ^1.0.0
 
->>>>>>> caadde4... add helper/doubleButtonBuilder
   firebase_core: ^1.0.0
 
   # google map search

@@ -144,17 +144,46 @@ class _SearchPageState extends State<SearchPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(parkingLotItemList[index].name,
-                                  style: TextStyle(
-                                      fontSize: 23,
-                                      color: blue,
-                                      fontWeight: FontWeight.bold)),
+                                  style: parkingLotNameStyle),
                               SizedBox(height: 5),
-                              Text(parkingLotItemList[index].address),
-                              Text(parkingLotItemList[index].telephone.isEmpty
-                                  ? "전화번호 없음"
-                                  : parkingLotItemList[index].telephone),
-                              Text(
-                                  '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: darkGrey,
+                                    size: 13,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(parkingLotItemList[index].address),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.phone,
+                                    color: darkGrey,
+                                    size: 13,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(parkingLotItemList[index]
+                                          .telephone
+                                          .isEmpty
+                                      ? "전화번호 없음"
+                                      : parkingLotItemList[index].telephone),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.attach_money,
+                                    color: darkGrey,
+                                    size: 15,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                      '30분 ${parkingLotItemList[index].fee} 원   |   총 ${parkingLotItemList[index].total_space} 면'),
+                                ],
+                              ),
                             ]),
                       ],
                     ),

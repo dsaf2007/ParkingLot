@@ -11,3 +11,6 @@ const lightGreen = Color.fromRGBO(135, 190, 135, 1.0); // 희미 초록
 const lightGrey = Color.fromRGBO(220, 220, 220, 1.0); // 버튼
 const mediumGrey = Color.fromRGBO(192, 192, 192, 1.0); // 나머지
 const darkGrey = Color.fromRGBO(100, 100, 100, 1.0); // 제목
+
+TextStyle parkingLotNameStyle =
+    TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold);

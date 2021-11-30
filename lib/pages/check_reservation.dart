@@ -144,55 +144,90 @@ class _CheckReservationState extends State<CheckReservation> {
                                           child: ListTile(
                                             onTap: () {},
                                             subtitle: Column(children: [
-                                              Row(
-                                                children: [
-                                                  Column(
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        pastReservationList[
+                                                                index]
+                                                            .parkingLotItem
+                                                            .name,
+                                                        style:
+                                                            parkingLotNameStyle),
+                                                    SizedBox(height: 5),
+                                                    Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .start,
+                                                              .center,
                                                       children: [
+                                                        Icon(
+                                                          Icons.calendar_today,
+                                                          color: darkGrey,
+                                                          size: 13,
+                                                        ),
+                                                        SizedBox(width: 5),
                                                         Text(
-                                                            pastReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .name,
-                                                            style: TextStyle(
-                                                                fontSize: 23,
-                                                                color: Colors
-                                                                    .black87,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        SizedBox(height: 5),
-                                                        Text(
-                                                            pastReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .address),
-                                                        Text(
-                                                            pastReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .telephone),
-                                                        Text(
-                                                            pastReservationList[
-                                                                    index]
-                                                                .date),
+                                                            "${pastReservationList[index].date}, "),
                                                         Text(pastReservationList[
                                                                     index]
                                                                 .start_time +
                                                             '~' +
-                                                            currentReservationList[
-                                                                    index]
-                                                                .end_time),
-                                                        Text(
                                                             pastReservationList[
                                                                     index]
-                                                                .total_fee),
-                                                      ]),
-                                                  SizedBox(height: 20),
-                                                ],
-                                              ),
+                                                                .end_time),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Row(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.location_on,
+                                                              color: darkGrey,
+                                                              size: 13,
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Text(pastReservationList[
+                                                                    index]
+                                                                .parkingLotItem
+                                                                .address),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 25,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.phone,
+                                                              color: darkGrey,
+                                                              size: 13,
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Text(pastReservationList[
+                                                                    index]
+                                                                .parkingLotItem
+                                                                .telephone),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.attach_money,
+                                                          color: darkGrey,
+                                                          size: 15,
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Text(
+                                                            "${pastReservationList[index].total_fee} 원"),
+                                                      ],
+                                                    )
+                                                  ]),
                                               SizedBox(height: 5),
                                             ]),
                                             // --- 이미지 넣기 ---
@@ -214,42 +249,31 @@ class _CheckReservationState extends State<CheckReservation> {
                                           child: ListTile(
                                             onTap: () {},
                                             subtitle: Column(children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Column(
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        currentReservationList[
+                                                                index]
+                                                            .parkingLotItem
+                                                            .name,
+                                                        style:
+                                                            parkingLotNameStyle),
+                                                    SizedBox(height: 5),
+                                                    Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .start,
+                                                              .center,
                                                       children: [
+                                                        Icon(
+                                                          Icons.calendar_today,
+                                                          color: darkGrey,
+                                                          size: 13,
+                                                        ),
+                                                        SizedBox(width: 5),
                                                         Text(
-                                                            currentReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .name,
-                                                            style: TextStyle(
-                                                                fontSize: 23,
-                                                                color: Colors
-                                                                    .black87,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        SizedBox(height: 5),
-                                                        Text(
-                                                            currentReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .address),
-                                                        Text(
-                                                            currentReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .telephone),
-                                                        Text(
-                                                            currentReservationList[
-                                                                    index]
-                                                                .date),
+                                                            "${currentReservationList[index].date}, "),
                                                         Text(currentReservationList[
                                                                     index]
                                                                 .start_time +
@@ -257,14 +281,58 @@ class _CheckReservationState extends State<CheckReservation> {
                                                             currentReservationList[
                                                                     index]
                                                                 .end_time),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Row(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.location_on,
+                                                              color: darkGrey,
+                                                              size: 13,
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Text(currentReservationList[
+                                                                    index]
+                                                                .parkingLotItem
+                                                                .address),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 25,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.phone,
+                                                              color: darkGrey,
+                                                              size: 13,
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Text(currentReservationList[
+                                                                    index]
+                                                                .parkingLotItem
+                                                                .telephone),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.attach_money,
+                                                          color: darkGrey,
+                                                          size: 15,
+                                                        ),
+                                                        SizedBox(width: 5),
                                                         Text(
-                                                            currentReservationList[
-                                                                        index]
-                                                                    .total_fee +
-                                                                '원'),
-                                                      ]),
-                                                ],
-                                              ),
+                                                            "예상 ${currentReservationList[index].total_fee} 원"),
+                                                      ],
+                                                    )
+                                                  ]),
                                               SizedBox(height: 5),
                                               Row(
                                                 mainAxisAlignment:
@@ -274,7 +342,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                   TextButton(
                                                     onPressed: () {
                                                       // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용----------------
-                                                      // 아래부분에서 예약취소 해야함
+                                                      // todo 아래부분에서 예약취소 해야함
                                                       // Provider.of<parkingLotData>(
                                                       //         context,
                                                       //         listen: false)
