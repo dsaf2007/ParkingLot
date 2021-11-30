@@ -81,12 +81,8 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
               },
             ),
             Card2(
-              onSelectTime: (
-                String startTime,
-                String endTime,
-                int times,
-                bool isSelected
-              ) {
+              onSelectTime: (String startTime, String endTime, int times,
+                  bool isSelected) {
                 reservationInfo.start_time = startTime;
                 reservationInfo.end_time = endTime;
                 reservationInfo.total_fee =
@@ -143,24 +139,23 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                   onPressed: () {
                     List<String> failed = [];
                     // 선택완료
-                    if(!selectFinished[0]) failed.add("날짜");
-                    if(!selectFinished[1]) failed.add("시간");
-                    
-                    if ( failed.isNotEmpty ) {
+                    if (!selectFinished[0]) failed.add("날짜");
+                    if (!selectFinished[1]) failed.add("시간");
+
+                    if (failed.isNotEmpty) {
                       Fluttertoast.showToast(
                         msg: "날짜 또는 시간을 입력해주세요.",
                       );
                       //print(failed.join(", ") + " not selected");
-                    }
-                    else{
+                    } else {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ApproveReservation(
-                                  // todo: not parkinglotItem, but ReservationItem
-                                  // build ReservationItem data and send!!
-                                  reservationItem: reservationInfo,
-                                )));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ApproveReservation(
+                                    // todo: not parkinglotItem, but ReservationItem
+                                    // build ReservationItem data and send!!
+                                    reservationItem: reservationInfo,
+                                  )));
                     }
                   },
                 ),
@@ -205,7 +200,7 @@ class _Card1State extends State<Card1> {
           // dateSelectionMessage = formatted;
           dateSelectionMessage = formatted;
         });
-        widget.onSelectDate(formatted);
+        widget.onSelectDate(formatted, true);
       },
     );
 
