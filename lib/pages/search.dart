@@ -1,17 +1,14 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:parkinglot/main.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
+import 'package:parkinglot/util/colors.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:parkinglot/models/parking_lot.dart' as globals;
-
-import '../util/colors.dart';
-import 'datetime_selection.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -172,8 +169,6 @@ class _SearchPageState extends State<SearchPage> {
                 NaviBarButtons(MediaQuery.of(context).size, context),
           ),
         );
-
-        return CircularProgressIndicator();
       },
     );
   }

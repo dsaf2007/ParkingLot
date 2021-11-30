@@ -2,20 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/rendering.dart';
-import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/pages/approve_reservation.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-import 'package:parkinglot/providers/parkinglotdata.dart';
-import 'package:parkinglot/providers/userdata.dart';
-import 'package:provider/provider.dart';
 import 'package:parkinglot/util/colors.dart';
 
-
 class DateTimeSelection extends StatefulWidget {
-  final ParkingLotItem parkingLotItem;
-  const DateTimeSelection({Key? key, required this.parkingLotItem})
-      : super(key: key);
-
+  const DateTimeSelection({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _DateTimeSelectionState createState() => _DateTimeSelectionState();
@@ -30,19 +24,16 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
-        pageBuilder: (_, __, ___) => DateTimeSelection(
-          parkingLotItem: widget.parkingLotItem,
-        ),
+        pageBuilder: (_, __, ___) => DateTimeSelection(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final ParkingLotItem parkingLotItem = widget.parkingLotItem;
     DateTime reservationDate;
-    ReservationItem reservationInfo = ReservationItem(
-        parkingLotItem, "No Data", "No Data", "No Data", "No Data", false);
+    // ReservationItem reservationInfo = ReservationItem(
+    //     parkingLotItem, "No Data", "No Data", "No Data", "No Data", false);
 
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
@@ -164,7 +155,6 @@ List<ExpandableController> controllerList = [
 
 int currentIndex = -1;
 
-
 class Card1 extends StatefulWidget {
   Card1({Key? key, required this.onSelectDate}) : super(key: key);
   Function(String) onSelectDate;
@@ -179,7 +169,6 @@ class Card1 extends StatefulWidget {
 
 class _Card1State extends State<Card1> {
   String dateSelectionMessage = "날짜 선택";
-
 
   @override
   Widget build(BuildContext context) {
@@ -329,7 +318,6 @@ class _Card2State extends State<Card2> {
       endTime = "$closeTime:00";
     } else {
       endTime = timeStringList[endIdx + 1];
-
     }
     return endTime;
   }
@@ -430,10 +418,10 @@ class _Card2State extends State<Card2> {
             },
             child: Text(timeList[i])),
       ));
-
     }
     return allButtonList;
   }
+
   CustomScrollView buildToggleButtonScrollView(bool isAM) {
     return CustomScrollView(
       primary: false,
@@ -454,6 +442,7 @@ class _Card2State extends State<Card2> {
       ],
     );
   }
+
   // void resetData() {}
   @override
   Widget build(BuildContext context) {
@@ -523,7 +512,6 @@ class _Card2State extends State<Card2> {
                               flex: 4,
                               child: Text(
                                 timeSelectionHeader,
-
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -558,12 +546,12 @@ class _Card2State extends State<Card2> {
                         Divider(
                           color: Colors.grey,
                         ),
-                      
+
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: buildToggleButtonScrollView(false),
                         ),
-                       
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[

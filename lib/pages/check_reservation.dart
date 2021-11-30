@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
+import 'package:parkinglot/models/reservation_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:provider/provider.dart';
-
 
 class CheckReservation extends StatefulWidget {
   final userId;
@@ -17,8 +17,8 @@ class CheckReservation extends StatefulWidget {
 }
 
 class _CheckReservationState extends State<CheckReservation> {
-  List<ReservationItem> past_reservationlist = [];
-  List<ReservationItem> current_reservationlist = [];
+  List<ReservationItem> pastReservationList = [];
+  List<ReservationItem> currentReservationList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,8 @@ class _CheckReservationState extends State<CheckReservation> {
             return Text("Sth Wrong");
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            past_reservationlist.clear();
-            current_reservationlist.clear();
+            pastReservationList.clear();
+            currentReservationList.clear();
             //Past / Current ReservationList에 DB에서 불러온 data 삽입-------
             //minute 임시
             int tempMin = 50;
@@ -43,29 +43,10 @@ class _CheckReservationState extends State<CheckReservation> {
               String fee = doc["fee_for_pay"].toString();
               String space = doc["total_space"].toString();
               if (doc["is_current"] == false) {
-                past_reservationlist.add(ReservationItem(
-                  ParkingLotItem(
-                    doc["name"],
-                    doc["address"],
-                    doc["number"],
-                    tempMin,
-                    doc["fee"],
-                    doc["total_space"],
-                    doc["code"],
-                    true,
-                    doc["weekday_begin_time"],
-                    doc["weekday_end_time"],
-                    doc["weekend_begin_time"],
-                    doc["weekend_end_time"],
-                  ),
-                  doc["date"],
-                  fee,
-                  doc["start_time"],
-                  doc["end_time"],
-                ));
-              } else {
-                current_reservationlist.add(ReservationItem(
-                  ParkingLotItem(
+                //             ReservationItem(this.parkingLotItem, this.date, this.start_time,
+                // this.end_time, this.total_fee, this.is_current);
+                pastReservationList.add(ReservationItem(
+                    ParkingLotItem(
                       doc["name"],
                       doc["address"],
                       doc["number"],
@@ -77,12 +58,33 @@ class _CheckReservationState extends State<CheckReservation> {
                       doc["weekday_begin_time"],
                       doc["weekday_end_time"],
                       doc["weekend_begin_time"],
-                      doc["weekend_end_time"]),
-                  doc["date"],
-                  fee,
-                  doc["start_time"],
-                  doc["end_time"],
-                ));
+                      doc["weekend_end_time"],
+                    ),
+                    doc["date"],
+                    fee,
+                    doc["start_time"],
+                    doc["end_time"],
+                    true));
+              } else {
+                currentReservationList.add(ReservationItem(
+                    ParkingLotItem(
+                        doc["name"],
+                        doc["address"],
+                        doc["number"],
+                        tempMin,
+                        doc["fee"],
+                        doc["total_space"],
+                        doc["code"],
+                        true,
+                        doc["weekday_begin_time"],
+                        doc["weekday_end_time"],
+                        doc["weekend_begin_time"],
+                        doc["weekend_end_time"]),
+                    doc["date"],
+                    fee,
+                    doc["start_time"],
+                    doc["end_time"],
+                    true));
               }
             }
             return SafeArea(
@@ -126,7 +128,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                 // 과거 예약 내역
                                 child: Center(
                                     child: ListView.builder(
-                                  itemCount: past_reservationlist.length,
+                                  itemCount: pastReservationList.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -150,7 +152,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                            past_reservationlist[
+                                                            pastReservationList[
                                                                     index]
                                                                 .parkingLotItem
                                                                 .name,
@@ -163,28 +165,28 @@ class _CheckReservationState extends State<CheckReservation> {
                                                                         .bold)),
                                                         SizedBox(height: 5),
                                                         Text(
-                                                            past_reservationlist[
+                                                            pastReservationList[
                                                                     index]
                                                                 .parkingLotItem
                                                                 .address),
                                                         Text(
-                                                            past_reservationlist[
+                                                            pastReservationList[
                                                                     index]
                                                                 .parkingLotItem
                                                                 .telephone),
                                                         Text(
-                                                            past_reservationlist[
+                                                            pastReservationList[
                                                                     index]
                                                                 .date),
-                                                        Text(past_reservationlist[
+                                                        Text(pastReservationList[
                                                                     index]
                                                                 .start_time +
                                                             '~' +
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                     index]
                                                                 .end_time),
                                                         Text(
-                                                            past_reservationlist[
+                                                            pastReservationList[
                                                                     index]
                                                                 .total_fee),
                                                       ]),
@@ -203,7 +205,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                 // 현재 예약 내역
                                 child: Center(
                                     child: ListView.builder(
-                                  itemCount: current_reservationlist.length,
+                                  itemCount: currentReservationList.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -229,7 +231,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                     index]
                                                                 .parkingLotItem
                                                                 .name,
@@ -242,28 +244,28 @@ class _CheckReservationState extends State<CheckReservation> {
                                                                         .bold)),
                                                         SizedBox(height: 5),
                                                         Text(
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                     index]
                                                                 .parkingLotItem
                                                                 .address),
                                                         Text(
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                     index]
                                                                 .parkingLotItem
                                                                 .telephone),
                                                         Text(
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                     index]
                                                                 .date),
-                                                        Text(current_reservationlist[
+                                                        Text(currentReservationList[
                                                                     index]
                                                                 .start_time +
                                                             '~' +
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                     index]
                                                                 .end_time),
                                                         Text(
-                                                            current_reservationlist[
+                                                            currentReservationList[
                                                                         index]
                                                                     .total_fee +
                                                                 '원'),
@@ -294,7 +296,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                           context,
                                                           listen: false)
                                                       .lotEdit(
-                                                          current_reservationlist[
+                                                          currentReservationList[
                                                                   index]
                                                               .parkingLotItem);
                                                   Navigator.push(

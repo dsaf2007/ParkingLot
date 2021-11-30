@@ -1,18 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/check_reservation.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/models/reservation_item.dart';
-import 'package:parkinglot/pages/favorites.dart';
-import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'check_reservation.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
-import 'package:parkinglot/providers/reservationdata.dart';
 import 'package:provider/provider.dart';
-
 
 class ApproveReservation extends StatefulWidget {
   final ReservationItem reservationItem;
@@ -24,29 +20,29 @@ class ApproveReservation extends StatefulWidget {
 }
 
 class _ApproveReservationState extends State<ApproveReservation> {
-/*<<<<<<< kkm
-  String reserveDate = '[TEST]2021.11.19 (금)';
+// <<<<<<< kkm
+//   String reserveDate = '[TEST]2021.11.19 (금)';
 
-  String parkingLotTime_week = '[TEST]00:00~24:00';
-  String parkingLotTime_sat = '[TEST]00:00~24:00';
-  String parkingLotTime_sun = '[TEST]00:00~24:00';
+//   String parkingLotTime_week = '[TEST]00:00~24:00';
+//   String parkingLotTime_sat = '[TEST]00:00~24:00';
+//   String parkingLotTime_sun = '[TEST]00:00~24:00';
 
-  // String parkingLotNumber = '[TEST]02-1234-1234';
-  // int parkingLotFee = 800;
-  // int total = 1600;
-  final baseTime = 30;
-  @override
-  Widget build(BuildContext context) {
-    ParkingLotItem parkingLotItem = widget.reservationItem.parkingLotItem;
-    TextStyle bigHeaderTextStyle = const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    );
-    TextStyle smallHeaderTextStyle = const TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.bold,
-    );
-=======*/
+//   // String parkingLotTelephone = '[TEST]02-1234-1234';
+//   // int parkingLotFee = 800;
+//   // int total = 1600;
+//   final baseTime = 30;
+//   @override
+//   Widget build(BuildContext context) {
+//     ParkingLotItem parkingLotItem = widget.reservationItem.parkingLotItem;
+//     TextStyle bigHeaderTextStyle = const TextStyle(
+//       fontSize: 20,
+//       fontWeight: FontWeight.bold,
+//     );
+//     TextStyle smallHeaderTextStyle = const TextStyle(
+//       fontSize: 15,
+//       fontWeight: FontWeight.bold,
+//     );
+// =======
   // 얘네도 추후 datetime_selection에서 받아와 수정 필요함.=====================================
   String reserveDate = '2021.11.19 (금)';
   String reserveStartTime = '09:00';
@@ -56,6 +52,15 @@ class _ApproveReservationState extends State<ApproveReservation> {
   Widget build(BuildContext context) {
     ParkingLotItem parkinglotdata = //Provider에서 ParkingLotItem Load
         Provider.of<parkingLotData>(context, listen: false).lotData;
+
+    TextStyle bigHeaderTextStyle = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    );
+    TextStyle smallHeaderTextStyle = const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.bold,
+    );
 
     String parkingLotName = parkinglotdata.name;
     String parkingLotAddress = parkinglotdata.address;
@@ -68,7 +73,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
         parkinglotdata.weekend_begin.toString().padLeft(2, '0') +
             ':' +
             parkinglotdata.weekend_end.toString().padLeft(2, '0');
-    String parkingLotNumber = parkinglotdata.telephone;
+    String parkingLotTelephone = parkinglotdata.telephone;
     int parkingLotFee = parkinglotdata.fee;
     int total = 1600; //-추후 값 받아와 계산 후 저장/출력 필요================================
     int testmin = 50;
@@ -78,7 +83,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
     return Scaffold(
       appBar: AppBar(
           // 값 전달 받기
-          title: Text(parkingLotItem.name, style: bigHeaderTextStyle),
+          title: Text(parkingLotName, style: bigHeaderTextStyle),
           centerTitle: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -187,13 +192,13 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: Text('요금 ($baseTime분 당)', style: smallHeaderTextStyle),
+                child: Text('요금 (30분 당)', style: smallHeaderTextStyle),
               ),
             ]),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
-                child: Text(parkingLotItem.address,
+                child: Text(parkingLotAddress,
                     style: TextStyle(
                       fontSize: 15,
                     )),
@@ -215,16 +220,16 @@ class _ApproveReservationState extends State<ApproveReservation> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
                 child: Text(
-                    parkingLotItem.telephone.isEmpty
+                    parkingLotTelephone.isEmpty
                         ? "전화번호 없음"
-                        : parkingLotItem.telephone,
+                        : parkingLotTelephone,
                     style: TextStyle(
                       fontSize: 15,
                     )),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-                child: Text('${parkingLotItem.fee} 원',
+                child: Text('${parkingLotFee} 원',
                     style: TextStyle(
                       fontSize: 15,
                     )),

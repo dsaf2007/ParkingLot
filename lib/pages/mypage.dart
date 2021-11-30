@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/alarm_list.dart';
+import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
 import 'package:parkinglot/pages/signin.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
+import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:provider/provider.dart';
-
 
 class MyPage extends StatefulWidget {
   @override
