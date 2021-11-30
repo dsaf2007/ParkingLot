@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'datetime_selection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:provider/provider.dart';
 //import 'read.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -19,16 +22,14 @@ List<ParkingLotItem> parkinglot = [];
 
 class _FavoritesPageState extends State<FavoritesPage> {
   List<String> favList = [];
-  // String parkinglotName = "";
-  // String parkinglotAdd = "";
-  // String parkinglotPN = "";
 
   @override
   Widget build(BuildContext context) {
-    String testUserName = 'leejaewon';
+    String userName = Provider.of<userData>(context, listen: false).name;
     // CollectionReference favDB =   FirebaseFirestore.instance.collection('Favorites');
     final Stream<QuerySnapshot> favDB = FirebaseFirestore.instance
         .collection('Favorites')
+        .where("user_name", isEqualTo: userName)
         .snapshots(includeMetadataChanges: true);
 
     return StreamBuilder<QuerySnapshot>(
@@ -53,7 +54,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
               doc["fee"],
               doc["total_space"],
               doc["fee"],
-              false));
+              false,
+              doc["weekday_begin_time"],
+              doc["weekday_end_time"],
+              doc["weekend_begin_time"],
+              doc["weekend_end_time"]));
         }
 
         return SafeArea(
@@ -132,6 +137,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           //   );
                           // },
                           onPressed: () {
+                            Provider.of<parkingLotData>(context, listen: false)
+                                .lotEdit(parkinglot[index]);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

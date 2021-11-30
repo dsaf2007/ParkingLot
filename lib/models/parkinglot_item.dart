@@ -11,7 +11,22 @@ class ParkingLotItem {
   int total_space;
   int code;
   bool favorite;
+  int weekday_begin;
+  int weekday_end;
+  int weekend_begin;
+  int weekend_end;
 
-  ParkingLotItem(this.name, this.address, this.telephone, this.minute, this.fee,
-      this.total_space, this.code, this.favorite);
+  ParkingLotItem(
+      this.name,
+      this.address,
+      this.telephone,
+      this.minute,
+      this.fee,
+      this.total_space,
+      this.code,
+      this.favorite,
+      this.weekday_begin,
+      this.weekday_end,
+      this.weekend_begin,
+      this.weekend_end);
 }

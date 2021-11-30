@@ -8,6 +8,7 @@ import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widget/navigation_bar.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:parkinglot/models/parking_lot.dart' as globals;
@@ -29,10 +30,10 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    //bool isAdmin = true;
-    //comment for comit test
-    bool isAdmin = true;
-    String testUserName = 'leejaewon'; //테스트용 이름
+    // bool isAdmin = true;
+    // String testUserName = 'leejaewon'; //테스트용 이름
+    bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
+    String userName = Provider.of<userData>(context, listen: false).name;
 
     return StreamBuilder<QuerySnapshot>(
       stream: parkinglots,
@@ -60,7 +61,11 @@ class _SearchPageState extends State<SearchPage> {
               doc["pay_fee"],
               doc["capacity"],
               doc["code"],
-              false));
+              false,
+              doc["weekday_begin_time"],
+              doc["weekday_end_time"],
+              doc["weekend_begin_time"],
+              doc["weekend_end_time"]));
           print(doc);
         }
         // TODO: implement build
@@ -118,9 +123,9 @@ class _SearchPageState extends State<SearchPage> {
                                         .collection("Favorites")
                                         .doc(parkingLotItemList[index].name +
                                             '_' +
-                                            testUserName)
+                                            userName)
                                         .set({
-                                      "UserName": testUserName,
+                                      "UserName": userName,
                                       "name": parkingLotItemList[index].name,
                                       "address":
                                           parkingLotItemList[index].address,
@@ -142,7 +147,7 @@ class _SearchPageState extends State<SearchPage> {
                                 SizedBox(width: 10),
                                 TextButton(
                                   onPressed: () {
-                                    // ParkingLot Provider의 lotData 수정.--------------------------
+                                    // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용------------------
                                     Provider.of<parkingLotData>(context,
                                             listen: false)
                                         .lotEdit(parkingLotItemList[index]);
