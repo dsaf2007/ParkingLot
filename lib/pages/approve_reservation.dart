@@ -347,12 +347,9 @@ class _ApproveReservationState extends State<ApproveReservation> {
                         "user_id": username,
                         "code": parkinglotdata.code,
                         "is_current": true,
-<<<<<<< HEAD
-                        "is_parked": false,
-=======
                         "reservation_code": createReservationCode(car_num,
-                            parkinglotdata.code, reserveDate, reserveEndTime)
->>>>>>> 3e24f97eef8e2ac3ee2da96271bb46db70803ae3
+                            parkinglotdata.code, reserveDate, reserveEndTime),
+                        "is_parked": false,
                       });
                       Navigator.pop(context);
                       Navigator.push(

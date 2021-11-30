@@ -8,13 +8,16 @@ class ReservationItem {
   String total_fee;
   String start_time;
   String end_time;
-<<<<<<< HEAD
-  bool is_parked;
-  ReservationItem(this.parkingLotItem, this.date, this.start_time,
-      this.end_time, this.total_fee, this.is_current, this.is_parked);
-=======
   String reservation_code;
-  ReservationItem(this.parkingLotItem, this.date, this.start_time,
-      this.end_time, this.total_fee, this.is_current, this.reservation_code);
->>>>>>> 3e24f97eef8e2ac3ee2da96271bb46db70803ae3
+  bool is_parked;
+
+  ReservationItem(
+      this.parkingLotItem,
+      this.date,
+      this.start_time,
+      this.end_time,
+      this.total_fee,
+      this.is_current,
+      this.reservation_code,
+      this.is_parked);
 }
