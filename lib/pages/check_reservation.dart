@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/models/reservation_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
+import 'package:parkinglot/providers/customerdata.dart';
 import 'package:parkinglot/util/helper.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:parkinglot/util/colors.dart';
@@ -29,7 +30,22 @@ class _CheckReservationState extends State<CheckReservation> {
     var historyList;
     CollectionReference reservationDB =
         FirebaseFirestore.instance.collection('Reservation');
-    String userName = Provider.of<userData>(context, listen: false).name;
+    bool user_isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
+    String user_userName = Provider.of<userData>(context, listen: false).name;
+    bool customer_isAdmin =
+        Provider.of<customerData>(context, listen: false).isAdmin;
+    String customer_userName =
+        Provider.of<customerData>(context, listen: false).name;
+    bool isAdmin;
+    String userName;
+
+    if (user_isAdmin == true) {
+      isAdmin = customer_isAdmin;
+      userName = customer_userName;
+    } else {
+      isAdmin = user_isAdmin;
+      userName = user_userName;
+    }
 
     return FutureBuilder<QuerySnapshot>(
         future: reservationDB.where('user_id', isEqualTo: userName).get(),
@@ -41,7 +57,7 @@ class _CheckReservationState extends State<CheckReservation> {
             pastReservationList.clear();
             currentReservationList.clear();
             //Past / Current ReservationList에 DB에서 불러온 data 삽입-------
-            //minute 임시 / begintime,endtime 쓰레기값
+
             int tempMin = 50;
             int time = 900;
             for (var doc in snapshot.data!.docs) {
@@ -96,11 +112,13 @@ class _CheckReservationState extends State<CheckReservation> {
             return SafeArea(
                 child: Scaffold(
               appBar: AppBar(
-                title: Text('예약 내역 확인',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    )),
+                title: isAdmin
+                    ? Text(userName + "의 예약내역")
+                    : Text('예약 내역 확인',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
                 centerTitle: true,
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,

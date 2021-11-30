@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/check_reservation.dart';
-import '../util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
+import 'package:parkinglot/providers/customerdata.dart';
+import 'package:provider/provider.dart';
 
 Widget UserDataTableWidget(BuildContext context) {
   final Stream<QuerySnapshot> users = FirebaseFirestore.instance
@@ -52,6 +54,11 @@ Widget UserDataTableWidget(BuildContext context) {
           cellItem.add(DataCell(TextButton(
             child: const Text("예약확인"),
             onPressed: () {
+              //cutomerData Provider 전송 - check_reservation_admin에서 사용
+              Provider.of<customerData>(context, listen: false)
+                  .userNameEdit(doc["name"]);
+              Provider.of<customerData>(context, listen: false)
+                  .adminEdit(doc["is_admin"]);
               Navigator.push(
                 context,
                 MaterialPageRoute(
