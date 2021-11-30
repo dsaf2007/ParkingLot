@@ -84,8 +84,9 @@ class _CheckReservationState extends State<CheckReservation> {
                     doc["date"],
                     doc["start_time"],
                     doc["end_time"],
-                    fee,
-                    true));
+                    doc["fee_for_pay"],
+                    true,
+                    doc["reservation_code"]));
               } else {
                 currentReservationList.add(ReservationItem(
                     ParkingLotItem(
@@ -105,8 +106,9 @@ class _CheckReservationState extends State<CheckReservation> {
                     doc["date"],
                     doc["start_time"],
                     doc["end_time"],
-                    fee,
-                    true));
+                    doc["fee_for_pay"],
+                    true,
+                    doc["reservation_code"]));
               }
             }
             return SafeArea(
