@@ -53,18 +53,6 @@ class _HomePageState extends State<HomePage> {
                     height: MediaQuery.of(context).size.height * 0.30,
                     child: Column(children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.close),
-                          ),
-                        ],
-                      ),
-                      Row(
                         children: [
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +117,7 @@ class _HomePageState extends State<HomePage> {
     return markerList;
   }
 
-  // google map
+  // google map6
   late GoogleMapController googleMapController;
 
   final CameraPosition seoul =
