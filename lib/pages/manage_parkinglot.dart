@@ -26,14 +26,14 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
   String dropDownValue = "중구";
   List<String> positionList = ["중구", "강서구", "서초구", "강남구"];
   List<ParkingLotItem> parkinglotToManage = [
-    ParkingLotItem(
-        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
-    ParkingLotItem(
-        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
-    ParkingLotItem(
-        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
-    ParkingLotItem(
-        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30,
+        true, 0, 0, 0, 0),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30,
+        true, 0, 0, 0, 0),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30,
+        true, 0, 0, 0, 0),
+    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30,
+        true, 0, 0, 0, 0),
   ];
 
   void showAlert(BuildContext context, String _cost) {

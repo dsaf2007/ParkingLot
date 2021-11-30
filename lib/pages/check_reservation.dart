@@ -5,6 +5,9 @@ import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import '../models/reservation_item.dart';
 import '../util/colors.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:provider/provider.dart';
 
 class CheckReservation extends StatefulWidget {
   final userId;
@@ -22,10 +25,10 @@ class _CheckReservationState extends State<CheckReservation> {
     var historyList;
     CollectionReference reservationDB =
         FirebaseFirestore.instance.collection('Reservation');
+    String userName = Provider.of<userData>(context, listen: false).name;
 
     return FutureBuilder<QuerySnapshot>(
-        //isEqualTo 조건 signin에서 불러온 userName으로 추후 변경 필요.------------
-        future: reservationDB.where('user_id', isEqualTo: "tempName").get(),
+        future: reservationDB.where('user_id', isEqualTo: userName).get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text("Sth Wrong");
@@ -42,17 +45,23 @@ class _CheckReservationState extends State<CheckReservation> {
               if (doc["is_current"] == false) {
                 past_reservationlist.add(ReservationItem(
                   ParkingLotItem(
-                      doc["name"],
-                      doc["address"],
-                      doc["number"],
-                      tempMin,
-                      doc["fee"],
-                      doc["total_space"],
-                      doc["code"],
-                      true),
+                    doc["name"],
+                    doc["address"],
+                    doc["number"],
+                    tempMin,
+                    doc["fee"],
+                    doc["total_space"],
+                    doc["code"],
+                    true,
+                    doc["weekday_begin_time"],
+                    doc["weekday_end_time"],
+                    doc["weekend_begin_time"],
+                    doc["weekend_end_time"],
+                  ),
                   doc["date"],
-                  doc["start_time"],
                   fee,
+                  doc["start_time"],
+                  doc["end_time"],
                 ));
               } else {
                 current_reservationlist.add(ReservationItem(
@@ -64,10 +73,15 @@ class _CheckReservationState extends State<CheckReservation> {
                       doc["fee"],
                       doc["total_space"],
                       doc["code"],
-                      true),
+                      true,
+                      doc["weekday_begin_time"],
+                      doc["weekday_end_time"],
+                      doc["weekend_begin_time"],
+                      doc["weekend_end_time"]),
                   doc["date"],
-                  doc["start_time"],
                   fee,
+                  doc["start_time"],
+                  doc["end_time"],
                 ));
               }
             }
@@ -162,10 +176,13 @@ class _CheckReservationState extends State<CheckReservation> {
                                                             past_reservationlist[
                                                                     index]
                                                                 .date),
-                                                        Text(
-                                                            past_reservationlist[
+                                                        Text(past_reservationlist[
                                                                     index]
-                                                                .hours),
+                                                                .start_time +
+                                                            '~' +
+                                                            current_reservationlist[
+                                                                    index]
+                                                                .end_time),
                                                         Text(
                                                             past_reservationlist[
                                                                     index]
@@ -238,14 +255,18 @@ class _CheckReservationState extends State<CheckReservation> {
                                                             current_reservationlist[
                                                                     index]
                                                                 .date),
-                                                        Text(
+                                                        Text(current_reservationlist[
+                                                                    index]
+                                                                .start_time +
+                                                            '~' +
                                                             current_reservationlist[
                                                                     index]
-                                                                .hours),
+                                                                .end_time),
                                                         Text(
                                                             current_reservationlist[
-                                                                    index]
-                                                                .total_fee),
+                                                                        index]
+                                                                    .total_fee +
+                                                                '원'),
                                                       ]),
                                                   SizedBox(height: 20),
                                                   SizedBox(width: 25),
@@ -268,6 +289,14 @@ class _CheckReservationState extends State<CheckReservation> {
                                                 //   );
                                                 // },
                                                 onPressed: () {
+                                                  // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용----------------
+                                                  Provider.of<parkingLotData>(
+                                                          context,
+                                                          listen: false)
+                                                      .lotEdit(
+                                                          current_reservationlist[
+                                                                  index]
+                                                              .parkingLotItem);
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(

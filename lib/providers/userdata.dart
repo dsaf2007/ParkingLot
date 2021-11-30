@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parkinglot/models/parkinglot_item.dart';
-import 'package:parkinglot/pages/edit_profile_fixinfo.dart';
 
 class userData with ChangeNotifier {
   bool isAdmin = true;
