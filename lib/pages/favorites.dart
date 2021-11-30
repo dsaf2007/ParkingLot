@@ -26,65 +26,63 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     String testUserName = 'leejaewon';
-    CollectionReference favDB =
-        FirebaseFirestore.instance.collection('Favorites');
+    // CollectionReference favDB =   FirebaseFirestore.instance.collection('Favorites');
+    final Stream<QuerySnapshot> favDB = FirebaseFirestore.instance
+        .collection('Favorites')
+        .snapshots(includeMetadataChanges: true);
 
-    return FutureBuilder<QuerySnapshot>(
-      future: favDB.get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: favDB,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
-        if (snapshot.connectionState == ConnectionState.done) {
-          parkinglot.clear();
-          for (var doc in snapshot.data!.docs) {
-            //list에 쌓이는 것 방지 clear로 초기화.
-            //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
-            // this.minute, this.fee, this.total_space, this.favorite);
-            parkinglot.add(ParkingLotItem(
-                doc["name"],
-                doc["address"],
-                doc["telephone"],
-                doc["minute"],
-                doc["fee"],
-                doc["total_space"],
-                false));
-          }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+        parkinglot.clear();
+        for (var doc in snapshot.data!.docs) {
+          //list에 쌓이는 것 방지 clear로 초기화.
+          //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
+          // this.minute, this.fee, this.total_space, this.favorite);
+          parkinglot.add(ParkingLotItem(
+              doc["name"],
+              doc["address"],
+              doc["telephone"],
+              doc["minute"],
+              doc["fee"],
+              doc["total_space"],
+              doc["fee"],
+              false));
+        }
 
-          return SafeArea(
-              child: Scaffold(
-            bottomNavigationBar:
-                NaviBarButtons(MediaQuery.of(context).size, context),
-            appBar: AppBar(
-              // 값 전달 받기
-              title: Text('즐겨찾기',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-            ),
-            body: ListView.builder(
-              itemCount: parkinglot.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 1.0, horizontal: 1.0),
-                  child: Card(
-                    child: ListTile(
-                      onTap: () {},
-                      subtitle: 
-                      // Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                      //   children: [
-                      //     Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                              Column(
-
+        return SafeArea(
+            child: Scaffold(
+          bottomNavigationBar:
+              NaviBarButtons(MediaQuery.of(context).size, context),
+          appBar: AppBar(
+            // 값 전달 받기
+            title: Text('즐겨찾기',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+          ),
+          body: ListView.builder(
+            itemCount: parkinglot.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
+                child: Card(
+                  child: ListTile(
+                    onTap: () {},
+                    subtitle:
+                        // Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.stretch,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
                                   Row(
@@ -151,17 +149,19 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           // )
                         // ],
                       ),
-                    ),
-                    // --- 이미지 넣기 ---
-                  // ),
-                );
-              },
-            ),
-          ));
-        }
-      return CircularProgressIndicator();
-
-        },
-    ); 
+                      ),
+                    // ],
+                    // )
+                    // ],
+                  ),
+                ),
+                // --- 이미지 넣기 ---
+                // ),
+              );
+            },
+          ),
+        ));
+      },
+    );
   }
 }

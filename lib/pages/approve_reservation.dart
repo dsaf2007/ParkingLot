@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
+import 'package:parkinglot/models/reservation_item.dart';
 import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'check_reservation.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:provider/provider.dart';
 
 class ApproveReservation extends StatefulWidget {
+  const ApproveReservation({
+    Key? key,
+  }) : super(key: key);
   @override
   _ApproveReservationState createState() => _ApproveReservationState();
 }
@@ -24,11 +32,15 @@ class _ApproveReservationState extends State<ApproveReservation> {
   String parkingLotNumber = '02-1234-1234';
   int parkingLotFee = 800;
   int total = 1600;
+  String testUserName = 'leejaewon';
+  int testmin = 50;
+  int testspace = 50;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
           // 값 전달 받기
           title: Text(parkingLotName,
               style: TextStyle(
@@ -257,13 +269,44 @@ class _ApproveReservationState extends State<ApproveReservation> {
             onPressed: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                content: Text(
+                content: const Text(
                   '성공적으로 예약이 완료되었습니다.',
                   style: TextStyle(fontSize: 15),
                 ),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
+                      //----- push to DB; 추후 예약 진행하는 주차장 정보를 받아와 변경 필요 -----
+                      // Provider로 data 받아옴
+                      int test_total_space = 50;
+                      ParkingLotItem parkinglotdata =
+                          Provider.of<parkingLotData>(context, listen: false)
+                              .lotData;
+                      String UserName =
+                          Provider.of<userData>(context, listen: false).name;
+                      FirebaseFirestore.instance
+                          .collection("Reservation")
+                          .doc(UserName +
+                              '_' +
+                              parkinglotdata.name +
+                              '_' +
+                              reserveDate + //#
+                              '_' +
+                              reserveStartTime) //#
+                          .set({
+                        "name": parkinglotdata.name,
+                        "address": parkinglotdata.address,
+                        "number": parkinglotdata.telephone,
+                        "fee": parkinglotdata.fee,
+                        "total_space": parkinglotdata.total_space,
+                        "date": reserveDate, //#
+                        "start_time": reserveStartTime, //#
+                        "end_time": reserveEndTime, //#
+                        "fee_for_pay": total, //#
+                        "user_id": UserName,
+                        "code": parkinglotdata.code,
+                        "is_current": true,
+                      });
                       Navigator.pop(context);
                       Navigator.push(
                           context,
