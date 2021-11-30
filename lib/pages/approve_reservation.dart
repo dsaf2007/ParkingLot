@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/models/reservation_item.dart';
+import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'check_reservation.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
+import 'package:parkinglot/providers/reservationdata.dart';
 import 'package:provider/provider.dart';
 
 class ApproveReservation extends StatefulWidget {
@@ -19,28 +21,35 @@ class ApproveReservation extends StatefulWidget {
 }
 
 class _ApproveReservationState extends State<ApproveReservation> {
+  // 얘네도 추후 datetime_selection에서 받아와 수정 필요함.=====================================
   String reserveDate = '2021.11.19 (금)';
   String reserveStartTime = '09:00';
   String reserveEndTime = '10:00';
 
-  String parkingLotName = '대한극장';
-  String parkingLotAddress = '서울 중구 필동 2가';
-  String parkingLotTime_week = '00:00~24:00';
-  String parkingLotTime_sat = '00:00~24:00';
-  String parkingLotTime_sun = '00:00~24:00';
-
-  String parkingLotNumber = '02-1234-1234';
-  int parkingLotFee = 800;
-  int total = 1600;
-  String testUserName = 'leejaewon';
-  int testmin = 50;
-  int testspace = 50;
-
   @override
   Widget build(BuildContext context) {
+    ParkingLotItem parkinglotdata = //Provider에서 ParkingLotItem Load
+        Provider.of<parkingLotData>(context, listen: false).lotData;
+
+    String parkingLotName = parkinglotdata.name;
+    String parkingLotAddress = parkinglotdata.address;
+    //주차장 정보- 운영 시간에서 int->String 형변환+두자리수로 표기
+    String parkingLotTime_weekday =
+        parkinglotdata.weekday_begin.toString().padLeft(2, '0') +
+            ':' +
+            parkinglotdata.weekday_end.toString().padLeft(2, '0');
+    String parkingLotTime_weekend =
+        parkinglotdata.weekend_begin.toString().padLeft(2, '0') +
+            ':' +
+            parkinglotdata.weekend_end.toString().padLeft(2, '0');
+    String parkingLotNumber = parkinglotdata.telephone;
+    int parkingLotFee = parkinglotdata.fee;
+    int total = 1600; //-추후 값 받아와 계산 후 저장/출력 필요================================
+    int testmin = 50;
+    String username = Provider.of<userData>(context, listen: false).name;
+    int total_space = parkinglotdata.total_space;
     return Scaffold(
       appBar: AppBar(
-
           // 값 전달 받기
           title: Text(parkingLotName,
               style: TextStyle(
@@ -191,14 +200,14 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-                child: Text('평일 ' + parkingLotTime_week,
+                child: Text('평일 ' + parkingLotTime_weekday,
                     style: TextStyle(
                       fontSize: 15,
                     )),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
-                child: Text('주말 ' + parkingLotTime_sun,
+                child: Text('주말 ' + parkingLotTime_weekend,
                     style: TextStyle(
                       fontSize: 15,
                     )),
@@ -279,14 +288,9 @@ class _ApproveReservationState extends State<ApproveReservation> {
                       //----- push to DB; 추후 예약 진행하는 주차장 정보를 받아와 변경 필요 -----
                       // Provider로 data 받아옴
                       int test_total_space = 50;
-                      ParkingLotItem parkinglotdata =
-                          Provider.of<parkingLotData>(context, listen: false)
-                              .lotData;
-                      String UserName =
-                          Provider.of<userData>(context, listen: false).name;
                       FirebaseFirestore.instance
                           .collection("Reservation")
-                          .doc(UserName +
+                          .doc(username +
                               '_' +
                               parkinglotdata.name +
                               '_' +
@@ -303,7 +307,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
                         "start_time": reserveStartTime, //#
                         "end_time": reserveEndTime, //#
                         "fee_for_pay": total, //#
-                        "user_id": UserName,
+                        "user_id": username,
                         "code": parkinglotdata.code,
                         "is_current": true,
                       });

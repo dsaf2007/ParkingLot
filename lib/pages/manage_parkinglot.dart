@@ -61,6 +61,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
           children: <Widget>[
             Center(
               child: TextFormField(
+                onChanged: (text) {
+                  new_fee = int.parse(text);
+                },
                 decoration: InputDecoration(
                   hintText: _cost,
                 ),
@@ -85,6 +88,11 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
 
   CollectionReference update =
       FirebaseFirestore.instance.collection('ParkingLot');
+
+  String new_name = '';
+  String new_address = '';
+  late int new_fee;
+  late int new_capacity;
 
   Future<void> updateFee(int code, int fee) async {
     var doc_id = '';
@@ -165,15 +173,19 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
           }
           for (var doc in snapshot.data!.docs) {
             parkingLotItemList.add(ParkingLotItem(
-                doc["name"],
-                doc["address"],
-                doc["telephone"],
-                doc["minute"],
-                doc["fee"],
-                doc["total_space"],
-                doc["code"],
-                doc["favorite"],
-                false));
+              doc["name"],
+              doc["address"],
+              doc["telephone"],
+              doc["parkingtime_permin"],
+              doc["pay_fee"],
+              doc["capacity"],
+              doc["code"],
+              false,
+              doc["weekday_begin_time"],
+              doc["weekday_end_time"],
+              doc["weekend_begin_time"],
+              doc["weekend_end_time"],
+            ));
           }
           print(parkingLotItemList.first.name);
           return Scaffold(
@@ -378,6 +390,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                       padding:
                                           EdgeInsets.fromLTRB(15, 10, 15, 10),
                                       child: TextFormField(
+                                          onChanged: (text) {
+                                            new_name = text;
+                                          },
                                           autofocus: true,
                                           textInputAction: TextInputAction.next,
                                           decoration: InputDecoration(
@@ -392,6 +407,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                       padding:
                                           EdgeInsets.fromLTRB(15, 10, 15, 10),
                                       child: TextFormField(
+                                          onChanged: (text) {
+                                            new_address = text;
+                                          },
                                           autofocus: true,
                                           textInputAction: TextInputAction.next,
                                           decoration: InputDecoration(
@@ -406,6 +424,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                       padding:
                                           EdgeInsets.fromLTRB(15, 10, 15, 10),
                                       child: TextFormField(
+                                          onChanged: (text) {
+                                            new_fee = int.parse(text);
+                                          },
                                           autofocus: true,
                                           textInputAction: TextInputAction.next,
                                           decoration: InputDecoration(
@@ -421,6 +442,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                       padding:
                                           EdgeInsets.fromLTRB(15, 10, 15, 10),
                                       child: TextFormField(
+                                          onChanged: (text) {
+                                            new_capacity = int.parse(text);
+                                          },
                                           autofocus: true,
                                           textInputAction: TextInputAction.next,
                                           decoration: InputDecoration(
@@ -438,8 +462,8 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                       child: ElevatedButton(
                                         style: ButtonStyle(),
                                         onPressed: () {
-                                          // addParkingLot(
-                                          //     name, address, fee, capacity);
+                                          addParkingLot(new_name, new_address,
+                                              new_fee, new_capacity);
                                         },
                                         child: Text(
                                           "등록하기",
