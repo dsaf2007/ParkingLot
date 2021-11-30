@@ -46,9 +46,6 @@ class _ApproveReservationState extends State<ApproveReservation> {
 // =======
   // 얘네도 추후 datetime_selection에서 받아와 수정 필요함.=====================================
 
-  String reserveStartTime = '09:00';
-  String reserveEndTime = '10:00';
-
   @override
   Widget build(BuildContext context) {
     ReservationItem reservedata =
