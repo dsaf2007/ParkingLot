@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/signin.dart';
-import 'package:parkinglot/util/colors.dart';
-import 'package:parkinglot/providers/parkinglotdata.dart';
-import 'package:parkinglot/providers/userdata.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+import './util/colors.dart';
+import 'package:parkinglot/pages/alarm_list.dart';
 
+// move to util/colors.dart later..
 
 class MyPage extends StatefulWidget {
   @override
@@ -14,12 +12,10 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
-    String userName = Provider.of<userData>(context, listen: false).name;
-    String userPhoneNumber =
-        Provider.of<userData>(context, listen: false).telephone;
-    bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
+    final String userName = "정동구"; // later.. user.name
+    final String userPhoneNumber = "010-****-1234"; // user.phoneNumber
+    bool isAdmin = true;
 
-    print(isAdmin);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -53,9 +49,7 @@ class _MyPageState extends State<MyPage> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ))
-                              : Text(
-                                  "",
-                                ),
+                              : Text(""),
                         ],
                       ),
                       SizedBox(
@@ -100,6 +94,7 @@ class _MyPageState extends State<MyPage> {
                                 fontWeight: FontWeight.bold,
                               )),
                           onTap: () {
+                            // 알림함 페이지로 이동
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -113,12 +108,6 @@ class _MyPageState extends State<MyPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FixProfileCKPW()));
-                          },
                         ),
                         ListTile(
                           leading: Icon(Icons.people),
@@ -145,30 +134,24 @@ class _MyPageState extends State<MyPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignInPage()),
-                        );
-                      },
-                      child: Text("로그아웃"),
+                    Text(
+                      "로그아웃",
+                    ),
+                    SizedBox(
+                      width: 20,
                     ),
                     Text("|",
                         style: TextStyle(
                           color: Colors.black54,
                         )),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text("회원탈퇴"),
+                    SizedBox(
+                      width: 20,
                     ),
+                    Text("회원탈퇴"),
                   ],
                 ),
               ]),
         ),
-        bottomNavigationBar:
-            NaviBarButtons(MediaQuery.of(context).size, context),
       ),
     );
   }

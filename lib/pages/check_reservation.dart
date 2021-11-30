@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-import '../models/reservation_item.dart';
-import '../util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:provider/provider.dart';
+
 
 class CheckReservation extends StatefulWidget {
   final userId;

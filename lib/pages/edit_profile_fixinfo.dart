@@ -1,9 +1,7 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
-import 'package:parkinglot/pages/mypage.dart';
-
+import '../util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
 import 'edit_profile_checkpassword.dart';
 
 String checkPassword = '';

@@ -1,12 +1,9 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkinglot/main.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../widget/navigation_bar.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:provider/provider.dart';
