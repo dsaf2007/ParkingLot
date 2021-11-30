@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/favorites.dart';
+import 'package:parkinglot/providers/userdata.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
+import 'package:provider/provider.dart';
 
 // import 'package:parkinglot/models/parking_lot.dart' as globals;
 
@@ -94,6 +96,11 @@ class _SearchPageState extends State<SearchPage> {
                 backgroundColor: Colors.white,
                 centerTitle: true,
                 title: TextField(
+                  onChanged: (text) {
+                    print("on changed : " + text);
+                    _searchText = text;
+                    _IsSearching = true;
+                  },
                   controller: _searchQuery,
                   style: TextStyle(
                     color: Colors.black,
@@ -128,6 +135,8 @@ class _SearchPageState extends State<SearchPage> {
         itemCount: parkingLotItemList.length,
         //itemCount: products.length,
         itemBuilder: (context, index) {
+          bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
+          String userName = Provider.of<userData>(context, listen: false).name;
           final size = MediaQuery.of(context).size;
           Size doubleButtonSize = Size(size.width * 0.4, 20);
           //getParkinglots();
@@ -197,9 +206,9 @@ class _SearchPageState extends State<SearchPage> {
                                 .collection("Favorites")
                                 .doc(parkingLotItemList[index].name +
                                     '_' +
-                                    'leejaewon')
+                                    userName) //------------------------------------------------------------------------------
                                 .set({
-                              "user_name": 'leejaewon',
+                              "user_name": userName,
                               "name": parkingLotItemList[index].name,
                               "address": parkingLotItemList[index].address,
                               "telephone": parkingLotItemList[index].telephone,
@@ -207,6 +216,15 @@ class _SearchPageState extends State<SearchPage> {
                               "fee": parkingLotItemList[index].fee,
                               "total_space":
                                   parkingLotItemList[index].total_space,
+                              "code": parkingLotItemList[index].code,
+                              "weekday_begin":
+                                  parkingLotItemList[index].weekday_begin,
+                              "weekday_end":
+                                  parkingLotItemList[index].weekday_end,
+                              "weekend_begin":
+                                  parkingLotItemList[index].weekend_begin,
+                              "weekend_end":
+                                  parkingLotItemList[index].weekend_end,
                             });
                             Navigator.push(
                                 context,
@@ -255,17 +273,124 @@ class _SearchPageState extends State<SearchPage> {
     }
     return Flexible(
       child: ListView.builder(
-          itemCount: _filterList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-              color: Colors.white,
-              elevation: 5.0,
-              child: Container(
-                margin: EdgeInsets.all(15.0),
-                child: Text("${_filterList[index]}"),
-              ),
-            );
-          }),
+        itemCount: _filterList.length,
+        //itemCount: products.length,
+        itemBuilder: (context, index) {
+          bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
+          String userName = Provider.of<userData>(context, listen: false).name;
+          final size = MediaQuery.of(context).size;
+          Size doubleButtonSize = Size(size.width * 0.4, 20);
+          //getParkinglots();
+          return Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
+              child: Card(
+                child: ListTile(
+                  onTap: () {},
+                  subtitle: Column(children: [
+                    Row(
+                      children: [
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_filterList[index].name,
+                                  style: parkingLotNameStyle),
+                              SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: darkGrey,
+                                    size: 13,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(_filterList[index].address),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.phone,
+                                    color: darkGrey,
+                                    size: 13,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(_filterList[index].telephone.isEmpty
+                                      ? "전화번호 없음"
+                                      : _filterList[index].telephone),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.attach_money,
+                                    color: darkGrey,
+                                    size: 15,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                      '30분 ${_filterList[index].fee} 원   |   총 ${_filterList[index].total_space} 면'),
+                                ],
+                              ),
+                            ]),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection("Favorites")
+                                .doc(_filterList[index].name +
+                                    '_' +
+                                    userName) //------------------------------------------------------------------------------
+                                .set({
+                              "user_name": userName,
+                              "name": _filterList[index].name,
+                              "address": _filterList[index].address,
+                              "telephone": _filterList[index].telephone,
+                              "minute": _filterList[index].minute,
+                              "fee": _filterList[index].fee,
+                              "total_space": _filterList[index].total_space,
+                              "code": _filterList[index].code,
+                              "weekday_begin": _filterList[index].weekday_begin,
+                              "weekday_end": _filterList[index].weekday_end,
+                              "weekend_begin": _filterList[index].weekend_begin,
+                              "weekend_end": _filterList[index].weekend_end,
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FavoritesPage()));
+                          },
+                          style: buildDoubleButtonStyle(
+                              lightGrey, doubleButtonSize),
+                          child: const Text('즐겨찾기 추가',
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                        SizedBox(width: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DateTimeSelection()));
+                          },
+                          style: buildDoubleButtonStyle(blue, doubleButtonSize),
+                          child: const Text('예약하기',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        SizedBox(height: 5),
+                      ],
+                    )
+                  ]),
+                  // --- 이미지 넣기 ---
+                ),
+              ));
+        },
+      ),
     );
   }
 }
