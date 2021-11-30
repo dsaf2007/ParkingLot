@@ -1,4 +1,3 @@
-﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
@@ -24,12 +23,18 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
     vertical: 15.0,
     horizontal: 15.0,
   );
-  List<ParkingLotItem> parkingLotItemList = [];
-
-  final Stream<QuerySnapshot> parkinglots = FirebaseFirestore.instance
-      .collection('ParkingLot')
-      .orderBy('code')
-      .snapshots(includeMetadataChanges: true);
+  String dropDownValue = "중구";
+  List<String> positionList = ["중구", "강서구", "서초구", "강남구"];
+  List<ParkingLotItem> parkinglotToManage = [
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
+    ParkingLotItem(
+        '대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, 30, true),
+  ];
 
   void showAlert(BuildContext context, String _cost) {
     TextButton cancelButton = TextButton(
@@ -83,74 +88,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
     );
   }
 
-  CollectionReference update =
-      FirebaseFirestore.instance.collection('ParkingLot');
-
-  Future<void> updateFee(int code, int fee) async {
-    var doc_id = '';
-    var doc_parse = [];
-    print("update2 " + code.toString());
-    FirebaseFirestore.instance
-        .collection('ParkingLot')
-        .where('code', isEqualTo: code)
-        .get()
-        .then((QuerySnapshot snapshot) {
-      print("doc doc");
-      for (var doc in snapshot.docs) {
-        doc_id = doc.reference.path.toString();
-        doc_parse = doc_id.split("/");
-        print("abc" + doc_parse[1]);
-        return update
-            .doc(doc_parse[1])
-            .update({'pay_fee': fee})
-            .then((value) => print("Fee Updated"))
-            .catchError((error) => print("Failed to update fee: $error"));
-      }
-    });
-    print(doc_id + " dkdkdkdkdkdkdkdkdk");
-  }
-
-  Future<void> deleteParkingLot(int code) async {
-    var doc_id = '';
-    var doc_parse = [];
-    print("update2 " + code.toString());
-    FirebaseFirestore.instance
-        .collection('ParkingLot')
-        .where('code', isEqualTo: code)
-        .get()
-        .then((QuerySnapshot snapshot) {
-      for (var doc in snapshot.docs) {
-        doc_id = doc.reference.path.toString();
-        doc_parse = doc_id.split("/");
-        print("abc" + doc_parse[1]);
-        return update
-            .doc(doc_parse[1])
-            .delete()
-            .then((value) => print("ParkingLot Deleted"))
-            .catchError(
-                (error) => print("Failed to delete ParkingLot: $error"));
-      }
-    });
-    print(doc_id + " dkdkdkdkdkdkdkdkdk");
-  }
-
-  Future<void> addParkingLot(
-      String name, String address, int fee, int capacity) {
-    // Call the user's CollectionReference to add a new user
-    return FirebaseFirestore.instance
-        .collection('ParkingLot')
-        .add({
-          'name': name,
-          'address': address,
-          'pay_fee': fee,
-          'capacity': capacity
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
-
   @override
   Widget build(BuildContext context) {
+
     bool isAdmin = true;
     String testUserName = 'leejaewon'; //테스트용 이름
 
@@ -231,134 +171,156 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                 top: BorderSide(
                                     color: Colors.grey, width: 0.5))),
                         child: TabBarView(
+
                           children: <Widget>[
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.7,
-                              child: Column(children: <Widget>[
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
-                                  child: ListView.builder(
-                                    itemCount: parkingLotItemList.length,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 1.0, horizontal: 1.0),
-                                        child: Card(
-                                          child: ListTile(
-                                            onTap: () {},
-                                            subtitle: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.stretch,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Column(
+                              height: 50,
+                              child: DropdownButton(
+                                value: dropDownValue,
+                                icon: Icon(Icons.keyboard_arrow_down),
+                                iconSize: 24,
+                                items: positionList.map((String items) {
+                                  return DropdownMenuItem(
+                                      value: items,
+                                      child: Text(
+                                        items,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ));
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    dropDownValue = newValue!;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        child: ListView.builder(
+                          itemCount: parkinglotToManage.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 1.0, horizontal: 1.0),
+                              child: Card(
+                                child: ListTile(
+                                  onTap: () {},
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                      'lib/images/park.png',
+                                                      width: 100,
+                                                      height: 100),
+                                                  SizedBox(width: 10),
+                                                  Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
-                                                      children: <Widget>[
+                                                      children: [
                                                         Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
                                                           children: [
-                                                            Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Row(
-                                                                    children: [
-                                                                      Text(
-                                                                          parkingLotItemList[index]
-                                                                              .name,
-                                                                          style: TextStyle(
-                                                                              fontSize: 23,
-                                                                              color: Colors.black87,
-                                                                              fontWeight: FontWeight.bold)),
-                                                                      SizedBox(
-                                                                          width:
-                                                                              102),
-                                                                      IconButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          deleteParkingLot(
-                                                                              parkingLotItemList[index].code);
-                                                                        },
-                                                                        icon: Icon(
-                                                                            Icons.close),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(
-                                                                      height:
-                                                                          5),
-                                                                  Text(parkingLotItemList[
-                                                                          index]
-                                                                      .address),
-                                                                  Text(parkingLotItemList[
-                                                                          index]
-                                                                      .telephone),
-                                                                  Row(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Text(
-                                                                        parkingLotItemList[index].fee.toString() +
-                                                                            "원",
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            5,
-                                                                      ),
-                                                                      Text(
-                                                                          "(30분 기준)"),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 5,
-                                                                  )
-                                                                ]),
+                                                            Text(
+                                                                parkinglotToManage[
+                                                                        index]
+                                                                    .name,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        23,
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
                                                           ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    showAlert(
-                                                        context,
-                                                        parkingLotItemList[
+                                                        ),
+                                                        SizedBox(height: 5),
+                                                        Text(parkinglotToManage[
                                                                 index]
-                                                            .fee
-                                                            .toString());
-                                                    updateFee(
-                                                        parkingLotItemList[
+                                                            .address),
+                                                        Text(parkinglotToManage[
                                                                 index]
-                                                            .code,
-                                                        10000);
-                                                    setState(() {});
-                                                  },
-                                                  child: Text(
-                                                    "요금 수정하기",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                    ),
+                                                            .telephone),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              parkinglotToManage[
+                                                                          index]
+                                                                      .fee
+                                                                      .toString() +
+                                                                  "원",
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text("(30분 기준)"),
+                                                          ],
+                                                        ),
+                                                      ]),
+                                                  SizedBox(width: 30),
+                                                  // Align(
+                                                  //   alignment:
+                                                  //       Alignment.topRight,
+                                                  //   child: Icon(Icons.close),
+                                                  // ),
+                                                  IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(Icons.close),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                          // --- 이미지 넣기 ---
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          showAlert(
+                                              context,
+                                              parkinglotToManage[index]
+                                                  .fee
+                                                  .toString());
+                                        },
+                                        child: Text(
+                                          "요금 수정하기",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
                                         ),
-                                      );
-                                    },
+                                      ),
+                                    ],
                                   ),
                                 ),
+
                               ]),
                             ),
                             GestureDetector(
@@ -454,14 +416,19 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                               ),
                             ),
                           ],
+
                         ),
                       ),
-                    ])),
-            bottomNavigationBar: NaviBarButtons(
-              MediaQuery.of(context).size,
-              context,
+                    ]),
+                  ),
+                ],
+              ),
             ),
-          );
-        });
+          ])),
+      bottomNavigationBar: NaviBarButtons(
+        MediaQuery.of(context).size,
+        context,
+      ),
+    );
   }
 }
