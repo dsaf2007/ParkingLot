@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:parkinglot/pages/approve_reservation.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
-import '../util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
 import '../pages/calendar_table.dart';
 
 import '../models/parkinglot_item.dart';

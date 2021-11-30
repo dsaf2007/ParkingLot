@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/mypage.dart';
+import 'package:parkinglot/util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
 import 'check_reservation.dart';
@@ -25,7 +26,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
   // String parkingLotNumber = '[TEST]02-1234-1234';
   // int parkingLotFee = 800;
   // int total = 1600;
-
+  final baseTime = 30;
   @override
   Widget build(BuildContext context) {
     ParkingLotItem parkingLotItem = widget.reservationItem.parkingLotItem;
@@ -149,7 +150,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: Text('요금', style: smallHeaderTextStyle),
+                child: Text('요금 ($baseTime분 당)', style: smallHeaderTextStyle),
               ),
             ]),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -217,7 +218,8 @@ class _ApproveReservationState extends State<ApproveReservation> {
               padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
               child: Text('${widget.reservationItem.total_fee} 원',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 18,
+                    color: selectBlue,
                   )),
             ),
           ],

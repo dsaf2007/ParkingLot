@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/mypage.dart';
+import 'package:parkinglot/util/colors.dart';
 
 import 'edit_profile_fixinfo.dart';
 

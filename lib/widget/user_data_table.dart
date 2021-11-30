@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:parkinglot/models/user_item.dart';
 import 'package:parkinglot/pages/check_reservation.dart';
-import 'package:parkinglot/pages/mypage.dart';
+import '../util/colors.dart';
 
 Widget UserDataTableWidget(BuildContext context) {
   CollectionReference users = FirebaseFirestore.instance.collection('User');

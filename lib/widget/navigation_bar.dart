@@ -4,6 +4,7 @@ import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/pages/check_reservation.dart';
 import 'package:parkinglot/pages/search.dart';
 import 'package:parkinglot/pages/mypage.dart';
+import 'package:parkinglot/util/colors.dart';
 
 Widget NaviBarButtons(Size size, BuildContext context) {
   return Container(

@@ -3,7 +3,7 @@ import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import '../models/reservation_item.dart';
-import '../util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
 
 class CheckReservation extends StatefulWidget {
   final userId;

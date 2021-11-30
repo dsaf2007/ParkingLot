@@ -18,9 +18,6 @@ List<ParkingLotItem> parkinglot = [];
 
 class _FavoritesPageState extends State<FavoritesPage> {
   List<String> favList = [];
-  // String parkinglotName = "";
-  // String parkinglotAdd = "";
-  // String parkinglotPN = "";
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +115,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             ],
                           ),
                           TextButton(
-                            // onPressed: () {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                            //     )
-                            //   );
-                            // },
                             onPressed: () {
                               Navigator.push(
                                   context,
