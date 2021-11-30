@@ -57,8 +57,14 @@ Widget UserDataTableWidget(BuildContext context) {
               //cutomerData Provider 전송 - check_reservation_admin에서 사용
               Provider.of<customerData>(context, listen: false)
                   .userNameEdit(doc["name"]);
-              Provider.of<customerData>(context, listen: false)
-                  .adminEdit(doc["is_admin"]);
+                  if(doc["is_admin"] == "FALSE"){
+                    Provider.of<customerData>(context, listen: false)
+                  .adminEdit(false);
+                  } else{
+                    Provider.of<customerData>(context, listen: false)
+                  .adminEdit(true);
+                  }
+              
               Navigator.push(
                 context,
                 MaterialPageRoute(
