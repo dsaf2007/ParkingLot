@@ -56,10 +56,11 @@ class _SearchPageState extends State<SearchPage> {
               doc["name"],
               doc["address"],
               doc["telephone"],
-              doc["parkingtime_permin"],
-              doc["pay_fee"],
-              doc["capacity"],
+              doc["minute"],
+              doc["fee"],
+              doc["total_space"],
               doc["code"],
+              doc["favorite"],
               false));
           print(doc);
         }

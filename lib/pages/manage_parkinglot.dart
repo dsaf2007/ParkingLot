@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
@@ -168,10 +168,11 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                 doc["name"],
                 doc["address"],
                 doc["telephone"],
-                doc["parkingtime_permin"],
-                doc["pay_fee"],
-                doc["capacity"],
+                doc["minute"],
+                doc["fee"],
+                doc["total_space"],
                 doc["code"],
+                doc["favorite"],
                 false));
           }
           print(parkingLotItemList.first.name);
