@@ -83,73 +83,68 @@ class _FavoritesPageState extends State<FavoritesPage> {
                     subtitle:
                         // Column(
                         //           crossAxisAlignment: CrossAxisAlignment.stretch,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                    children: [
-                                      // IconButton(
-                                      //   onPressed: () {},
-                                      //   icon: Icon(Icons.close),
-                                      //   iconSize: 15,
-                                      // ),
-                                      // SizedBox(width: 10),
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            
-                                            Text(parkinglot[index].name,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.black87,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 5),
-                                            Text(parkinglot[index].address),
-                                            Text(parkinglot[index].telephone.isEmpty ? "전화번호 없음" : parkinglot[index].telephone),
-                                          Text('30분 ${parkinglot[index].fee} 원   |   총 ${parkinglot[index].total_space} 면'),
-                                          ]),
-                                      //SizedBox(width: 120),
-                                      IconButton(
-                                        padding: EdgeInsets.only(top: 5),
-                                        constraints: BoxConstraints(),
-                                        onPressed: () {},
-                                        icon: Icon(Icons.close),
-                                        iconSize: 20,
-                                      ),
-                                    ],
-                                  ),
-                                  TextButton(
-                                    // onPressed: () {
-                                    //   Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                                    //     )
-                                    //   );
-                                    // },
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DateTimeSelection()));
-                                    },
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: blue,
-                                        minimumSize: Size(350, 20)),
-                                    child: const Text('예약하기',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ],
-                              ),
-                            // ],
-                          // )
-                        // ],
-                      ),
-                      ),
+
+                        //   children: [
+                        //     Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // IconButton(
+                            //   onPressed: () {},
+                            //   icon: Icon(Icons.close),
+                            //   iconSize: 15,
+                            // ),
+                            // SizedBox(width: 10),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(parkinglot[index].name,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold)),
+                                  SizedBox(height: 5),
+                                  Text(parkinglot[index].address),
+                                  Text(parkinglot[index].telephone),
+                                ]),
+                            //SizedBox(width: 120),
+                            IconButton(
+                              padding: EdgeInsets.only(top: 5),
+                              constraints: BoxConstraints(),
+                              onPressed: () {},
+                              icon: Icon(Icons.close),
+                              iconSize: 20,
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          // onPressed: () {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
+                          //     )
+                          //   );
+                          // },
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DateTimeSelection()));
+                          },
+                          style: TextButton.styleFrom(
+                              backgroundColor: blue,
+                              minimumSize: Size(350, 20)),
+                          child: const Text('예약하기',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
                     // ],
                     // )
                     // ],
