@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/check_reservation_admin.dart';
+import 'package:parkinglot/pages/search.dart';
 import 'package:parkinglot/pages/signin.dart';
 import 'package:parkinglot/providers/customerdata.dart';
 import 'pages/home.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignInPage(),
+      home: SearchPage(),
     );
   }
 }

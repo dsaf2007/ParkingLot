@@ -9,6 +9,11 @@ import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:provider/provider.dart';
 
+EdgeInsets textFormContentPadding = EdgeInsets.symmetric(
+  vertical: 5.0,
+  horizontal: 15.0,
+);
+
 class SignInPage extends StatefulWidget {
   @override
   State<SignInPage> createState() => _SignInPageState();
@@ -49,6 +54,7 @@ class _SignInPageState extends State<SignInPage> {
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.email),
                   border: OutlineInputBorder(),
                   hintText: '이메일 입력',
@@ -74,6 +80,7 @@ class _SignInPageState extends State<SignInPage> {
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
+                  contentPadding: textFormContentPadding,
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '비밀번호 입력',

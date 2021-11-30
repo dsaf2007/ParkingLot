@@ -152,7 +152,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
             child: TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: blue,
-                minimumSize: Size(165, 20),
+                minimumSize: Size(165, 40),
                 padding: const EdgeInsets.all(10.0),
               ),
               onPressed: () {

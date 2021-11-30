@@ -157,7 +157,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           },
                           style: TextButton.styleFrom(
                               backgroundColor: blue,
-                              minimumSize: Size(350, 20)),
+                              minimumSize: Size(350, 35)),
                           child: const Text('예약하기',
                               style: TextStyle(color: Colors.white)),
                         ),

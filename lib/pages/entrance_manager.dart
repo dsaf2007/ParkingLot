@@ -79,7 +79,7 @@ class _EntraceManagerState extends State<EntranceManager> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Size doubleButtonSize = Size(size.width * 0.4, 50);
+    Size doubleButtonSize = Size(size.width * 0.4, 40);
     return StreamBuilder<QuerySnapshot>(
         stream: reservation,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

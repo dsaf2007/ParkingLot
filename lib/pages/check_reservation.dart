@@ -25,7 +25,7 @@ class _CheckReservationState extends State<CheckReservation> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    Size doubleButtonSize = Size(size.width * 0.4, 20);
+    Size doubleButtonSize = Size(size.width * 0.41, 30);
 
     var historyList;
     CollectionReference reservationDB =

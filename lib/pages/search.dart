@@ -94,23 +94,27 @@ class _SearchPageState extends State<SearchPage> {
         return SafeArea(
           child: Scaffold(
             appBar: AppBar(
-                backgroundColor: Colors.white,
-                centerTitle: true,
-                title: TextField(
-                  onChanged: (text) {
-                    print("on changed : " + text);
-                    _searchText = text;
-                    _IsSearching = true;
-                  },
-                  controller: _searchQuery,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search, color: Colors.black),
-                      hintText: "  주차장 검색 ",
-                      hintStyle: TextStyle(color: mediumGrey)),
-                )),
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              title: TextField(
+                onChanged: (text) {
+                  print("on changed : " + text);
+                  _searchText = text;
+                  _IsSearching = true;
+                },
+                controller: _searchQuery,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.search, color: Colors.black),
+                    hintText: "  주차장 검색 ",
+                    hintStyle: TextStyle(color: mediumGrey)),
+                textAlign: TextAlign.center,
+              ),
+              elevation: 0,
+            ),
+
             // body: ListView(
             //   padding: EdgeInsets.symmetric(vertical: 8.0),
             //   children: <Widget>[
@@ -139,7 +143,7 @@ class _SearchPageState extends State<SearchPage> {
           bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
           String userName = Provider.of<userData>(context, listen: false).name;
           final size = MediaQuery.of(context).size;
-          Size doubleButtonSize = Size(size.width * 0.4, 20);
+          Size doubleButtonSize = Size(size.width * 0.39, 30);
           //getParkinglots();
           return Padding(
               padding:
@@ -237,7 +241,7 @@ class _SearchPageState extends State<SearchPage> {
                           child: const Text('즐겨찾기 추가',
                               style: TextStyle(color: Colors.black)),
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: 6),
                         TextButton(
                           onPressed: () {
                             //Provider로 예약할 Parking Lot Item 전송

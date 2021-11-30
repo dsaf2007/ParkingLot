@@ -54,6 +54,7 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
                 checkPassword = text;
               },
               decoration: InputDecoration(
+                contentPadding: textFormContentPadding,
                 hintText: '비밀번호를 입력해주세요.',
                 border: OutlineInputBorder(),
               ),
@@ -70,7 +71,7 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: lightGrey,
-                minimumSize: Size(165, 20),
+                minimumSize: Size(165, 40),
                 padding: const EdgeInsets.all(10.0),
               ),
               onPressed: () {
@@ -84,7 +85,7 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: blue,
-                minimumSize: Size(165, 20),
+                minimumSize: Size(165, 40),
                 padding: const EdgeInsets.all(10.0),
               ),
               onPressed: () {

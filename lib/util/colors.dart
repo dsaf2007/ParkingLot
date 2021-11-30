@@ -13,4 +13,4 @@ const mediumGrey = Color.fromRGBO(192, 192, 192, 1.0); // 나머지
 const darkGrey = Color.fromRGBO(100, 100, 100, 1.0); // 제목
 
 TextStyle parkingLotNameStyle =
-    TextStyle(fontSize: 23, color: blue, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 20, color: blue, fontWeight: FontWeight.bold);
