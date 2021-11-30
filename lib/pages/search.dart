@@ -101,7 +101,7 @@ class _SearchPageState extends State<SearchPage> {
                   decoration: InputDecoration(
                       suffixIcon: Icon(Icons.search, color: Colors.black),
                       hintText: "  주차장 검색 ",
-                      hintStyle: TextStyle(color: Colors.black)),
+                      hintStyle: TextStyle(color: mediumGrey)),
                 )),
             // body: ListView(
             //   padding: EdgeInsets.symmetric(vertical: 8.0),

@@ -207,9 +207,15 @@ class _CheckReservationState extends State<CheckReservation> {
                                                             ),
                                                             SizedBox(width: 5),
                                                             Text(pastReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .telephone),
+                                                                        index]
+                                                                    .parkingLotItem
+                                                                    .telephone
+                                                                    .isEmpty
+                                                                ? "전화번호 없음"
+                                                                : pastReservationList[
+                                                                        index]
+                                                                    .parkingLotItem
+                                                                    .telephone),
                                                           ],
                                                         ),
                                                       ],
@@ -312,9 +318,15 @@ class _CheckReservationState extends State<CheckReservation> {
                                                             ),
                                                             SizedBox(width: 5),
                                                             Text(currentReservationList[
-                                                                    index]
-                                                                .parkingLotItem
-                                                                .telephone),
+                                                                        index]
+                                                                    .parkingLotItem
+                                                                    .telephone
+                                                                    .isEmpty
+                                                                ? "전화번호 없음"
+                                                                : currentReservationList[
+                                                                        index]
+                                                                    .parkingLotItem
+                                                                    .telephone),
                                                           ],
                                                         ),
                                                       ],
