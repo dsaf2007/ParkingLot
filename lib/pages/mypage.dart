@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/alarm_list.dart';
 import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
+import 'package:parkinglot/pages/entrance_manager.dart';
 import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/pages/manage_parkinglot.dart';
 import 'package:parkinglot/pages/signin.dart';
@@ -170,6 +171,22 @@ class _MyPageState extends State<MyPage> {
                                 fontWeight: FontWeight.bold,
                               )),
                         ),
+                        isAdmin
+                            ? ListTile(
+                                leading: Icon(Icons.exit_to_app_rounded),
+                                title: Text("입출차 관리",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EntranceManager()));
+                                },
+                              )
+                            : Container(),
                       ]),
                 ),
                 !isAdmin
