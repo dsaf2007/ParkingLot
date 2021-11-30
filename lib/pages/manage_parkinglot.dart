@@ -173,14 +173,19 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
           }
           for (var doc in snapshot.data!.docs) {
             parkingLotItemList.add(ParkingLotItem(
-                doc["name"],
-                doc["address"],
-                doc["telephone"],
-                doc["parkingtime_permin"],
-                doc["pay_fee"],
-                doc["capacity"],
-                doc["code"],
-                false));
+              doc["name"],
+              doc["address"],
+              doc["telephone"],
+              doc["parkingtime_permin"],
+              doc["pay_fee"],
+              doc["capacity"],
+              doc["code"],
+              false,
+              doc["weekday_begin_time"],
+              doc["weekday_end_time"],
+              doc["weekend_begin_time"],
+              doc["weekend_end_time"],
+            ));
           }
           print(parkingLotItemList.first.name);
           return Scaffold(
