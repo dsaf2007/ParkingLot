@@ -41,6 +41,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
     DateTime reservationDate;
     ReservationItem reservationInfo = ReservationItem(
         parkingLotItem, "No Data", "No Data", "No Data", "No Data", false);
+
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(

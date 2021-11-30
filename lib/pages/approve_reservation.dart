@@ -29,6 +29,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
   @override
   Widget build(BuildContext context) {
     ParkingLotItem parkingLotItem = widget.reservationItem.parkingLotItem;
+
     return Scaffold(
       appBar: AppBar(
           // 값 전달 받기
