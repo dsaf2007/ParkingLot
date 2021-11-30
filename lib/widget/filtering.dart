@@ -59,22 +59,22 @@ Widget FilteringWidget(BuildContext context) {
                       fontWeight: FontWeight.bold,
                     )),
               ),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
-                  child: DropdownButton<String>(
-                    value: selectedParkingLot,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
-                    items: parkingLotItemNameList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ))
+              // Padding(
+              //     padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+              //     child: DropdownButton<String>(
+              //       value: selectedParkingLot,
+              //       icon: const Icon(Icons.keyboard_arrow_down),
+              //       style: const TextStyle(
+              //         color: Colors.black,
+              //       ),
+              //       items: parkingLotItemNameList
+              //           .map<DropdownMenuItem<String>>((String value) {
+              //         return DropdownMenuItem<String>(
+              //           value: value,
+              //           child: Text(value),
+              //         );
+              //       }).toList(),
+              //     ))
             ]);
       });
 }
