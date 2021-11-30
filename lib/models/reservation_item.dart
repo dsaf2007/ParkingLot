@@ -8,7 +8,7 @@ class ReservationItem {
   String total_fee;
   String start_time;
   String end_time;
-
+  bool is_parked;
   ReservationItem(this.parkingLotItem, this.date, this.start_time,
-      this.end_time, this.total_fee, this.is_current);
+      this.end_time, this.total_fee, this.is_current, this.is_parked);
 }

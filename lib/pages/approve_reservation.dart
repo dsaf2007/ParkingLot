@@ -326,6 +326,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
                         "user_id": username,
                         "code": parkinglotdata.code,
                         "is_current": true,
+                        "is_parked": false,
                       });
                       Navigator.pop(context);
                       Navigator.push(
