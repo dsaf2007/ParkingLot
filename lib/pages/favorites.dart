@@ -111,7 +111,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                                         FontWeight.bold)),
                                             SizedBox(height: 5),
                                             Text(parkinglot[index].address),
-                                            Text(parkinglot[index].telephone),
+                                            Text(parkinglot[index].telephone.isEmpty ? "전화번호 없음" : parkinglot[index].telephone),
+                                          Text('30분 ${parkinglot[index].fee} 원   |   총 ${parkinglot[index].total_space} 면'),
                                           ]),
                                       //SizedBox(width: 120),
                                       IconButton(
