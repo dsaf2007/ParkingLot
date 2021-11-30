@@ -69,17 +69,20 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
             Card1(
-              onSelectData: (String date) {
+              onSelectDate: (String date) {
                 reservationInfo.date = date;
               },
             ),
             Card2(
-              onSelectData: (
+              onSelectTime: (
                 String startTime,
                 String endTime,
+                int times,
               ) {
                 reservationInfo.start_time = startTime;
                 reservationInfo.end_time = endTime;
+                reservationInfo.total_fee =
+                    (times * parkingLotItem.fee).toString();
               },
             ),
             const SizedBox(
@@ -159,8 +162,8 @@ List<ExpandableController> controllerList = [
 int currentIndex = -1;
 
 class Card1 extends StatefulWidget {
-  Card1({Key? key, required this.onSelectData}) : super(key: key);
-  Function(String) onSelectData;
+  Card1({Key? key, required this.onSelectDate}) : super(key: key);
+  Function(String) onSelectDate;
   // to get data from calendar
   late DateTime selectedDay;
   late DateTime selectedDayForHeader;
@@ -179,7 +182,7 @@ class _Card1State extends State<Card1> {
     CalendarTable cardBody = CalendarTable(
       onSelectDay: (selectedDay) {
         final String formatted = formatter.format(selectedDay);
-        widget.onSelectData(formatted);
+        widget.onSelectDate(formatted);
         setState(() {
           // dateSelectionMessage = formatted;
           dateSelectionMessage = formatted;
@@ -267,8 +270,8 @@ class _Card1State extends State<Card1> {
 }
 
 class Card2 extends StatefulWidget {
-  Card2({Key? key, required this.onSelectData}) : super(key: key);
-  Function(String, String) onSelectData;
+  Card2({Key? key, required this.onSelectTime}) : super(key: key);
+  Function(String, String, int) onSelectTime;
   // to get data from calendar
   late String startTime;
   // for callback
@@ -344,7 +347,7 @@ class _Card2State extends State<Card2> {
     // 첫 선택
     if (lastSelectedTimeIndex < 0) {
       isSelected[index] = true;
-      widget.onSelectData(timeStringList[index], formatEndTime(index));
+      widget.onSelectTime(timeStringList[index], formatEndTime(index), 1);
       timeSelectionHeader = _buildTimeRangeString(index, index);
     } // 새로운 시작 날짜 재선택
     else if (isSelectionDone ||
@@ -355,7 +358,7 @@ class _Card2State extends State<Card2> {
       isSelected[index] = true;
       isSelectionDone = false;
 
-      widget.onSelectData(timeStringList[index], formatEndTime(index));
+      widget.onSelectTime(timeStringList[index], formatEndTime(index), 1);
       timeSelectionHeader = _buildTimeRangeString(index, index);
     } // 다중 선택
     else {
@@ -366,7 +369,8 @@ class _Card2State extends State<Card2> {
       // pass to approval
       startTimeIndex = lastSelectedTimeIndex;
       endTimeIndex = index;
-      widget.onSelectData(timeStringList[startTimeIndex], formatEndTime(index));
+      widget.onSelectTime(timeStringList[startTimeIndex],
+          formatEndTime(endTimeIndex), endTimeIndex - startTimeIndex + 1);
       timeSelectionHeader = _buildTimeRangeString(startTimeIndex, endTimeIndex);
     }
     if (isSelected[index]) {

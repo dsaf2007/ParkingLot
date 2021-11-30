@@ -16,28 +16,31 @@ class ApproveReservation extends StatefulWidget {
 }
 
 class _ApproveReservationState extends State<ApproveReservation> {
-  String reserveDate = '2021.11.19 (금)';
+  String reserveDate = '[TEST]2021.11.19 (금)';
 
-  String parkingLotTime_week = '00:00~24:00';
-  String parkingLotTime_sat = '00:00~24:00';
-  String parkingLotTime_sun = '00:00~24:00';
+  String parkingLotTime_week = '[TEST]00:00~24:00';
+  String parkingLotTime_sat = '[TEST]00:00~24:00';
+  String parkingLotTime_sun = '[TEST]00:00~24:00';
 
-  String parkingLotNumber = '02-1234-1234';
-  int parkingLotFee = 800;
-  int total = 1600;
+  // String parkingLotNumber = '[TEST]02-1234-1234';
+  // int parkingLotFee = 800;
+  // int total = 1600;
 
   @override
   Widget build(BuildContext context) {
     ParkingLotItem parkingLotItem = widget.reservationItem.parkingLotItem;
-
+    TextStyle bigHeaderTextStyle = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    );
+    TextStyle smallHeaderTextStyle = const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.bold,
+    );
     return Scaffold(
       appBar: AppBar(
           // 값 전달 받기
-          title: Text(parkingLotItem.name,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              )),
+          title: Text(parkingLotItem.name, style: bigHeaderTextStyle),
           centerTitle: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -78,11 +81,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
         // ---------------------------------------------------------- 일정
         Padding(
           padding: EdgeInsets.all(20.0),
-          child: Text('일정',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('일정', style: bigHeaderTextStyle),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,17 +89,11 @@ class _ApproveReservationState extends State<ApproveReservation> {
             Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 5),
-                child: Text('날짜',
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
+                child: Text('날짜', style: smallHeaderTextStyle),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: Text('시간',
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
+                child: Text('시간', style: smallHeaderTextStyle),
               ),
             ]),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -134,11 +127,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
         // ---------------------------------------------------------- 주차장 정보
         Padding(
           padding: EdgeInsets.all(20.0),
-          child: Text('주차장 정보',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('주차장 정보', style: bigHeaderTextStyle),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,33 +135,21 @@ class _ApproveReservationState extends State<ApproveReservation> {
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 5),
-                child: Text('장소',
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
+                child: Text('장소', style: smallHeaderTextStyle),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: Text('시간',
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
+                child: Text('시간', style: smallHeaderTextStyle),
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(40, 0, 0, 5), child: Text(' ')),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 5),
-                child: Text('전화전호',
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
+                child: Text('전화번호', style: smallHeaderTextStyle),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: Text('요금',
-                    style: TextStyle(
-                      fontSize: 15,
-                    )),
+                child: Text('요금', style: smallHeaderTextStyle),
               ),
             ]),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -199,14 +176,17 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
-                child: Text(parkingLotNumber,
+                child: Text(
+                    parkingLotItem.telephone.isEmpty
+                        ? "전화번호 없음"
+                        : parkingLotItem.telephone,
                     style: TextStyle(
                       fontSize: 15,
                     )),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-                child: Text(parkingLotFee.toString() + ' 원',
+                child: Text('${parkingLotItem.fee} 원',
                     style: TextStyle(
                       fontSize: 15,
                     )),
@@ -224,26 +204,18 @@ class _ApproveReservationState extends State<ApproveReservation> {
         // ---------------------------------------------------------- 예상결제금액
         Padding(
           padding: EdgeInsets.all(20.0),
-          child: Text('예상 결제 금액',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('예상 결제 금액', style: bigHeaderTextStyle),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-              child: Text('최종요금',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
+              child: Text('최종요금', style: smallHeaderTextStyle),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-              child: Text('30분 ' + total.toString() + '원',
+              child: Text('${widget.reservationItem.total_fee} 원',
                   style: TextStyle(
                     fontSize: 15,
                   )),
