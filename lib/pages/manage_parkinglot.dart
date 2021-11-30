@@ -90,152 +90,88 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text("주차장 관리"),
-      ),
-      body: DefaultTabController(
-          length: 2,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Container(
-                child: TabBar(
-              indicatorColor: Colors.black54,
-              indicatorWeight: 4,
-              //밑줄 길이
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.black54,
-              tabs: [
-                Tab(
-                  child: Text("주차장 등록",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-                Tab(
-                  child: Text("주차장 수정/삭제",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ],
-            )),
-            Container(
-              height: 500, //height of TabBarView
-              decoration: BoxDecoration(
-                  border:
-                      Border(top: BorderSide(color: Colors.grey, width: 0.5))),
-              child: TabBarView(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 40, 10, 0),
-                      child: ListView(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.person),
-                                  border: OutlineInputBorder(),
-                                  hintText: '이름',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.location_on),
-                                  border: OutlineInputBorder(),
-                                  hintText: '주소',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.attach_money),
-                                  border: OutlineInputBorder(),
-                                  hintText: '주차장 요금 (30분 단위)',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.directions_car),
-                                  border: OutlineInputBorder(),
-                                  hintText: '전체 주차면 수',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: Stack(
-                              alignment: const Alignment(0.95, 0),
-                              children: <Widget>[
-                                TextFormField(
-                                    autofocus: true,
-                                    textInputAction: TextInputAction.next,
-                                    decoration: InputDecoration(
-                                      contentPadding: textFormContentPadding,
-                                      icon: const Icon(Icons.image),
-                                      border: OutlineInputBorder(),
-                                      hintText: '주차장 이미지',
-                                    )),
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: lightGrey,
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "첨부",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: ElevatedButton(
-                              style: ButtonStyle(),
-                              onPressed: () {},
-                              child: Text(
-                                "등록하기",
+
+    bool isAdmin = true;
+    String testUserName = 'leejaewon'; //테스트용 이름
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: parkinglots,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Sth Wrong");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
+          for (var doc in snapshot.data!.docs) {
+            parkingLotItemList.add(ParkingLotItem(
+                doc["name"],
+                doc["address"],
+                doc["telephone"],
+                doc["parkingtime_permin"],
+                doc["pay_fee"],
+                doc["capacity"],
+                doc["code"],
+                false));
+          }
+          print(parkingLotItemList.first.name);
+          return Scaffold(
+            appBar: AppBar(
+              // 값 전달 받기
+              title: Text('주차장 관리',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+            ),
+            body: DefaultTabController(
+                length: 2,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                          child: TabBar(
+                        indicatorColor: Colors.black54,
+                        indicatorWeight: 4,
+                        //밑줄 길이
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.black54,
+                        tabs: [
+                          // Tab(
+                          //   child: Text("주차장 등록",
+                          //       style: TextStyle(
+                          //         fontSize: 16,
+                          //         fontWeight: FontWeight.bold,
+                          //       )),
+                          // ),
+                          Tab(
+                            child: Text("주차장 수정/삭제",
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                                )),
+                          ),
+                          Tab(
+                            child: Text("주차장 등록",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: Column(children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                      )),
+                      Container(
+                        // 주차장 수정&삭제
+                        height: 500, //height of TabBarView
+                        decoration: BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                                    color: Colors.grey, width: 0.5))),
+                        child: TabBarView(
+
                           children: <Widget>[
                             Container(
                               height: 50,
@@ -384,10 +320,103 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                     ],
                                   ),
                                 ),
-                                // --- 이미지 넣기 ---
+
+                              ]),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              },
+                              //FocusManager.instance.primaryFocus?.unfocus(),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 40, 10, 0),
+                                child: ListView(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon: const Icon(Icons.person),
+                                            border: OutlineInputBorder(),
+                                            hintText: '이름',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon: const Icon(Icons.location_on),
+                                            border: OutlineInputBorder(),
+                                            hintText: '주소',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon:
+                                                const Icon(Icons.attach_money),
+                                            border: OutlineInputBorder(),
+                                            hintText: '주차장 요금 (30분 단위)',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon: const Icon(
+                                                Icons.directions_car),
+                                            border: OutlineInputBorder(),
+                                            hintText: '전체 주차면 수',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(),
+                                        onPressed: () {
+                                          // addParkingLot(
+                                          //     name, address, fee, capacity);
+                                        },
+                                        child: Text(
+                                          "등록하기",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            );
-                          },
+                            ),
+                          ],
+
                         ),
                       ),
                     ]),
