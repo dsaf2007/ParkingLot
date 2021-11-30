@@ -13,6 +13,8 @@ import 'package:parkinglot/widget/navigation_bar.dart';
 import '../util/colors.dart';
 import 'datetime_selection.dart';
 
+import 'package:parkinglot/util/helper.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -121,12 +123,13 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget _createListView() {
-    print('createListView');
     return Flexible(
       child: ListView.builder(
         itemCount: parkingLotItemList.length,
         //itemCount: products.length,
         itemBuilder: (context, index) {
+          final size = MediaQuery.of(context).size;
+          Size doubleButtonSize = Size(size.width * 0.4, 20);
           //getParkinglots();
           return Padding(
               padding:
@@ -157,54 +160,50 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     SizedBox(height: 5),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection("Favorites")
-                                  .doc(parkingLotItemList[index].name +
-                                      '_' +
-                                      'leejaewon')
-                                  .set({
-                                "user_name": 'leejaewon',
-                                "name": parkingLotItemList[index].name,
-                                "address": parkingLotItemList[index].address,
-                                "telephone":
-                                    parkingLotItemList[index].telephone,
-                                "minute": parkingLotItemList[index].minute,
-                                "fee": parkingLotItemList[index].fee,
-                                "total_space":
-                                    parkingLotItemList[index].total_space,
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FavoritesPage()));
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: lightGrey,
-                                minimumSize: Size(165, 20)),
-                            child: const Text('즐겨찾기 추가',
-                                style: TextStyle(color: Colors.black)),
-                          ),
-                          SizedBox(width: 10),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DateTimeSelection()));
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: blue,
-                                minimumSize: Size(165, 20)),
-                            child: const Text('예약하기',
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          SizedBox(height: 5),
-                        ])
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection("Favorites")
+                                .doc(parkingLotItemList[index].name +
+                                    '_' +
+                                    'leejaewon')
+                                .set({
+                              "user_name": 'leejaewon',
+                              "name": parkingLotItemList[index].name,
+                              "address": parkingLotItemList[index].address,
+                              "telephone": parkingLotItemList[index].telephone,
+                              "minute": parkingLotItemList[index].minute,
+                              "fee": parkingLotItemList[index].fee,
+                              "total_space":
+                                  parkingLotItemList[index].total_space,
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FavoritesPage()));
+                          },
+                          style: buildDoubleButtonStyle(
+                              lightGrey, doubleButtonSize),
+                          child: const Text('즐겨찾기 추가',
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                        SizedBox(width: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DateTimeSelection()));
+                          },
+                          style: buildDoubleButtonStyle(blue, doubleButtonSize),
+                          child: const Text('예약하기',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        SizedBox(height: 5),
+                      ],
+                    )
                   ]),
                   // --- 이미지 넣기 ---
                 ),

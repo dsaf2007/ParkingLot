@@ -6,6 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
+
+import 'package:parkinglot/providers/reservationdata.dart';
+
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,6 +19,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => parkingLotData()),
         ChangeNotifierProvider(create: (_) => userData()),
+        ChangeNotifierProvider(create: (_) => ReservationData()),
       ],
       child: MyApp(),
     ),

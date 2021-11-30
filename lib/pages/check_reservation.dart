@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/models/reservation_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
+import 'package:parkinglot/util/helper.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
@@ -22,6 +23,9 @@ class _CheckReservationState extends State<CheckReservation> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    Size doubleButtonSize = Size(size.width * 0.4, 20);
+
     var historyList;
     CollectionReference reservationDB =
         FirebaseFirestore.instance.collection('Reservation');
@@ -102,6 +106,7 @@ class _CheckReservationState extends State<CheckReservation> {
                 foregroundColor: Colors.black,
               ),
               body: DefaultTabController(
+                  initialIndex: 1,
                   length: 2,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -141,13 +146,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                             subtitle: Column(children: [
                                               Row(
                                                 children: [
-                                                  Image.asset(
-                                                      'lib/images/park.png',
-                                                      width: 100,
-                                                      height: 100),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
                                                   Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -211,7 +209,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                   itemBuilder: (context, index) {
                                     return Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 1.0, horizontal: 1.0),
+                                            vertical: 1.0, horizontal: 3.0),
                                         child: Card(
                                           child: ListTile(
                                             onTap: () {},
@@ -220,13 +218,6 @@ class _CheckReservationState extends State<CheckReservation> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Image.asset(
-                                                      'lib/images/park.png',
-                                                      width: 100,
-                                                      height: 100),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
                                                   Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -272,47 +263,67 @@ class _CheckReservationState extends State<CheckReservation> {
                                                                     .total_fee +
                                                                 '원'),
                                                       ]),
-                                                  SizedBox(height: 20),
-                                                  SizedBox(width: 25),
-                                                  IconButton(
-                                                    padding: EdgeInsets.zero,
-                                                    onPressed: () {},
-                                                    icon: Icon(Icons.close),
-                                                  ),
-                                                  // Image.asset('lib/images/park.png',
-                                                  //     width: 100, height: 100),
                                                 ],
                                               ),
                                               SizedBox(height: 5),
-                                              TextButton(
-                                                // onPressed: () {
-                                                //   Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(builder: (context) => FixProfileCKPW()
-                                                //     )
-                                                //   );
-                                                // },
-                                                onPressed: () {
-                                                  // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용----------------
-                                                  Provider.of<parkingLotData>(
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용----------------
+                                                      // 아래부분에서 예약취소 해야함
+                                                      // Provider.of<parkingLotData>(
+                                                      //         context,
+                                                      //         listen: false)
+                                                      //     .lotEdit(
+                                                      //         currentReservationList[
+                                                      //                 index]
+                                                      //             .parkingLotItem);
+                                                      // Navigator.push(
+                                                      //     context,
+                                                      //     MaterialPageRoute(
+                                                      //         builder: (context) =>
+                                                      //             DateTimeSelection()));
+                                                    },
+                                                    style:
+                                                        buildDoubleButtonStyle(
+                                                            lightGrey,
+                                                            doubleButtonSize),
+                                                    child: const Text('예약 취소',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black)),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용----------------
+                                                      Provider.of<parkingLotData>(
+                                                              context,
+                                                              listen: false)
+                                                          .lotEdit(
+                                                              currentReservationList[
+                                                                      index]
+                                                                  .parkingLotItem);
+                                                      Navigator.push(
                                                           context,
-                                                          listen: false)
-                                                      .lotEdit(
-                                                          currentReservationList[
-                                                                  index]
-                                                              .parkingLotItem);
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              DateTimeSelection()));
-                                                },
-                                                style: TextButton.styleFrom(
-                                                    backgroundColor: blue,
-                                                    minimumSize: Size(350, 20)),
-                                                child: const Text('예약하기',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  DateTimeSelection()));
+                                                    },
+                                                    style:
+                                                        buildDoubleButtonStyle(
+                                                            blue,
+                                                            doubleButtonSize),
+                                                    child: const Text('예약 수정',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white)),
+                                                  ),
+                                                ],
                                               ),
                                             ]),
                                             // --- 이미지 넣기 ---
