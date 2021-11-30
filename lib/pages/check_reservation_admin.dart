@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkinglot/util/colors.dart';
+import 'package:parkinglot/widget/filtering.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:parkinglot/widget/user_data_table.dart';
 
@@ -18,9 +18,6 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
     '시/도': ['시/군/구'],
   };
   List<String> cities = [];
-
-  String selectedParkingLot = '주차장';
-  List<String> parkingLotList = ['주차장', '첫번째 주차장', '두번째 주차장', '세번째 주차장'];
 
   final Stream<QuerySnapshot> locations = FirebaseFirestore.instance
       .collection('Location')
@@ -74,94 +71,64 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
+                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
                     child: Text('지역선택',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(140, 15, 0, 0),
-                    child: Text('주차장 선택',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                  Row(children: [
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                        child: DropdownButton<String>(
+                          value: selectedLocationFirst,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedLocationFirst = newValue!;
+                            });
+                            setState(() {});
+                          },
+                          items: locationList.keys
+                              .toList()
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         )),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: DropdownButton<String>(
-                        value: selectedLocationFirst,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedLocationFirst = newValue!;
-                          });
-                          setState(() {});
-                        },
-                        items: locationList.keys
-                            .toList()
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.all(0),
-                      child: DropdownButton<String>(
-                        value: selectedLocationSecond,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedLocationSecond = newValue!;
-                          });
-                        },
-                        items: locationList[selectedLocationFirst]!
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: DropdownButton<String>(
-                        value: selectedParkingLot,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedParkingLot = newValue!;
-                          });
-                        },
-                        items: parkingLotList
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                        child: DropdownButton<String>(
+                          value: selectedLocationSecond,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedLocationSecond = newValue!;
+                            });
+                          },
+                          items: locationList[selectedLocationFirst]!
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )),
+                  ]),
+                  FilteringWidget(context),
                 ],
               ),
               UserDataTableWidget(context)

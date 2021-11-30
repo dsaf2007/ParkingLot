@@ -8,6 +8,7 @@ import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
+import 'package:parkinglot/providers/reservationdata.dart';
 import 'package:provider/provider.dart';
 
 class ApproveReservation extends StatefulWidget {
@@ -44,12 +45,14 @@ class _ApproveReservationState extends State<ApproveReservation> {
 //     );
 // =======
   // 얘네도 추후 datetime_selection에서 받아와 수정 필요함.=====================================
-  String reserveDate = '2021.11.19 (금)';
-  String reserveStartTime = '09:00';
-  String reserveEndTime = '10:00';
 
   @override
   Widget build(BuildContext context) {
+    ReservationItem reservedata =
+        Provider.of<ReservationData>(context, listen: false).reserveData;
+    String reserveDate = reservedata.date;
+    String reserveStartTime = reservedata.start_time;
+    String reserveEndTime = reservedata.end_time;
     ParkingLotItem parkinglotdata = //Provider에서 ParkingLotItem Load
         Provider.of<parkingLotData>(context, listen: false).lotData;
 
@@ -65,14 +68,26 @@ class _ApproveReservationState extends State<ApproveReservation> {
     String parkingLotName = parkinglotdata.name;
     String parkingLotAddress = parkinglotdata.address;
     //주차장 정보- 운영 시간에서 int->String 형변환+두자리수로 표기
-    String parkingLotTime_weekday =
-        parkinglotdata.weekday_begin.toString().padLeft(2, '0') +
-            ':' +
-            parkinglotdata.weekday_end.toString().padLeft(2, '0');
-    String parkingLotTime_weekend =
-        parkinglotdata.weekend_begin.toString().padLeft(2, '0') +
-            ':' +
-            parkinglotdata.weekend_end.toString().padLeft(2, '0');
+    String parkingLotTime_weekday = (parkinglotdata.weekday_begin / 100)
+            .toInt()
+            .toString()
+            .padLeft(2, '0') +
+        ':' +
+        (parkinglotdata.weekday_begin % 100).toString().padLeft(2, '0') +
+        ' ~ ' +
+        (parkinglotdata.weekday_end / 100).toInt().toString().padLeft(2, '0') +
+        ':' +
+        (parkinglotdata.weekday_end % 100).toString().padLeft(2, '0');
+    String parkingLotTime_weekend = (parkinglotdata.weekend_begin / 100)
+            .toInt()
+            .toString()
+            .padLeft(2, '0') +
+        ':' +
+        (parkinglotdata.weekend_begin % 100).toString().padLeft(2, '0') +
+        ' ~ ' +
+        (parkinglotdata.weekend_end / 100).toInt().toString().padLeft(2, '0') +
+        ':' +
+        (parkinglotdata.weekend_end % 100).toString().padLeft(2, '0');
     String parkingLotTelephone = parkinglotdata.telephone;
     int parkingLotFee = parkinglotdata.fee;
     int total = 1600; //-추후 값 받아와 계산 후 저장/출력 필요================================

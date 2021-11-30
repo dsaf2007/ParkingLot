@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/alarm_list.dart';
 import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
 import 'package:parkinglot/pages/favorites.dart';
+import 'package:parkinglot/pages/manage_parkinglot.dart';
 import 'package:parkinglot/pages/signin.dart';
 import 'package:parkinglot/util/colors.dart';
-import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:provider/provider.dart';
@@ -82,26 +82,44 @@ class _MyPageState extends State<MyPage> {
                       // itemExtent: 55, // height of list tile
                       scrollDirection: Axis.vertical,
                       children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.sticky_note_2_outlined),
-                          title: Text("서비스 사용방법",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.favorite_border_rounded),
-                          title: Text("즐겨찾기",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FavoritesPage()));
-                          },
-                        ),
+                        isAdmin
+                            ? ListTile(
+                                leading: Icon(Icons.sticky_note_2_outlined),
+                                title: Text("주차장관리",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ManageParkingLot()),
+                                  );
+                                },
+                              )
+                            : ListTile(
+                                leading: Icon(Icons.sticky_note_2_outlined),
+                                title: Text("서비스 사용방법",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              ),
+                        isAdmin
+                            ? Container()
+                            : ListTile(
+                                leading: Icon(Icons.favorite_border_rounded),
+                                title: Text("즐겨찾기",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FavoritesPage()),
+                                  );
+                                }),
                         ListTile(
                           leading: Icon(Icons.notifications_none),
                           title: Text("알림함",
@@ -116,19 +134,22 @@ class _MyPageState extends State<MyPage> {
                             );
                           },
                         ),
-                        ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text("회원정보 수정",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FixProfileCKPW()));
-                          },
-                        ),
+                        isAdmin
+                            ? Container()
+                            : ListTile(
+                                leading: Icon(Icons.person),
+                                title: Text("회원정보 수정",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              FixProfileCKPW()));
+                                },
+                              ),
                         ListTile(
                           leading: Icon(Icons.people),
                           title: Text("팀 소개",
@@ -151,29 +172,32 @@ class _MyPageState extends State<MyPage> {
                         ),
                       ]),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignInPage()),
-                        );
-                      },
-                      child: Text("로그아웃"),
-                    ),
-                    Text("|",
-                        style: TextStyle(
-                          color: Colors.black54,
-                        )),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text("회원탈퇴"),
-                    ),
-                  ],
-                ),
+                !isAdmin
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignInPage()),
+                              );
+                            },
+                            child: Text("로그아웃"),
+                          ),
+                          Text("|",
+                              style: TextStyle(
+                                color: Colors.black54,
+                              )),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text("회원탈퇴"),
+                          ),
+                        ],
+                      )
+                    : Container()
               ]),
         ),
         bottomNavigationBar:

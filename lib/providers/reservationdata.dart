@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/models/reservation_item.dart';
-import 'package:parkinglot/providers/parkinglotdata.dart';
-import 'package:provider/provider.dart';
 
 class ReservationData with ChangeNotifier {
   ReservationItem reserveData = ReservationItem(

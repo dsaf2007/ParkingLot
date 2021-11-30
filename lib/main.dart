@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/check_reservation_admin.dart';
 import 'package:parkinglot/pages/signin.dart';
+import 'package:parkinglot/providers/customerdata.dart';
 import 'pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => parkingLotData()),
         ChangeNotifierProvider(create: (_) => userData()),
         ChangeNotifierProvider(create: (_) => ReservationData()),
+        ChangeNotifierProvider(create: (_) => customerData()),
       ],
       child: MyApp(),
     ),
