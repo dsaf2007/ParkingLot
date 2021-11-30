@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/util/colors.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'edit_profile_fixinfo.dart';
 
 String checkPassword = '';
@@ -32,10 +32,10 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(Icons.arrow_back))),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back))),
       body: ListView(
         children: [
           Container(

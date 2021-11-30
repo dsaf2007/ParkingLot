@@ -45,6 +45,24 @@ class _ApproveReservationState extends State<ApproveReservation> {
 //     );
 // =======
   // 얘네도 추후 datetime_selection에서 받아와 수정 필요함.=====================================
+  String createReservationCode(
+      int car_num, int parkingLot_code, String date, String end_time) {
+    String reservation_code = '';
+    List<String> date_parse = [];
+    List<String> time_parse = [];
+    date_parse = date.split("-");
+    time_parse = end_time.split(":");
+    // reservation_code += car_num.toString();
+    // reservation_code += parkingLot_code.toString();
+    // reservation_code += date_parse[2];
+    // reservation_code += end_time[0]+end_time[1];
+    print(end_time);
+    return car_num.toString() +
+        parkingLot_code.toString() +
+        date_parse[2] +
+        time_parse[0] +
+        time_parse[1];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +108,12 @@ class _ApproveReservationState extends State<ApproveReservation> {
         (parkinglotdata.weekend_end % 100).toString().padLeft(2, '0');
     String parkingLotTelephone = parkinglotdata.telephone;
     int parkingLotFee = parkinglotdata.fee;
-    int total = 1600; //-추후 값 받아와 계산 후 저장/출력 필요================================
+    String total = Provider.of<ReservationData>(context, listen: false)
+        .reserveData
+        .total_fee; //-추후 값 받아와 계산 후 저장/출력 필요================================
     int testmin = 50;
     String username = Provider.of<userData>(context, listen: false).name;
+    int car_num = Provider.of<userData>(context, listen: false).car_num;
     int total_space = parkinglotdata.total_space;
 //>>>>>>> cdg_psh
     return Scaffold(
@@ -326,7 +347,12 @@ class _ApproveReservationState extends State<ApproveReservation> {
                         "user_id": username,
                         "code": parkinglotdata.code,
                         "is_current": true,
+<<<<<<< HEAD
                         "is_parked": false,
+=======
+                        "reservation_code": createReservationCode(car_num,
+                            parkinglotdata.code, reserveDate, reserveEndTime)
+>>>>>>> 3e24f97eef8e2ac3ee2da96271bb46db70803ae3
                       });
                       Navigator.pop(context);
                       Navigator.push(
