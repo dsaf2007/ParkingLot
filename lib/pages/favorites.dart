@@ -41,11 +41,22 @@ class _FavoritesPageState extends State<FavoritesPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
+        //list에 쌓이는 것 방지 clear로 초기화.
         parkinglot.clear();
         for (var doc in snapshot.data!.docs) {
-          //list에 쌓이는 것 방지 clear로 초기화.
-          //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
-          // this.minute, this.fee, this.total_space, this.favorite);
+          // ParkingLotItem
+          // String name;
+          // String address;
+          // String telephone;
+          // int minute;
+          // int fee;
+          // int total_space;
+          // int code;
+          // bool favorite;
+          // int weekday_begin;
+          // int weekday_end;
+          // int weekend_begin;
+          // int weekend_end;
           parkinglot.add(ParkingLotItem(
               doc["name"],
               doc["address"],
@@ -53,12 +64,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
               doc["minute"],
               doc["fee"],
               doc["total_space"],
-              doc["fee"],
+              doc["code"],
               false,
-              doc["weekday_begin_time"],
-              doc["weekday_end_time"],
-              doc["weekend_begin_time"],
-              doc["weekend_end_time"]));
+              doc["weekday_begin"],
+              doc["weekday_end"],
+              doc["weekend_begin"],
+              doc["weekend_end"]));
         }
 
         return SafeArea(
