@@ -6,6 +6,11 @@ import 'edit_profile_fixinfo.dart';
 
 String checkPassword = '';
 
+EdgeInsets textFormContentPadding = EdgeInsets.symmetric(
+  vertical: 5.0,
+  horizontal: 15.0,
+);
+
 class FixProfileCKPW extends StatefulWidget {
   @override
   _FixProfileCKPWState createState() => _FixProfileCKPWState();
@@ -26,7 +31,11 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
           centerTitle: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-          leading: GestureDetector(child: const Icon(Icons.arrow_back))),
+          leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.arrow_back))),
       body: ListView(
         children: [
           Container(

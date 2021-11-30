@@ -111,7 +111,10 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '새 비밀번호',
-                )),
+                ),
+                keyboardType: TextInputType.text,
+                obscureText: true,
+                ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
@@ -123,7 +126,10 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '새 비밀번호 확인',
-                )),
+                ),
+                keyboardType: TextInputType.text,
+                obscureText: true,
+                ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
@@ -140,20 +146,6 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   hintText: '차량번호',
                 )),
           ),
-          // TextButton(
-          //   style: ButtonStyle(
-          //       backgroundColor: MaterialStateProperty.all(Colors.blue)),
-          //   onPressed: () {
-          //     FirebaseFirestore.instance.collection("User").doc(Name).set({
-          //       "CarNum": CarNum,
-          //       "IsAdmin": IsAdmin,
-          //       "Name": Name,
-          //       "User_ID": User_ID,
-          //       "User_Password": User_Password,
-          //       "User_PhoneNum": User_PhoneNum
-          //     });
-          //   }, child: null,
-          // ),
           Center(),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 5, 15, 5),

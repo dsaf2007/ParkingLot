@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/alarm_list.dart';
 import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
+import 'package:parkinglot/pages/favorites.dart';
 import 'package:parkinglot/pages/signin.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
@@ -94,6 +95,12 @@ class _MyPageState extends State<MyPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FavoritesPage()));
+                          },
                         ),
                         ListTile(
                           leading: Icon(Icons.notifications_none),
