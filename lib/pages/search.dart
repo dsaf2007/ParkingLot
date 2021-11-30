@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/favorites.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:provider/provider.dart';
@@ -239,6 +240,9 @@ class _SearchPageState extends State<SearchPage> {
                         SizedBox(width: 10),
                         TextButton(
                           onPressed: () {
+                            //Provider로 예약할 Parking Lot Item 전송
+                            Provider.of<parkingLotData>(context, listen: false)
+                                .lotEdit(parkingLotItemList[index]);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -373,6 +377,9 @@ class _SearchPageState extends State<SearchPage> {
                         SizedBox(width: 10),
                         TextButton(
                           onPressed: () {
+                            //Provider로 예약할 Parking Lot Item 전송
+                            Provider.of<parkingLotData>(context, listen: false)
+                                .lotEdit(_filterList[index]);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
