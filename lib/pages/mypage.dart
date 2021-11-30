@@ -106,22 +106,7 @@ class _MyPageState extends State<MyPage> {
                                     )),
                               ),
                         isAdmin
-                            ? ListTile(
-                                leading: Icon(Icons.favorite_border_rounded),
-                                title: Text("즐겨찾기",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                onTap: () => showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        AlertDialog(
-                                          content: Text(
-                                            '관리자는 즐겨찾기 기능이 없습니다.',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        )),
-                              )
+                            ? Container()
                             : ListTile(
                                 leading: Icon(Icons.favorite_border_rounded),
                                 title: Text("즐겨찾기",
@@ -150,22 +135,7 @@ class _MyPageState extends State<MyPage> {
                           },
                         ),
                         isAdmin
-                            ? ListTile(
-                                leading: Icon(Icons.person),
-                                title: Text("회원정보 수정",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                onTap: () => showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        AlertDialog(
-                                          content: Text(
-                                            '관리자는 회원정보 수정 기능이 없습니다.',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        )),
-                              )
+                            ? Container()
                             : ListTile(
                                 leading: Icon(Icons.person),
                                 title: Text("회원정보 수정",
@@ -202,29 +172,32 @@ class _MyPageState extends State<MyPage> {
                         ),
                       ]),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignInPage()),
-                        );
-                      },
-                      child: Text("로그아웃"),
-                    ),
-                    Text("|",
-                        style: TextStyle(
-                          color: Colors.black54,
-                        )),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text("회원탈퇴"),
-                    ),
-                  ],
-                ),
+                !isAdmin
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignInPage()),
+                              );
+                            },
+                            child: Text("로그아웃"),
+                          ),
+                          Text("|",
+                              style: TextStyle(
+                                color: Colors.black54,
+                              )),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text("회원탈퇴"),
+                          ),
+                        ],
+                      )
+                    : Container()
               ]),
         ),
         bottomNavigationBar:
