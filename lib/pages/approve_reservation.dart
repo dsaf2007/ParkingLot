@@ -1,22 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkinglot/util/colors.dart';
-import 'package:parkinglot/util/colors.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
+import 'package:parkinglot/models/reservation_item.dart';
+import 'package:parkinglot/pages/favorites.dart';
+import 'package:parkinglot/pages/mypage.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'check_reservation.dart';
-import '../models/parkinglot_item.dart';
-import '../models/reservation_item.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:parkinglot/providers/reservationdata.dart';
+import 'package:provider/provider.dart';
+
 
 class ApproveReservation extends StatefulWidget {
   final ReservationItem reservationItem;
   const ApproveReservation({Key? key, required this.reservationItem})
       : super(key: key);
+
   @override
   _ApproveReservationState createState() => _ApproveReservationState();
 }
 
 class _ApproveReservationState extends State<ApproveReservation> {
+/*<<<<<<< kkm
   String reserveDate = '[TEST]2021.11.19 (금)';
 
   String parkingLotTime_week = '[TEST]00:00~24:00';
@@ -38,6 +46,35 @@ class _ApproveReservationState extends State<ApproveReservation> {
       fontSize: 15,
       fontWeight: FontWeight.bold,
     );
+=======*/
+  // 얘네도 추후 datetime_selection에서 받아와 수정 필요함.=====================================
+  String reserveDate = '2021.11.19 (금)';
+  String reserveStartTime = '09:00';
+  String reserveEndTime = '10:00';
+
+  @override
+  Widget build(BuildContext context) {
+    ParkingLotItem parkinglotdata = //Provider에서 ParkingLotItem Load
+        Provider.of<parkingLotData>(context, listen: false).lotData;
+
+    String parkingLotName = parkinglotdata.name;
+    String parkingLotAddress = parkinglotdata.address;
+    //주차장 정보- 운영 시간에서 int->String 형변환+두자리수로 표기
+    String parkingLotTime_weekday =
+        parkinglotdata.weekday_begin.toString().padLeft(2, '0') +
+            ':' +
+            parkinglotdata.weekday_end.toString().padLeft(2, '0');
+    String parkingLotTime_weekend =
+        parkinglotdata.weekend_begin.toString().padLeft(2, '0') +
+            ':' +
+            parkinglotdata.weekend_end.toString().padLeft(2, '0');
+    String parkingLotNumber = parkinglotdata.telephone;
+    int parkingLotFee = parkinglotdata.fee;
+    int total = 1600; //-추후 값 받아와 계산 후 저장/출력 필요================================
+    int testmin = 50;
+    String username = Provider.of<userData>(context, listen: false).name;
+    int total_space = parkinglotdata.total_space;
+//>>>>>>> cdg_psh
     return Scaffold(
       appBar: AppBar(
           // 값 전달 받기
@@ -163,14 +200,14 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 0),
-                child: Text('평일 ' + parkingLotTime_week,
+                child: Text('평일 ' + parkingLotTime_weekday,
                     style: TextStyle(
                       fontSize: 15,
                     )),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 40, 5),
-                child: Text('주말 ' + parkingLotTime_sun,
+                child: Text('주말 ' + parkingLotTime_weekend,
                     style: TextStyle(
                       fontSize: 15,
                     )),
@@ -237,13 +274,39 @@ class _ApproveReservationState extends State<ApproveReservation> {
             onPressed: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                content: Text(
+                content: const Text(
                   '성공적으로 예약이 완료되었습니다.',
                   style: TextStyle(fontSize: 15),
                 ),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
+                      //----- push to DB; 추후 예약 진행하는 주차장 정보를 받아와 변경 필요 -----
+                      // Provider로 data 받아옴
+                      int test_total_space = 50;
+                      FirebaseFirestore.instance
+                          .collection("Reservation")
+                          .doc(username +
+                              '_' +
+                              parkinglotdata.name +
+                              '_' +
+                              reserveDate + //#
+                              '_' +
+                              reserveStartTime) //#
+                          .set({
+                        "name": parkinglotdata.name,
+                        "address": parkinglotdata.address,
+                        "number": parkinglotdata.telephone,
+                        "fee": parkinglotdata.fee,
+                        "total_space": parkinglotdata.total_space,
+                        "date": reserveDate, //#
+                        "start_time": reserveStartTime, //#
+                        "end_time": reserveEndTime, //#
+                        "fee_for_pay": total, //#
+                        "user_id": username,
+                        "code": parkinglotdata.code,
+                        "is_current": true,
+                      });
                       Navigator.pop(context);
                       Navigator.push(
                           context,

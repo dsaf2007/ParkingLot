@@ -19,153 +19,158 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
   };
   List<String> cities = [];
 
-  List<String> parkingLotList = ['주차장', '첫번째 주차장', '두번째 주차장', '세번째 주차장'];
   String selectedParkingLot = '주차장';
+  List<String> parkingLotList = ['주차장', '첫번째 주차장', '두번째 주차장', '세번째 주차장'];
+
+  final Stream<QuerySnapshot> locations = FirebaseFirestore.instance
+      .collection('Location')
+      .snapshots(includeMetadataChanges: true);
 
   @override
   Widget build(BuildContext context) {
     bool isAdmin = true;
-    CollectionReference locations =
-        FirebaseFirestore.instance.collection('Location');
-    return FutureBuilder<QuerySnapshot>(
-        future: locations.get(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text("Sth Wrong");
+    return StreamBuilder<QuerySnapshot>(
+      stream: locations,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          selectedLocationFirst = '';
+          selectedLocationSecond = '';
+          return Text("Loading");
+        }
+        String temp = '강원도';
+        for (var doc in snapshot.data!.docs) {
+          //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
+          // this.minute, this.fee, this.total_space, this.favorite)
+          if (doc["state"] != temp) {
+            temp = doc["state"].toString();
+            cities = [];
           }
-          if (snapshot.connectionState == ConnectionState.done) {
-            // Map<String, dynamic> data =
-            //     snapshot.data!.data() as Map<String, dynamic>;
-            // this.userName = data['Name'];
-            // this.userPhoneNumber = data['User_PhoneNum'];
-            String temp = '강원도';
-            for (var doc in snapshot.data!.docs) {
-              //ParkingLotItem(this.image_path, this.name, this.address, this.telephone,
-              // this.minute, this.fee, this.total_space, this.favorite)
-              if (doc["state"] != temp) {
-                temp = doc["state"].toString();
-                cities = [];
-              }
-              cities += [doc["city"].toString()];
-              locationList[doc["state"].toString()] = cities;
-            }
-            selectedLocationFirst = locationList.keys.toList()[1];
-            selectedLocationSecond =
-                locationList[selectedLocationFirst]!.first.toString();
+          cities += [doc["city"].toString()];
+          locationList[doc["state"].toString()] = cities;
+        }
+        if (selectedLocationFirst == '') {
+          selectedLocationFirst = locationList.keys.toList()[1];
+        } else {
+          print("selected : " + selectedLocationFirst);
+        }
+        selectedLocationSecond =
+            locationList[selectedLocationFirst]!.first.toString();
 
-            return Scaffold(
-              appBar: AppBar(
-                  // 값 전달 받기
-                  title: const Text('예약내역 확인',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  centerTitle: true,
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  leading: GestureDetector(
-                      onTap: () {}, child: const Icon(Icons.arrow_back))),
-              body: Column(
+        return Scaffold(
+          appBar: AppBar(
+            // 값 전달 받기
+            title: const Text('전체 예약내역 확인',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
-                        child: Text('지역선택',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(140, 15, 0, 0),
-                        child: Text('주차장 선택',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
+                    child: Text('지역선택',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: DropdownButton<String>(
-                            value: selectedLocationFirst,
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedLocationFirst = newValue!;
-                              });
-                            },
-                            items: locationList.keys
-                                .toList()
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )),
-                      Padding(
-                          padding: EdgeInsets.all(0),
-                          child: DropdownButton<String>(
-                            value: selectedLocationSecond,
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedLocationSecond = newValue!;
-                              });
-                            },
-                            items: locationList["서울특별시"]!
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )),
-                      Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: DropdownButton<String>(
-                            value: selectedParkingLot,
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedParkingLot = newValue!;
-                              });
-                            },
-                            items: parkingLotList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(140, 15, 0, 0),
+                    child: Text('주차장 선택',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
-                  UserDataTableWidget(context)
                 ],
               ),
-              bottomNavigationBar:
-                  NaviBarButtons(MediaQuery.of(context).size, context),
-            );
-          }
-          return CircularProgressIndicator();
-        });
+              Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: DropdownButton<String>(
+                        value: selectedLocationFirst,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedLocationFirst = newValue!;
+                          });
+                          setState(() {});
+                        },
+                        items: locationList.keys
+                            .toList()
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.all(0),
+                      child: DropdownButton<String>(
+                        value: selectedLocationSecond,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedLocationSecond = newValue!;
+                          });
+                        },
+                        items: locationList[selectedLocationFirst]!
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: DropdownButton<String>(
+                        value: selectedParkingLot,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedParkingLot = newValue!;
+                          });
+                        },
+                        items: parkingLotList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )),
+                ],
+              ),
+              UserDataTableWidget(context)
+            ],
+          ),
+          bottomNavigationBar:
+              NaviBarButtons(MediaQuery.of(context).size, context),
+        );
+      },
+    );
   }
 }

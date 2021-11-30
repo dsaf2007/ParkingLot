@@ -1,19 +1,21 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/rendering.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/pages/approve_reservation.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
-
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:provider/provider.dart';
 import 'package:parkinglot/util/colors.dart';
-import '../pages/calendar_table.dart';
 
-import '../models/parkinglot_item.dart';
-import '../models/reservation_item.dart';
 
 class DateTimeSelection extends StatefulWidget {
   final ParkingLotItem parkingLotItem;
   const DateTimeSelection({Key? key, required this.parkingLotItem})
       : super(key: key);
+
 
   @override
   _DateTimeSelectionState createState() => _DateTimeSelectionState();
@@ -127,12 +129,10 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                       fontSize: 22,
                     ),
                   ),
-                  child: const Text(
-                    "선택완료",
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
+                  child: const Text("선택완료",
+                      style: TextStyle(
+                        fontSize: 15,
+                      )),
                   onPressed: () {
                     // 선택완료
                     Navigator.push(
@@ -154,12 +154,16 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
   }
 }
 
+const loremIpsum =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod";
+
 List<ExpandableController> controllerList = [
   ExpandableController(),
   ExpandableController(),
 ];
 
 int currentIndex = -1;
+
 
 class Card1 extends StatefulWidget {
   Card1({Key? key, required this.onSelectDate}) : super(key: key);
@@ -175,6 +179,7 @@ class Card1 extends StatefulWidget {
 
 class _Card1State extends State<Card1> {
   String dateSelectionMessage = "날짜 선택";
+
 
   @override
   Widget build(BuildContext context) {
@@ -233,17 +238,14 @@ class _Card1State extends State<Card1> {
                                   color: Colors.black,
                                   size: 35,
                                 )),
-                            Expanded(
-                              flex: 1,
-                              child: Container(),
-                            ),
+                            Expanded(flex: 1, child: Container()),
                             Expanded(
                               flex: 4,
                               child: Text(
                                 dateSelectionMessage,
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -283,7 +285,6 @@ class Card2 extends StatefulWidget {
 
 class _Card2State extends State<Card2> {
   String timeSelectionHeader = "시간 선택";
-
   final int openTime = 6;
   final int closeTime = 24;
   int startTimeIndex = -1;
@@ -328,6 +329,7 @@ class _Card2State extends State<Card2> {
       endTime = "$closeTime:00";
     } else {
       endTime = timeStringList[endIdx + 1];
+
     }
     return endTime;
   }
@@ -428,10 +430,10 @@ class _Card2State extends State<Card2> {
             },
             child: Text(timeList[i])),
       ));
+
     }
     return allButtonList;
   }
-
   CustomScrollView buildToggleButtonScrollView(bool isAM) {
     return CustomScrollView(
       primary: false,
@@ -452,10 +454,27 @@ class _Card2State extends State<Card2> {
       ],
     );
   }
-
   // void resetData() {}
   @override
   Widget build(BuildContext context) {
+    ButtonStyle timeOptionButtonStyle = ElevatedButton.styleFrom(
+      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      primary: green, // 초록
+      onPrimary: Colors.white,
+      textStyle: const TextStyle(
+        fontSize: 16,
+      ),
+    );
+    ButtonStyle emptyButtonStyle = ElevatedButton.styleFrom(
+      minimumSize: Size(MediaQuery.of(context).size.width * 0.19, 0),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      primary: Colors.transparent, // 초록
+      onPrimary: Colors.transparent,
+      textStyle: const TextStyle(
+        fontSize: 16,
+      ),
+    );
     return ExpandableNotifier(
         child: Padding(
       padding: const EdgeInsets.all(15),
@@ -504,9 +523,10 @@ class _Card2State extends State<Card2> {
                               flex: 4,
                               child: Text(
                                 timeSelectionHeader,
+
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -538,17 +558,12 @@ class _Card2State extends State<Card2> {
                         Divider(
                           color: Colors.grey,
                         ),
-                        // Column(
-                        //   children: _buildButtonsWithTimesPM(timeListPM),
-                        // ),
-                        // Container(
-                        //   child: buildToggleButtonScrollView(timeListPM),
-                        // ),
+                      
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: buildToggleButtonScrollView(false),
                         ),
-
+                       
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[

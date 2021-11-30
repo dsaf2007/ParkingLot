@@ -8,7 +8,10 @@ class ReservationItem {
   String end_time;
   String date;
   String total_fee;
+  String start_time;
+  String end_time;
 
   ReservationItem(this.parkingLotItem, this.date, this.start_time,
       this.end_time, this.total_fee, this.is_current);
+
 }

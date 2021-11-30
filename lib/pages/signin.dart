@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:parkinglot/pages/home.dart';
 
 import 'signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -14,6 +20,9 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String enterID = '123'; //Initialize용 임시값
+  int enterPW = 123;
 
   _buildLoading() {
     return Center(
@@ -34,6 +43,9 @@ class _SignInPageState extends State<SignInPage> {
             Padding(
               padding: EdgeInsets.all(15.0),
               child: TextFormField(
+                onChanged: (text) {
+                  enterID = text; //Onchanged로 ID 저장
+                },
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
@@ -55,6 +67,10 @@ class _SignInPageState extends State<SignInPage> {
             Padding(
               padding: EdgeInsets.all(15.0),
               child: TextFormField(
+                onChanged: (text) {
+                  int pw = int.parse(text);
+                  enterPW = pw; //Onchanged로 PW 저장
+                },
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
@@ -75,19 +91,44 @@ class _SignInPageState extends State<SignInPage> {
                 onPressed: () async {
                   if (!_formKey.currentState!.validate()) return;
                   try {
-                    setState(() => _loading = true);
-                    /*
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
+                    //---------------로그인하여 Provider로 User Data 전송/main페이지로 날아가기--------------
+                    await FirebaseFirestore.instance
+                        .collection('User')
+                        .where('user_id', isEqualTo: enterID)
+                        .get()
+                        .then((QuerySnapshot snapshot) {
+                      for (var doc in snapshot.docs) {
+                        int passwd = doc["user_password"];
+                        if (enterPW == passwd) {
+                          if (doc["is_admin"].compareTo("FALSE") == 0) {
+                            Provider.of<userData>(context, listen: false)
+                                .adminEdit(false);
+                          } else {
+                            Provider.of<userData>(context, listen: false)
+                                .adminEdit(true);
+                          }
+                          //Provider로 isAdmin 외 Data 받아오는 Part
+                          Provider.of<userData>(context, listen: false)
+                              .userNameEdit(doc["name"]);
+                          Provider.of<userData>(context, listen: false)
+                              .userPwEdit(doc["user_password"]);
+                          Provider.of<userData>(context, listen: false)
+                              .userIdEdit(doc["user_id"]);
+                          Provider.of<userData>(context, listen: false)
+                              .userTelEdit(doc["user_telephone"]);
+                          Provider.of<userData>(context, listen: false)
+                              .carNumEdit(doc["car_num"]);
 
-                        */
-                    Navigator.pushReplacementNamed(context, '/auth');
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        } else {}
+                      }
+                    });
                   } catch (e) {
                     print(e);
-                  } finally {
-                    setState(() => _loading = false);
                   }
                 },
                 style: ButtonStyle(
