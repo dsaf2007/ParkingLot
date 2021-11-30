@@ -31,7 +31,8 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
       .orderBy('code')
       .snapshots(includeMetadataChanges: true);
 
-  void showAlert(BuildContext context, String _cost) {
+  void showAlert(BuildContext context, int index, int _cost) {
+    int updatedFee = _cost;
     TextButton cancelButton = TextButton(
       child: Text("취소"),
       onPressed: () {
@@ -43,6 +44,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
       child: Text("확인"),
       onPressed: () {
         //Put your code here which you want to execute on Cancel button click.
+        setState(() {
+          updateFee(parkingLotItemList[index].code, index, updatedFee);
+        });
         Navigator.of(context).pop();
       },
     );
@@ -62,10 +66,10 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
             Center(
               child: TextFormField(
                 onChanged: (text) {
-                  new_fee = int.parse(text);
+                  updatedFee = int.parse(text);
                 },
                 decoration: InputDecoration(
-                  hintText: _cost,
+                  hintText: _cost.toString(),
                 ),
               ),
             ),
@@ -94,7 +98,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
   late int new_fee;
   late int new_capacity;
 
-  Future<void> updateFee(int code, int fee) async {
+  Future<void> updateFee(int code, int index, int fee) async {
     var doc_id = '';
     var doc_parse = [];
     print("update2 " + code.toString());
@@ -108,11 +112,10 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
         doc_id = doc.reference.path.toString();
         doc_parse = doc_id.split("/");
         print("abc" + doc_parse[1]);
-        return update
-            .doc(doc_parse[1])
-            .update({'pay_fee': fee})
-            .then((value) => print("Fee Updated"))
-            .catchError((error) => print("Failed to update fee: $error"));
+        return update.doc(doc_parse[1]).update({'pay_fee': fee}).then((value) {
+          parkingLotItemList[index].fee = fee;
+          print("Fee Updated");
+        }).catchError((error) => print("Failed to update fee: $error"));
       }
     });
     print(doc_id + " dkdkdkdkdkdkdkdkdk");
@@ -171,6 +174,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Text("Loading");
           }
+          parkingLotItemList.clear();
           for (var doc in snapshot.data!.docs) {
             parkingLotItemList.add(ParkingLotItem(
               doc["name"],
@@ -285,6 +289,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                         .start,
                                                                 children: [
                                                                   Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
                                                                     children: [
                                                                       Text(
                                                                           parkingLotItemList[index]
@@ -293,14 +300,16 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                               fontSize: 23,
                                                                               color: Colors.black87,
                                                                               fontWeight: FontWeight.bold)),
-                                                                      SizedBox(
-                                                                          width:
-                                                                              102),
+                                                                      // SizedBox(
+                                                                      //     width:
+                                                                      //         102),
                                                                       IconButton(
                                                                         onPressed:
                                                                             () {
                                                                           deleteParkingLot(
                                                                               parkingLotItemList[index].code);
+                                                                          setState(
+                                                                              () {});
                                                                         },
                                                                         icon: Icon(
                                                                             Icons.close),
@@ -310,15 +319,57 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                   SizedBox(
                                                                       height:
                                                                           5),
-                                                                  Text(parkingLotItemList[
-                                                                          index]
-                                                                      .address),
-                                                                  Text(parkingLotItemList[
-                                                                          index]
-                                                                      .telephone),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .location_on,
+                                                                        size:
+                                                                            13,
+                                                                        color:
+                                                                            darkGrey,
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              5),
+                                                                      Text(parkingLotItemList[
+                                                                              index]
+                                                                          .address),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .phone,
+                                                                        color:
+                                                                            darkGrey,
+                                                                        size:
+                                                                            13,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            5,
+                                                                      ),
+                                                                      Text(parkingLotItemList[index]
+                                                                              .telephone
+                                                                              .isEmpty
+                                                                          ? "전화번호 없음"
+                                                                          : parkingLotItemList[index]
+                                                                              .telephone),
+                                                                    ],
+                                                                  ),
                                                                   Row(
                                                                     children: <
                                                                         Widget>[
+                                                                      Icon(
+                                                                        Icons
+                                                                            .attach_money,
+                                                                        size:
+                                                                            15,
+                                                                        color:
+                                                                            darkGrey,
+                                                                      ),
                                                                       Text(
                                                                         parkingLotItemList[index].fee.toString() +
                                                                             "원",
@@ -345,16 +396,10 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                   onPressed: () {
                                                     showAlert(
                                                         context,
+                                                        index,
                                                         parkingLotItemList[
                                                                 index]
-                                                            .fee
-                                                            .toString());
-                                                    updateFee(
-                                                        parkingLotItemList[
-                                                                index]
-                                                            .code,
-                                                        10000);
-                                                    setState(() {});
+                                                            .fee);
                                                   },
                                                   child: Text(
                                                     "요금 수정하기",

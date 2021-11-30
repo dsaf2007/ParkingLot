@@ -62,6 +62,9 @@ Widget FilteringWidget(BuildContext context) {
               Padding(
                   padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
                   child: DropdownButton<String>(
+                    onChanged: (String? newValue) {
+                      selectedParkingLot = newValue!;
+                    },
                     value: selectedParkingLot,
                     icon: const Icon(Icons.keyboard_arrow_down),
                     style: const TextStyle(

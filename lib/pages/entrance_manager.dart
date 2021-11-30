@@ -75,7 +75,13 @@ class _EntraceManagerState extends State<EntranceManager> {
 
   List<String> reservation_code_list = [];
 
-  Text informValidation = Text("");
+  Text informValidation = Text(
+    "예약번호를 입력하세요.",
+    style: TextStyle(
+      fontSize: 16,
+      color: mediumGrey,
+    ),
+  );
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -118,7 +124,7 @@ class _EntraceManagerState extends State<EntranceManager> {
                               setState(() {
                                 if (_reservationId.isEmpty) {
                                   informValidation = Text(
-                                    "예약번호를 입력하세요.",
+                                    "예약번호가 입력되지 않았습니다.",
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: mediumGrey,

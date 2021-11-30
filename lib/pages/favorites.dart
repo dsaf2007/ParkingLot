@@ -35,6 +35,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return StreamBuilder<QuerySnapshot>(
       stream: favDB,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        String userName = Provider.of<userData>(context, listen: false).name;
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
@@ -133,7 +134,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             IconButton(
                               padding: EdgeInsets.only(top: 5),
                               constraints: BoxConstraints(),
-                              onPressed: () {},
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection("Favorites")
+                                    .doc(
+                                        parkinglot[index].name + '_' + userName)
+                                    .delete();
+                              },
                               icon: Icon(Icons.close),
                               iconSize: 20,
                             ),
