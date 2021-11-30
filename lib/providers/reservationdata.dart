@@ -11,7 +11,8 @@ class ReservationData with ChangeNotifier {
       "end_time",
       "total_fee",
       true,
-      "reservation_code");
+      "reservation_code",
+      false);
 
   void reserveEdit(ReservationItem item) {
     reserveData = item;
