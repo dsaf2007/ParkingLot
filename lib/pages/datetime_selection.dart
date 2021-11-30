@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/rendering.dart';
+import 'package:parkinglot/models/parkinglot_item.dart';
+import 'package:parkinglot/models/reservation_item.dart';
 import 'package:parkinglot/pages/approve_reservation.dart';
+import 'package:parkinglot/pages/calendar_table.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/reservationdata.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:parkinglot/util/colors.dart';
+import 'package:parkinglot/providers/userdata.dart';
+import 'package:provider/provider.dart';
 
 class DateTimeSelection extends StatefulWidget {
   const DateTimeSelection({
@@ -34,12 +41,16 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
     DateTime reservationDate;
     // ReservationItem reservationInfo = ReservationItem(
     //     parkingLotItem, "No Data", "No Data", "No Data", "No Data", false);
+    ReservationItem reservationInfo =
+        Provider.of<ReservationData>(context, listen: false).reserveData;
 
+    ParkingLotItem parkinglotdata =
+        Provider.of<parkingLotData>(context, listen: false).lotData;
     return Scaffold(
       bottomNavigationBar: NaviBarButtons(MediaQuery.of(context).size, context),
       appBar: AppBar(
         // 값 전달 받기
-        title: Text(parkingLotItem.name,
+        title: Text(parkinglotdata.name,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -75,7 +86,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
                 reservationInfo.start_time = startTime;
                 reservationInfo.end_time = endTime;
                 reservationInfo.total_fee =
-                    (times * parkingLotItem.fee).toString();
+                    (times * parkinglotdata.fee).toString();
               },
             ),
             const SizedBox(

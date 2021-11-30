@@ -37,8 +37,9 @@ class _CheckReservationState extends State<CheckReservation> {
             pastReservationList.clear();
             currentReservationList.clear();
             //Past / Current ReservationList에 DB에서 불러온 data 삽입-------
-            //minute 임시
+            //minute 임시 / begintime,endtime 쓰레기값
             int tempMin = 50;
+            int time = 900;
             for (var doc in snapshot.data!.docs) {
               String fee = doc["fee_for_pay"].toString();
               String space = doc["total_space"].toString();
@@ -55,35 +56,36 @@ class _CheckReservationState extends State<CheckReservation> {
                       doc["total_space"],
                       doc["code"],
                       true,
-                      doc["weekday_begin_time"],
-                      doc["weekday_end_time"],
-                      doc["weekend_begin_time"],
-                      doc["weekend_end_time"],
+                      time,
+                      time,
+                      time,
+                      time,
                     ),
                     doc["date"],
-                    fee,
                     doc["start_time"],
                     doc["end_time"],
+                    fee,
                     true));
               } else {
                 currentReservationList.add(ReservationItem(
                     ParkingLotItem(
-                        doc["name"],
-                        doc["address"],
-                        doc["number"],
-                        tempMin,
-                        doc["fee"],
-                        doc["total_space"],
-                        doc["code"],
-                        true,
-                        doc["weekday_begin_time"],
-                        doc["weekday_end_time"],
-                        doc["weekend_begin_time"],
-                        doc["weekend_end_time"]),
+                      doc["name"],
+                      doc["address"],
+                      doc["number"],
+                      tempMin,
+                      doc["fee"],
+                      doc["total_space"],
+                      doc["code"],
+                      true,
+                      time,
+                      time,
+                      time,
+                      time,
+                    ),
                     doc["date"],
-                    fee,
                     doc["start_time"],
                     doc["end_time"],
+                    fee,
                     true));
               }
             }
