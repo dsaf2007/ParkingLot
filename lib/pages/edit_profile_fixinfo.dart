@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkinglot/pages/mypage.dart';
-
+import 'package:parkinglot/pages/edit_profile_checkpassword.dart';
+import '../util/colors.dart';
+import 'package:parkinglot/util/colors.dart';
 import 'edit_profile_checkpassword.dart';
 
 String checkPassword = '';
@@ -45,7 +44,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                       MaterialPageRoute(
                           builder: (context) => FixProfileCKPW()));
                 },
-                child: const Icon(Icons.arrow_back))),
+                child: const Icon(Icons.arrow_back)), elevation:0),
         body: ListView(children: [
           Container(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
@@ -112,7 +111,10 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '새 비밀번호',
-                )),
+                ),
+                keyboardType: TextInputType.text,
+                obscureText: true,
+                ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
@@ -124,7 +126,10 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   icon: const Icon(Icons.password),
                   border: OutlineInputBorder(),
                   hintText: '새 비밀번호 확인',
-                )),
+                ),
+                keyboardType: TextInputType.text,
+                obscureText: true,
+                ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
@@ -141,27 +146,13 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                   hintText: '차량번호',
                 )),
           ),
-          // TextButton(
-          //   style: ButtonStyle(
-          //       backgroundColor: MaterialStateProperty.all(Colors.blue)),
-          //   onPressed: () {
-          //     FirebaseFirestore.instance.collection("User").doc(Name).set({
-          //       "CarNum": CarNum,
-          //       "IsAdmin": IsAdmin,
-          //       "Name": Name,
-          //       "User_ID": User_ID,
-          //       "User_Password": User_Password,
-          //       "User_PhoneNum": User_PhoneNum
-          //     });
-          //   }, child: null,
-          // ),
           Center(),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 5, 15, 5),
             child: TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: blue,
-                minimumSize: Size(165, 20),
+                minimumSize: Size(165, 40),
                 padding: const EdgeInsets.all(10.0),
               ),
               onPressed: () {

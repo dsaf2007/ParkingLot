@@ -1,4 +1,6 @@
+﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/loading.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 
@@ -23,16 +25,15 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
     vertical: 15.0,
     horizontal: 15.0,
   );
-  String dropDownValue = "중구";
-  List<String> positionList = ["중구", "강서구", "서초구", "강남구"];
-  List<ParkingLotItem> parkinglotToManage = [
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-    ParkingLotItem('대한극장주차장1', '서울 중구 필동 2가', '02-1234-5678', 30, 800, 30, true),
-  ];
+  List<ParkingLotItem> parkingLotItemList = [];
 
-  void showAlert(BuildContext context, String _cost) {
+  final Stream<QuerySnapshot> parkinglots = FirebaseFirestore.instance
+      .collection('ParkingLot')
+      .orderBy('code')
+      .snapshots(includeMetadataChanges: true);
+
+  void showAlert(BuildContext context, int index, int _cost) {
+    int updatedFee = _cost;
     TextButton cancelButton = TextButton(
       child: Text("취소"),
       onPressed: () {
@@ -44,6 +45,9 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
       child: Text("확인"),
       onPressed: () {
         //Put your code here which you want to execute on Cancel button click.
+        setState(() {
+          updateFee(parkingLotItemList[index].code, index, updatedFee);
+        });
         Navigator.of(context).pop();
       },
     );
@@ -62,8 +66,11 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
           children: <Widget>[
             Center(
               child: TextFormField(
+                onChanged: (text) {
+                  updatedFee = int.parse(text);
+                },
                 decoration: InputDecoration(
-                  hintText: _cost,
+                  hintText: _cost.toString(),
                 ),
               ),
             ),
@@ -84,318 +91,458 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
     );
   }
 
+  CollectionReference update =
+      FirebaseFirestore.instance.collection('ParkingLot');
+
+  String new_name = '';
+  String new_address = '';
+  late int new_fee;
+  late int new_capacity;
+
+  Future<void> updateFee(int code, int index, int fee) async {
+    var doc_id = '';
+    var doc_parse = [];
+    print("update2 " + code.toString());
+    FirebaseFirestore.instance
+        .collection('ParkingLot')
+        .where('code', isEqualTo: code)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      print("doc doc");
+      for (var doc in snapshot.docs) {
+        doc_id = doc.reference.path.toString();
+        doc_parse = doc_id.split("/");
+        print("abc" + doc_parse[1]);
+        return update.doc(doc_parse[1]).update({'pay_fee': fee}).then((value) {
+          parkingLotItemList[index].fee = fee;
+          print("Fee Updated");
+        }).catchError((error) => print("Failed to update fee: $error"));
+      }
+    });
+    print(doc_id + " dkdkdkdkdkdkdkdkdk");
+  }
+
+  Future<void> deleteParkingLot(int code) async {
+    var doc_id = '';
+    var doc_parse = [];
+    print("update2 " + code.toString());
+    FirebaseFirestore.instance
+        .collection('ParkingLot')
+        .where('code', isEqualTo: code)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        doc_id = doc.reference.path.toString();
+        doc_parse = doc_id.split("/");
+        print("abc" + doc_parse[1]);
+        return update
+            .doc(doc_parse[1])
+            .delete()
+            .then((value) => print("ParkingLot Deleted"))
+            .catchError(
+                (error) => print("Failed to delete ParkingLot: $error"));
+      }
+    });
+    print(doc_id + " dkdkdkdkdkdkdkdkdk");
+  }
+
+  Future<void> addParkingLot(
+      String name, String address, int fee, int capacity) {
+    // Call the user's CollectionReference to add a new user
+    return FirebaseFirestore.instance
+        .collection('ParkingLot')
+        .add({
+          'name': name,
+          'address': address,
+          'pay_fee': fee,
+          'capacity': capacity,
+          'code': 1234567,
+          'latitude': 37.034694,
+          'longitude': 128.034861,
+          'parkingtime_permin': 5,
+          'telephone': '010-1234-1234',
+          'weekday_begin_time': 800,
+          'weekday_end_time': 2400,
+          'weekend_begin_time': 800,
+          'weekend_end_time': 2000,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text("주차장 관리"),
-      ),
-      body: DefaultTabController(
-          length: 2,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Container(
-                child: TabBar(
-              indicatorColor: Colors.black54,
-              indicatorWeight: 4,
-              //밑줄 길이
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.black54,
-              tabs: [
-                Tab(
-                  child: Text("주차장 등록",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-                Tab(
-                  child: Text("주차장 수정/삭제",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ],
-            )),
-            Container(
-              height: 500, //height of TabBarView
-              decoration: BoxDecoration(
-                  border:
-                      Border(top: BorderSide(color: Colors.grey, width: 0.5))),
-              child: TabBarView(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 40, 10, 0),
-                      child: ListView(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.person),
-                                  border: OutlineInputBorder(),
-                                  hintText: '이름',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.location_on),
-                                  border: OutlineInputBorder(),
-                                  hintText: '주소',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.attach_money),
-                                  border: OutlineInputBorder(),
-                                  hintText: '주차장 요금 (30분 단위)',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: TextFormField(
-                                autofocus: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding: textFormContentPadding,
-                                  icon: const Icon(Icons.directions_car),
-                                  border: OutlineInputBorder(),
-                                  hintText: '전체 주차면 수',
-                                )),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: Stack(
-                              alignment: const Alignment(0.95, 0),
-                              children: <Widget>[
-                                TextFormField(
-                                    autofocus: true,
-                                    textInputAction: TextInputAction.next,
-                                    decoration: InputDecoration(
-                                      contentPadding: textFormContentPadding,
-                                      icon: const Icon(Icons.image),
-                                      border: OutlineInputBorder(),
-                                      hintText: '주차장 이미지',
-                                    )),
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: lightGrey,
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "첨부",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: ElevatedButton(
-                              style: ButtonStyle(),
-                              onPressed: () {},
-                              child: Text(
-                                "등록하기",
+    bool isAdmin = true;
+    String testUserName = 'leejaewon'; //테스트용 이름
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: parkinglots,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Sth Wrong");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingPage();
+          }
+          parkingLotItemList.clear();
+          for (var doc in snapshot.data!.docs) {
+            parkingLotItemList.add(ParkingLotItem(
+              doc["name"],
+              doc["address"],
+              doc["telephone"],
+              doc["parkingtime_permin"],
+              doc["pay_fee"],
+              doc["capacity"],
+              doc["code"],
+              false,
+              doc["weekday_begin_time"],
+              doc["weekday_end_time"],
+              doc["weekend_begin_time"],
+              doc["weekend_end_time"],
+            ));
+          }
+          print(parkingLotItemList.first.name);
+          return Scaffold(
+            appBar: AppBar(
+              // 값 전달 받기
+              title: Text('주차장 관리',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              elevation: 0,
+            ),
+            body: DefaultTabController(
+                length: 2,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                          child: TabBar(
+                        indicatorColor: Colors.black54,
+                        indicatorWeight: 4,
+                        //밑줄 길이
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.black54,
+                        tabs: [
+                          // Tab(
+                          //   child: Text("주차장 등록",
+                          //       style: TextStyle(
+                          //         fontSize: 16,
+                          //         fontWeight: FontWeight.bold,
+                          //       )),
+                          // ),
+                          Tab(
+                            child: Text("주차장 수정/삭제",
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                                )),
+                          ),
+                          Tab(
+                            child: Text("주차장 등록",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: Column(children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                      )),
+                      Container(
+                        // 주차장 수정&삭제
+                        height: 530, //height of TabBarView
+                        decoration: BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                                    color: Colors.grey, width: 0.5))),
+                        child: TabBarView(
                           children: <Widget>[
                             Container(
-                              height: 50,
-                              child: DropdownButton(
-                                value: dropDownValue,
-                                icon: Icon(Icons.keyboard_arrow_down),
-                                iconSize: 24,
-                                items: positionList.map((String items) {
-                                  return DropdownMenuItem(
-                                      value: items,
-                                      child: Text(
-                                        items,
-                                        style: TextStyle(
-                                          fontSize: 18,
+                              height: MediaQuery.of(context).size.height * 0.7,
+                              child: Column(children: <Widget>[
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.66,
+                                  child: ListView.builder(
+                                    itemCount: parkingLotItemList.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 1.0, horizontal: 1.0),
+                                        child: Card(
+                                          child: ListTile(
+                                            onTap: () {},
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                          parkingLotItemList[index]
+                                                                              .name,
+                                                                          style: TextStyle(
+                                                                              fontSize: 20,
+                                                                              color: Colors.black87,
+                                                                              fontWeight: FontWeight.bold)),
+                                                                      // SizedBox(
+                                                                      //     width:
+                                                                      //         102),
+                                                                      IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          deleteParkingLot(
+                                                                              parkingLotItemList[index].code);
+                                                                          setState(
+                                                                              () {});
+                                                                        },
+                                                                        icon: Icon(
+                                                                            Icons.close),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          5),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .location_on,
+                                                                        size:
+                                                                            13,
+                                                                        color:
+                                                                            darkGrey,
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              5),
+                                                                      Text(parkingLotItemList[
+                                                                              index]
+                                                                          .address),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .phone,
+                                                                        color:
+                                                                            darkGrey,
+                                                                        size:
+                                                                            13,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            5,
+                                                                      ),
+                                                                      Text(parkingLotItemList[index]
+                                                                              .telephone
+                                                                              .isEmpty
+                                                                          ? "전화번호 없음"
+                                                                          : parkingLotItemList[index]
+                                                                              .telephone),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Icon(
+                                                                        Icons
+                                                                            .attach_money,
+                                                                        size:
+                                                                            15,
+                                                                        color:
+                                                                            darkGrey,
+                                                                      ),
+                                                                      Text(
+                                                                        parkingLotItemList[index].fee.toString() +
+                                                                            "원",
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            5,
+                                                                      ),
+                                                                      Text(
+                                                                          "(30분 기준)"),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 5,
+                                                                  )
+                                                                ]),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    showAlert(
+                                                        context,
+                                                        index,
+                                                        parkingLotItemList[
+                                                                index]
+                                                            .fee);
+                                                  },
+                                                  child: Text(
+                                                    "요금 수정하기",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // --- 이미지 넣기 ---
                                         ),
-                                      ));
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    dropDownValue = newValue!;
-                                  });
-                                },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ]),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              },
+                              //FocusManager.instance.primaryFocus?.unfocus(),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 40, 10, 0),
+                                child: ListView(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          onChanged: (text) {
+                                            new_name = text;
+                                          },
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon: const Icon(Icons.person),
+                                            border: OutlineInputBorder(),
+                                            hintText: '이름',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          onChanged: (text) {
+                                            new_address = text;
+                                          },
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon: const Icon(Icons.location_on),
+                                            border: OutlineInputBorder(),
+                                            hintText: '주소',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          onChanged: (text) {
+                                            new_fee = int.parse(text);
+                                          },
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon:
+                                                const Icon(Icons.attach_money),
+                                            border: OutlineInputBorder(),
+                                            hintText: '주차장 요금 (30분 단위)',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: TextFormField(
+                                          onChanged: (text) {
+                                            new_capacity = int.parse(text);
+                                          },
+                                          autofocus: true,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                textFormContentPadding,
+                                            icon: const Icon(
+                                                Icons.directions_car),
+                                            border: OutlineInputBorder(),
+                                            hintText: '전체 주차면 수',
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(),
+                                        onPressed: () {
+                                          addParkingLot(new_name, new_address,
+                                              new_fee, new_capacity);
+                                        },
+                                        child: Text(
+                                          "등록하기",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        child: ListView.builder(
-                          itemCount: parkinglotToManage.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 1.0, horizontal: 1.0),
-                              child: Card(
-                                child: ListTile(
-                                  onTap: () {},
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Image.asset(
-                                                      'lib/images/park.png',
-                                                      width: 100,
-                                                      height: 100),
-                                                  SizedBox(width: 10),
-                                                  Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                                parkinglotToManage[
-                                                                        index]
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        23,
-                                                                    color: Colors
-                                                                        .black87,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                          ],
-                                                        ),
-                                                        SizedBox(height: 5),
-                                                        Text(parkinglotToManage[
-                                                                index]
-                                                            .address),
-                                                        Text(parkinglotToManage[
-                                                                index]
-                                                            .number),
-                                                        Row(
-                                                          children: <Widget>[
-                                                            Text(
-                                                              parkinglotToManage[
-                                                                          index]
-                                                                      .cost
-                                                                      .toString() +
-                                                                  "원",
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text("(30분 기준)"),
-                                                          ],
-                                                        ),
-                                                      ]),
-                                                  SizedBox(width: 30),
-                                                  // Align(
-                                                  //   alignment:
-                                                  //       Alignment.topRight,
-                                                  //   child: Icon(Icons.close),
-                                                  // ),
-                                                  IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(Icons.close),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          showAlert(
-                                              context,
-                                              parkinglotToManage[index]
-                                                  .cost
-                                                  .toString());
-                                        },
-                                        child: Text(
-                                          "요금 수정하기",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // --- 이미지 넣기 ---
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ]),
-                  ),
-                ],
-              ),
+                    ])),
+            bottomNavigationBar: NaviBarButtons(
+              MediaQuery.of(context).size,
+              context,
             ),
-          ])),
-      bottomNavigationBar: NaviBarButtons(
-        MediaQuery.of(context).size,
-        context,
-      ),
-    );
+          );
+        });
   }
 }
