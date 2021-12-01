@@ -5,6 +5,8 @@ import 'package:parkinglot/widget/filtering.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 import 'package:parkinglot/widget/user_data_table.dart';
 
+import 'loading.dart';
+
 class CheckReservationAdmin extends StatefulWidget {
   @override
   _CheckReservationAdminState createState() => _CheckReservationAdminState();
@@ -33,9 +35,9 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
           return Text('Something went wrong');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          selectedLocationFirst = '';
-          selectedLocationSecond = '';
-          return Text("Loading");
+          // selectedLocationFirst = '';
+          // selectedLocationSecond = '';
+          return LoadingPage();
         }
         String temp = '강원도';
         for (var doc in snapshot.data!.docs) {
@@ -53,9 +55,12 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
         } else {
           print("selected : " + selectedLocationFirst);
         }
-        selectedLocationSecond =
-            locationList[selectedLocationFirst]!.first.toString();
-
+        //selectedLocationSecond =
+          //  locationList[selectedLocationFirst]!.first.toString();
+        if(selectedLocationFirst != null)
+        {
+          selectedLocationSecond = locationList[selectedLocationFirst]!.first.toString();
+        }
         return Scaffold(
           appBar: AppBar(
             // 값 전달 받기
@@ -67,6 +72,7 @@ class _CheckReservationAdminState extends State<CheckReservationAdmin> {
             centerTitle: true,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
+            elevation: 0,
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,

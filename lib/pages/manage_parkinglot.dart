@@ -1,5 +1,6 @@
 ﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/loading.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 
@@ -154,7 +155,16 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
           'name': name,
           'address': address,
           'pay_fee': fee,
-          'capacity': capacity
+          'capacity': capacity,
+          'code': 1234567,
+          'latitude': 37.034694,
+          'longitude': 128.034861,
+          'parkingtime_permin': 5,
+          'telephone': '010-1234-1234',
+          'weekday_begin_time': 800,
+          'weekday_end_time': 2400,
+          'weekend_begin_time': 800,
+          'weekend_end_time': 2000,
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
@@ -172,7 +182,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
             return Text("Sth Wrong");
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return LoadingPage();
           }
           parkingLotItemList.clear();
           for (var doc in snapshot.data!.docs) {
@@ -203,6 +213,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
               centerTitle: true,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
+              elevation: 0,
             ),
             body: DefaultTabController(
                 length: 2,
@@ -242,7 +253,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                       )),
                       Container(
                         // 주차장 수정&삭제
-                        height: 500, //height of TabBarView
+                        height: 530, //height of TabBarView
                         decoration: BoxDecoration(
                             border: Border(
                                 top: BorderSide(
@@ -254,7 +265,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                               child: Column(children: <Widget>[
                                 Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                      MediaQuery.of(context).size.height * 0.66,
                                   child: ListView.builder(
                                     itemCount: parkingLotItemList.length,
                                     itemBuilder: (context, index) {
@@ -297,7 +308,7 @@ class _ManageParkingLotState extends State<ManageParkingLot> {
                                                                           parkingLotItemList[index]
                                                                               .name,
                                                                           style: TextStyle(
-                                                                              fontSize: 23,
+                                                                              fontSize: 20,
                                                                               color: Colors.black87,
                                                                               fontWeight: FontWeight.bold)),
                                                                       // SizedBox(

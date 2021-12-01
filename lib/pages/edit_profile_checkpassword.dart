@@ -35,7 +35,7 @@ class _FixProfileCKPWState extends State<FixProfileCKPW> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const Icon(Icons.arrow_back))),
+              child: const Icon(Icons.arrow_back)),elevation: 0,),
       body: ListView(
         children: [
           Container(

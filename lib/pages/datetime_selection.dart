@@ -64,7 +64,8 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
             onTap: () {
               Navigator.pop(context);
             },
-            child: const Icon(Icons.arrow_back)),
+            child: const Icon(Icons.arrow_back),),
+        elevation: 0,
       ),
       body: ExpandableTheme(
         data: const ExpandableThemeData(

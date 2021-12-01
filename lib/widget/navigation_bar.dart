@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/pages/check_reservation_admin.dart';
+import 'package:parkinglot/pages/entrance_manager.dart';
 
 import 'package:parkinglot/pages/home.dart';
 import 'package:parkinglot/pages/favorites.dart';
@@ -59,21 +60,20 @@ Widget NaviBarButtons(Size size, BuildContext context) {
                   padding: EdgeInsets.all(0),
                   child: TextButton(
                     child: Column(children: [
-                      Icon(Icons.favorite_outline_sharp, color: darkGrey),
+                      Icon(Icons.exit_to_app_rounded, color: darkGrey),
                       SizedBox(height: 2),
-                      Text('즐겨찾기',
+                      Text('입출차',
                           style: TextStyle(fontSize: 12, color: darkGrey)),
                     ]),
-                    onPressed: () => showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        content: Text(
-                          '관리자는 즐겨찾기 기능이 없습니다.',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  ))
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EntranceManager()));
+                    },
+                  ),
+                )
               : Padding(
                   padding: EdgeInsets.all(0),
                   child: TextButton(

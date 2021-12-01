@@ -1,10 +1,13 @@
 ﻿// alarmList.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parkinglot/pages/check_reservation.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
 
 import 'package:parkinglot/util/helper.dart';
+
+import 'check_reservation_admin.dart';
 
 class EntranceManager extends StatefulWidget {
   @override
@@ -97,9 +100,11 @@ class _EntraceManagerState extends State<EntranceManager> {
           }
           return SafeArea(
             child: Scaffold(
+              bottomNavigationBar:
+                  NaviBarButtons(MediaQuery.of(context).size, context),
                 appBar: AppBar(
                     // 값 전달 받기
-                    title: Text('입출차 관리 페이지',
+                    title: Text('입출차 관리',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -107,11 +112,8 @@ class _EntraceManagerState extends State<EntranceManager> {
                     centerTitle: true,
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
-                    leading: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(Icons.arrow_back))),
+                    elevation: 0,
+                ),
                 body: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -154,6 +156,7 @@ class _EntraceManagerState extends State<EntranceManager> {
                                   vertical: 5.0, horizontal: 10),
                               border: OutlineInputBorder(),
                             )),
+                            SizedBox(height:5),
                         informValidation,
                         SizedBox(height: 30),
                         Row(
@@ -185,6 +188,11 @@ class _EntraceManagerState extends State<EntranceManager> {
                               onPressed: () {
                                 if (isValid == true) {
                                   CarOut(reservation_code);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                    builder: (context) => CheckReservationAdmin()));
                                 }
                               },
                               child: Text(

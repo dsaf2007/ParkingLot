@@ -10,6 +10,10 @@ import '../widget/navigation_bar.dart';
 // google map
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:provider/provider.dart';
+import 'package:parkinglot/providers/parkinglotdata.dart';
+import 'package:parkinglot/providers/userdata.dart';
+
 class HomeParkingLotItem {
   ParkingLotItem parkingLotItem;
   double lat;
@@ -50,10 +54,12 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => AlertDialog(
                   contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   content: Container(
-                    height: MediaQuery.of(context).size.height * 0.30,
+                    height: MediaQuery.of(context).size.height * 0.27,
                     child: Column(children: <Widget>[
+                      SizedBox(height: 30),
                       Row(
                         children: [
+                          SizedBox(height: 10),
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -63,29 +69,81 @@ class _HomePageState extends State<HomePage> {
                                         fontSize: 20,
                                         color: blue,
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(height: 5),
-                                Text(
-                                    "${parkingLotItemList[i].parkingLotItem.address}"),
-                                Text(
-                                    "${parkingLotItemList[i].parkingLotItem.telephone}"),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Icon(Icons.location_on, color: darkGrey, size: 13,),
+                                    SizedBox(width:5),
+                                    Text(
+                                        "${parkingLotItemList[i].parkingLotItem.address}"),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Icon(Icons.phone, color: darkGrey, size:13),
+                                    SizedBox(width:5),
+                                    Text(
+                                        parkingLotItemList[i].parkingLotItem.telephone.isEmpty? "전화번호 없음" : parkingLotItemList[i].parkingLotItem.telephone,),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
                                 // SizedBox(
                                 //   height: 5,
                                 // ),
-                                Text(
-                                    '30분 ${parkingLotItemList[i].parkingLotItem.fee} 원   |   총 ${parkingLotItemList[i].parkingLotItem.total_space} 면'),
+                                Row(
+                                  children: [
+                                    Icon(Icons.attach_money, color: darkGrey, size:15),
+                                    SizedBox(width:5),
+
+                                    Text(
+                                        '30분 ${parkingLotItemList[i].parkingLotItem.fee} 원   |   총 ${parkingLotItemList[i].parkingLotItem.total_space} 면'),
+                                  ],
+                                ),
                               ]),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 17),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             TextButton(
-                              onPressed: () => Navigator.push(
+                              onPressed: () {
+                                 String userName = Provider.of<userData>(context,
+                                        listen: false)
+                                    .name;
+                                FirebaseFirestore.instance
+                                    .collection("Favorites")
+                                    .doc(parkingLotItemList[i].parkingLotItem.name +
+                                        '_' +
+                                        userName) //------------------------------------------------------------------------------
+                                    .set({
+                                  "user_name": userName,
+                                  "name": parkingLotItemList[i].parkingLotItem.name,
+                                  "address": parkingLotItemList[i].parkingLotItem.address,
+                                  "telephone": parkingLotItemList[i].parkingLotItem.telephone,
+                                  "minute": parkingLotItemList[i].parkingLotItem.minute,
+                                  "fee": parkingLotItemList[i].parkingLotItem.fee,
+                                  "total_space":
+                                      parkingLotItemList[i].parkingLotItem.total_space,
+                                  "code": parkingLotItemList[i].parkingLotItem.code,
+                                  "weekday_begin":
+                                      parkingLotItemList[i].parkingLotItem.weekday_begin,
+                                  "weekday_end":
+                                      parkingLotItemList[i].parkingLotItem.weekday_end,
+                                  "weekend_begin":
+                                      parkingLotItemList[i].parkingLotItem.weekend_begin,
+                                  "weekend_end":
+                                      parkingLotItemList[i].parkingLotItem.weekend_end,
+                                });
+                              Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      FavoritesPage())),
+                                      FavoritesPage())
+                              );
+                              },
                               style: buildDoubleButtonStyle(
                                 lightGrey, doubleButtonSize),
                               child: const Text('즐겨찾기 추가',
@@ -93,11 +151,14 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(width: 15),
                             TextButton(
-                              onPressed: () => Navigator.push(
+                              onPressed: () {
+                                Provider.of<parkingLotData>(context, listen: false)
+                                    .lotEdit(parkingLotItemList[i].parkingLotItem);
+                                Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      DateTimeSelection())),
+                                      DateTimeSelection()));},
                               style: buildDoubleButtonStyle(blue, doubleButtonSize),
                           child: const Text('예약하기',
                               style: TextStyle(color: Colors.white)),

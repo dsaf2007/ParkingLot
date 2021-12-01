@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkinglot/pages/home.dart';
+import 'package:parkinglot/pages/loading.dart';
 
 import 'signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,7 @@ class _SignInPageState extends State<SignInPage> {
 
   _buildLoading() {
     return Center(
-      child: CircularProgressIndicator(),
+      child: LoadingPage()
     );
   }
 

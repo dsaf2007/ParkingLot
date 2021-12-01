@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:parkinglot/models/reservation_item.dart';
 import 'package:parkinglot/pages/datetime_selection.dart';
+import 'package:parkinglot/pages/loading.dart';
 import 'package:parkinglot/providers/customerdata.dart';
 import 'package:parkinglot/util/helper.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
@@ -21,6 +22,33 @@ class CheckReservation extends StatefulWidget {
 class _CheckReservationState extends State<CheckReservation> {
   List<ReservationItem> pastReservationList = [];
   List<ReservationItem> currentReservationList = [];
+
+  @override
+  void dispose(){
+    super.dispose();
+  }
+
+  Future<void> DeleteReservation(String id) async {
+    var doc_id = '';
+    var doc_parse = [];
+    await FirebaseFirestore.instance
+        .collection("Reservation")
+        .where("reservation_code", isEqualTo: id)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        doc_id = doc.reference.path.toString();
+        doc_parse = doc_id.split("/");
+        return FirebaseFirestore.instance
+            .collection("Reservation")
+            .doc(doc_parse[1])
+            .delete()
+            .then((value) => print("Reservation Deleted"))
+            .catchError(
+                (error) => print("Failed to delete Reservation: $error"));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +75,26 @@ class _CheckReservationState extends State<CheckReservation> {
       userName = user_userName;
     }
 
-    return FutureBuilder<QuerySnapshot>(
-        future: reservationDB.where('user_id', isEqualTo: userName).get(),
+    final Stream<QuerySnapshot> reservation = FirebaseFirestore.instance
+      .collection('Reservation').where('user_id',isEqualTo: userName)
+      .snapshots(includeMetadataChanges: true);
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: reservation,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text("Sth Wrong");
           }
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+          {return LoadingPage();}
+
             pastReservationList.clear();
             currentReservationList.clear();
             //Past / Current ReservationList에 DB에서 불러온 data 삽입-------
 
             int tempMin = 50;
             int time = 900;
+            currentReservationList.clear();
             for (var doc in snapshot.data!.docs) {
               String fee = doc["fee_for_pay"].toString();
               String space = doc["total_space"].toString();
@@ -126,6 +161,7 @@ class _CheckReservationState extends State<CheckReservation> {
                 centerTitle: true,
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
+                elevation: 0,
               ),
               body: DefaultTabController(
                   initialIndex: 1,
@@ -363,7 +399,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                         ),
                                                         SizedBox(width: 5),
                                                         Text(
-                                                            "예상 ${currentReservationList[index].total_fee} 원"),
+                                                            "예상요금 ${currentReservationList[index].total_fee} 원"),
                                                       ],
                                                     )
                                                   ]),
@@ -375,20 +411,7 @@ class _CheckReservationState extends State<CheckReservation> {
                                                 children: <Widget>[
                                                   TextButton(
                                                     onPressed: () {
-                                                      // ParkingLot Provider의 lotData 수정. 예약 확정 시 사용----------------
-                                                      // todo 아래부분에서 예약취소 해야함
-                                                      // Provider.of<parkingLotData>(
-                                                      //         context,
-                                                      //         listen: false)
-                                                      //     .lotEdit(
-                                                      //         currentReservationList[
-                                                      //                 index]
-                                                      //             .parkingLotItem);
-                                                      // Navigator.push(
-                                                      //     context,
-                                                      //     MaterialPageRoute(
-                                                      //         builder: (context) =>
-                                                      //             DateTimeSelection()));
+                                                      DeleteReservation(currentReservationList[index].reservation_code);
                                                     },
                                                     style:
                                                         buildDoubleButtonStyle(
@@ -442,7 +465,7 @@ class _CheckReservationState extends State<CheckReservation> {
                   NaviBarButtons(MediaQuery.of(context).size, context),
             ));
           }
-          return CircularProgressIndicator();
-        });
+          
+        );
   }
 }

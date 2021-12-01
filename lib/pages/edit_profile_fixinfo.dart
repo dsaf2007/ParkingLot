@@ -44,7 +44,7 @@ class _FixProfileINFOState extends State<FixProfileINFO> {
                       MaterialPageRoute(
                           builder: (context) => FixProfileCKPW()));
                 },
-                child: const Icon(Icons.arrow_back))),
+                child: const Icon(Icons.arrow_back)), elevation:0),
         body: ListView(children: [
           Container(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 5),

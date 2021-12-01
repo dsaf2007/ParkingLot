@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
+import 'package:parkinglot/pages/loading.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
@@ -40,7 +41,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return Text("Sth Wrong");
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return LoadingPage();
         }
         //list에 쌓이는 것 방지 clear로 초기화.
         parkinglot.clear();
@@ -87,6 +88,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             centerTitle: true,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
+            elevation: 0,
           ),
           body: ListView.builder(
             itemCount: parkinglot.length,
@@ -126,9 +128,22 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                           fontSize: 18,
                                           color: Colors.black87,
                                           fontWeight: FontWeight.bold)),
-                                  SizedBox(height: 5),
-                                  Text(parkinglot[index].address),
-                                  Text(parkinglot[index].telephone),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.location_on, color: darkGrey, size:13),
+                                      SizedBox(width: 5),
+                                      Text(parkinglot[index].address),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.phone, color: darkGrey, size:13),
+                                      SizedBox(width: 5),
+                                      Text(parkinglot[index].telephone.isEmpty? "전화번호 없음" : parkinglot[index].telephone),
+                                    ],
+                                  ),
                                 ]),
                             //SizedBox(width: 120),
                             IconButton(
@@ -146,6 +161,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 5,),
                         TextButton(
                           // onPressed: () {
                           //   Navigator.push(
@@ -166,7 +182,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               backgroundColor: blue,
                               minimumSize: Size(350, 35)),
                           child: const Text('예약하기',
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.white, fontSize: 16)),
                         ),
                       ],
                     ),

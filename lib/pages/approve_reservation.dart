@@ -128,35 +128,39 @@ class _ApproveReservationState extends State<ApproveReservation> {
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                       content: Text(
-                        '선택하신 내용들이 초기화됩니다. 뒤로 가시겠습니까?',
-                        style: TextStyle(fontSize: 15),
+                        '선택하신 내용들이 초기화됩니다.\n뒤로 가시겠습니까?',
+                        style: TextStyle(fontSize: 16),
                       ),
                       actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          },
-                          style: TextButton.styleFrom(
-                              backgroundColor: blue,
-                              minimumSize: Size(130, 20)),
-                          child: const Text('예',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                              backgroundColor: blue,
-                              minimumSize: Size(130, 20)),
-                          child: const Text('아니오',
-                              style: TextStyle(color: Colors.white)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: blue,
+                                  minimumSize: Size(110, 20)),
+                              child: const Text('예',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                  backgroundColor: blue,
+                                  minimumSize: Size(110, 20)),
+                              child: const Text('아니오',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
               child: const Icon(Icons.arrow_back))),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-          Widget>[
+      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
         // ---------------------------------------------------------- 일정
         Padding(
           padding: EdgeInsets.all(20.0),
@@ -303,14 +307,8 @@ class _ApproveReservationState extends State<ApproveReservation> {
           ],
         ),
         SizedBox(height: 15),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-                backgroundColor: lightGrey, minimumSize: Size(165, 20)),
-            child: const Text('뒤로가기', style: TextStyle(color: Colors.black)),
-          ),
-          SizedBox(width: 10),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+        children: [
           TextButton(
             onPressed: () => showDialog<String>(
               context: context,
@@ -366,7 +364,7 @@ class _ApproveReservationState extends State<ApproveReservation> {
               ),
             ),
             style: TextButton.styleFrom(
-                backgroundColor: blue, minimumSize: Size(165, 20)),
+                backgroundColor: blue, minimumSize: Size(300, 20)),
             child: const Text('예약하기', style: TextStyle(color: Colors.white)),
           ),
         ])

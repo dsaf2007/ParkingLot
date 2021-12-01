@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:parkinglot/models/parkinglot_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/favorites.dart';
+import 'package:parkinglot/pages/loading.dart';
 import 'package:parkinglot/providers/parkinglotdata.dart';
 import 'package:parkinglot/providers/userdata.dart';
 import 'package:parkinglot/widget/navigation_bar.dart';
@@ -71,8 +72,9 @@ class _SearchPageState extends State<SearchPage> {
           return Text("Sth Wrong");
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return LoadingPage();
         }
+        parkingLotItemList.clear(); // duplicated error fix
         for (var doc in snapshot.data!.docs) {
           parkingLotItemList.add(ParkingLotItem(
               doc["name"],
@@ -143,7 +145,7 @@ class _SearchPageState extends State<SearchPage> {
           bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
           String userName = Provider.of<userData>(context, listen: false).name;
           final size = MediaQuery.of(context).size;
-          Size doubleButtonSize = Size(size.width * 0.39, 30);
+          Size doubleButtonSize = Size(size.width * 0.36, 30);
           //getParkinglots();
           return Padding(
               padding:
@@ -241,7 +243,7 @@ class _SearchPageState extends State<SearchPage> {
                           child: const Text('즐겨찾기 추가',
                               style: TextStyle(color: Colors.black)),
                         ),
-                        SizedBox(width: 6),
+                        SizedBox(width: 10),
                         TextButton(
                           onPressed: () {
                             //Provider로 예약할 Parking Lot Item 전송
@@ -271,7 +273,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget _createFilteredListView() {
     print('_createFilteredListView');
 
-    _filterList = [];
+    _filterList.clear(); // duplicated error fix
     for (int i = 0; i < parkingLotItemList.length; i++) {
       var item = parkingLotItemList[i];
 
@@ -287,7 +289,7 @@ class _SearchPageState extends State<SearchPage> {
           bool isAdmin = Provider.of<userData>(context, listen: false).isAdmin;
           String userName = Provider.of<userData>(context, listen: false).name;
           final size = MediaQuery.of(context).size;
-          Size doubleButtonSize = Size(size.width * 0.4, 20);
+          Size doubleButtonSize = Size(size.width * 0.36, 30);
           //getParkinglots();
           return Padding(
               padding:

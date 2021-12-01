@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkinglot/pages/check_reservation.dart';
+import 'package:parkinglot/pages/loading.dart';
 import 'package:parkinglot/util/colors.dart';
 import 'package:parkinglot/providers/customerdata.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,11 @@ Widget UserDataTableWidget(BuildContext context) {
         if (snapshot.hasError) {
           return Text("Sth Wrong");
         }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // selectedLocationFirst = '';
+          // selectedLocationSecond = '';
+          return LoadingPage();
+        }
         int i = 1;
         for (var doc in snapshot.data!.docs) {
           List<DataCell> cellItem = [];
@@ -78,7 +84,7 @@ Widget UserDataTableWidget(BuildContext context) {
         }
         return Container(
             width: 325,
-            height: 310,
+            height: 410,
             child: SingleChildScrollView(
                 child: DataTable(
                     headingRowHeight: 40,
